@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Data files (large)
+*.csv
+*.xlsx
+*.gpkg
+*.json
+*.geojson
+
+# Cache files
+cache_*.json
+cache_*.csv
+cache_*.gpkg
+
+# Output files (generated)
+*.png
+*.jpg
+*.jpeg
+
+# Keep important HTML files
+!METHODOLOGY.html
+!dashboard_integrated.html
+!index.html
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keep important documentation
+!METHODOLOGY.html
+!README.md
+!*.md
+
