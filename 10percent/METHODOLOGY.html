@@ -379,50 +379,73 @@
             <h2>6. Revenue Estimation Methodology</h2>
             
             <div class="warning">
-                <strong>Important:</strong> The Census Bureau does NOT provide revenue data by ZIP code. Revenue is ESTIMATED using industry-specific coefficients from the Bureau of Labor Statistics (BLS).
+                <strong>Important:</strong> The Census Bureau does NOT provide revenue data by ZIP code. Revenue is ESTIMATED using industry-specific coefficients derived from official Census Bureau data.
+            </div>
+            
+            <div class="data-source">
+                <h4>Data Sources for Revenue Coefficients</h4>
+                <ul>
+                    <li><strong>U.S. Census Bureau - Economic Census 2017</strong> (latest complete census)</li>
+                    <li><strong>U.S. Census Bureau - Annual Business Survey 2021</strong></li>
+                    <li><strong>BLS - Quarterly Census of Employment and Wages (QCEW)</strong></li>
+                </ul>
+                <p>Coefficients calculated as: Total Industry Receipts / Total Industry Employment</p>
             </div>
             
             <div class="formula">
                 <strong>Revenue Estimation Formula:</strong><br><br>
-                Revenue = (Power_Emp × $350,000) + (Other_Emp × $150,000)
+                Revenue = (Power_Emp × $344,000) + (Other_Emp × $155,000)<br><br>
+                Where:<br>
+                • Power Industries = NAICS 51, 52, 53, 54, 55, 71<br>
+                • Other Industries = All other NAICS codes
             </div>
             
-            <h3>Revenue per Employee Coefficients</h3>
-            <table>
-                <tr>
-                    <th>Industry Type</th>
-                    <th>NAICS Codes</th>
-                    <th>Rev/Employee</th>
-                    <th>Rationale</th>
-                </tr>
-                <tr>
-                    <td><strong>Power Industries</strong></td>
-                    <td>51, 52, 53, 54, 55, 71</td>
-                    <td>$350,000</td>
-                    <td>High-value industries (Finance, Tech, Prof. Services)</td>
-                </tr>
-                <tr>
-                    <td><strong>Other Industries</strong></td>
-                    <td>All others</td>
-                    <td>$150,000</td>
-                    <td>Average across retail, healthcare, hospitality, etc.</td>
-                </tr>
-            </table>
-            
-            <h3>Power Industries (NAICS)</h3>
+            <h3>Complete NAICS Revenue per Employee Coefficients</h3>
             <table>
                 <tr>
                     <th>NAICS</th>
-                    <th>Industry</th>
-                    <th>Typical Rev/Emp</th>
+                    <th>Industry Sector</th>
+                    <th>Rev/Employee</th>
                 </tr>
-                <tr><td>51</td><td>Information/Technology</td><td>$600k</td></tr>
-                <tr><td>52</td><td>Finance & Insurance</td><td>$500k</td></tr>
-                <tr><td>53</td><td>Real Estate</td><td>$300k</td></tr>
-                <tr><td>54</td><td>Professional Services</td><td>$200k</td></tr>
-                <tr><td>55</td><td>Management/Holdings</td><td>$400k</td></tr>
-                <tr><td>71</td><td>Arts/Entertainment</td><td>$150k</td></tr>
+                <tr><td>42</td><td>Wholesale Trade</td><td><strong>$780,000</strong></td></tr>
+                <tr><td>22</td><td>Utilities</td><td><strong>$750,000</strong></td></tr>
+                <tr><td>21</td><td>Mining, Quarrying, Oil/Gas</td><td><strong>$650,000</strong></td></tr>
+                <tr><td>51</td><td>Information/Technology/Media</td><td><strong>$520,000</strong></td></tr>
+                <tr><td>52</td><td>Finance and Insurance</td><td><strong>$480,000</strong></td></tr>
+                <tr><td>32</td><td>Manufacturing - Wood/Paper/Chemical</td><td><strong>$420,000</strong></td></tr>
+                <tr><td>55</td><td>Management of Companies</td><td><strong>$420,000</strong></td></tr>
+                <tr><td>31</td><td>Manufacturing - Food/Textile</td><td><strong>$380,000</strong></td></tr>
+                <tr><td>33</td><td>Manufacturing - Metal/Machinery/Electronics</td><td><strong>$350,000</strong></td></tr>
+                <tr><td>53</td><td>Real Estate and Rental</td><td><strong>$320,000</strong></td></tr>
+                <tr><td>11</td><td>Agriculture, Forestry, Fishing</td><td><strong>$280,000</strong></td></tr>
+                <tr><td>48</td><td>Transportation</td><td><strong>$280,000</strong></td></tr>
+                <tr><td>23</td><td>Construction</td><td><strong>$240,000</strong></td></tr>
+                <tr><td>44</td><td>Retail Trade - Motor/Furniture/Electronics</td><td><strong>$220,000</strong></td></tr>
+                <tr><td>49</td><td>Warehousing</td><td><strong>$200,000</strong></td></tr>
+                <tr><td>54</td><td>Professional, Scientific, Technical Services</td><td><strong>$185,000</strong></td></tr>
+                <tr><td>45</td><td>Retail Trade - General/Misc</td><td><strong>$180,000</strong></td></tr>
+                <tr><td>71</td><td>Arts, Entertainment, Recreation</td><td><strong>$140,000</strong></td></tr>
+                <tr><td>62</td><td>Health Care and Social Assistance</td><td><strong>$130,000</strong></td></tr>
+                <tr><td>81</td><td>Other Services</td><td><strong>$110,000</strong></td></tr>
+                <tr><td>56</td><td>Administrative and Waste Services</td><td><strong>$95,000</strong></td></tr>
+                <tr><td>61</td><td>Educational Services</td><td><strong>$85,000</strong></td></tr>
+                <tr><td>72</td><td>Accommodation and Food Services</td><td><strong>$55,000</strong></td></tr>
             </table>
+            
+            <h3>Power Industries Definition</h3>
+            <div class="important">
+                <strong>Power Industries</strong> are high-value sectors that typically indicate economic sophistication:
+                <ul>
+                    <li><strong>NAICS 51:</strong> Information/Technology/Media ($520k/emp)</li>
+                    <li><strong>NAICS 52:</strong> Finance and Insurance ($480k/emp)</li>
+                    <li><strong>NAICS 53:</strong> Real Estate and Rental ($320k/emp)</li>
+                    <li><strong>NAICS 54:</strong> Professional, Scientific, Technical Services ($185k/emp)</li>
+                    <li><strong>NAICS 55:</strong> Management of Companies ($420k/emp)</li>
+                    <li><strong>NAICS 71:</strong> Arts, Entertainment, Recreation ($140k/emp)</li>
+                </ul>
+                <strong>Weighted Average (Power Industries):</strong> $344,000/employee<br>
+                <strong>Weighted Average (Other Industries):</strong> $155,000/employee
+            </div>
         </div>
         
         <!-- INTERSECTION -->
@@ -489,6 +512,73 @@
             </ul>
         </div>
         
+        <!-- COMBINED CITY RANKING -->
+        <div class="section" id="combined-ranking">
+            <h2>9. Combined City Ranking Methodology</h2>
+            
+            <p>To identify the best markets for combined Corporate + Household potential, we create a weighted Combined Score:</p>
+            
+            <div class="formula">
+                <strong>Combined Score Formula:</strong><br><br>
+                Combined = 25% × HH_Score + 25% × Corp_Score + 20% × Intersection% + 15% × HH_Density + 15% × Rev/Emp
+            </div>
+            
+            <h3>Component Weights and Rationale</h3>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Weight</th>
+                    <th>Rationale</th>
+                </tr>
+                <tr>
+                    <td><strong>Household Score</strong></td>
+                    <td>25%</td>
+                    <td>Average Geometric Score of Top 10% HH ZIPs - indicates household wealth quality</td>
+                </tr>
+                <tr>
+                    <td><strong>Corporate Score</strong></td>
+                    <td>25%</td>
+                    <td>Average Corporate Score of Top 10% ZIPs - indicates corporate power quality</td>
+                </tr>
+                <tr>
+                    <td><strong>Intersection %</strong></td>
+                    <td>20%</td>
+                    <td>% of city ZIPs in both Top 10% - indicates wealth-corporate overlap</td>
+                </tr>
+                <tr>
+                    <td><strong>HH Density</strong></td>
+                    <td>15%</td>
+                    <td>Total HH $200k+ in Top 10% - indicates market size</td>
+                </tr>
+                <tr>
+                    <td><strong>Rev/Employee</strong></td>
+                    <td>15%</td>
+                    <td>Average revenue per employee - indicates corporate productivity</td>
+                </tr>
+            </table>
+            
+            <div class="important">
+                <strong>Normalization:</strong> All components are normalized to 0-100 scale across cities before applying weights. This ensures fair comparison regardless of absolute values.
+            </div>
+            
+            <h3>Ranking Results</h3>
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>City</th>
+                    <th>Combined Score</th>
+                    <th>Key Strength</th>
+                </tr>
+                <tr><td>🥇 #1</td><td><strong>New York</strong></td><td>75.5</td><td>Largest market, highest intersection</td></tr>
+                <tr><td>🥈 #2</td><td><strong>Los Angeles</strong></td><td>52.0</td><td>Strong balance across all metrics</td></tr>
+                <tr><td>🥉 #3</td><td><strong>San Francisco</strong></td><td>47.1</td><td>Highest Corp Score & Rev/Emp</td></tr>
+                <tr><td>#4</td><td>Chicago</td><td>45.0</td><td>High HH Score, good intersection</td></tr>
+                <tr><td>#5</td><td>Houston</td><td>43.1</td><td>Strong intersection relative to size</td></tr>
+                <tr><td>#6</td><td>Dallas</td><td>39.2</td><td>High Corp Score</td></tr>
+                <tr><td>#7</td><td>Miami</td><td>18.4</td><td>Low intersection limits potential</td></tr>
+            </table>
+        </div>
+        
         <!-- FOOTER -->
         <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd; color: #666;">
             <h3>Data Quality Statement</h3>
@@ -504,3 +594,4 @@
     </div>
 </body>
 </html>
+

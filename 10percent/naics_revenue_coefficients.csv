@@ -1,0 +1,24 @@
+NAICS_2digit,Revenue_per_Employee_USD,Industry_Name
+11,280000,"Agriculture, Forestry, Fishing"
+21,650000,"Mining, Quarrying, Oil/Gas"
+22,750000,Utilities
+23,240000,Construction
+31,380000,Manufacturing - Food/Textile
+32,420000,Manufacturing - Wood/Paper/Chemical
+33,350000,Manufacturing - Metal/Machinery/Electronics
+42,780000,Wholesale Trade
+44,220000,Retail Trade - Motor/Furniture/Electronics
+45,180000,Retail Trade - General/Misc
+48,280000,Transportation
+49,200000,Warehousing
+51,520000,Information/Technology/Media
+52,480000,Finance and Insurance
+53,320000,Real Estate and Rental
+54,185000,"Professional, Scientific, Technical Services"
+55,420000,Management of Companies
+56,95000,Administrative and Waste Services
+61,85000,Educational Services
+62,130000,Health Care and Social Assistance
+71,140000,"Arts, Entertainment, Recreation"
+72,55000,Accommodation and Food Services
+81,110000,Other Services

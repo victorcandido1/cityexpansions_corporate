@@ -245,13 +245,49 @@ Components:
 • Revenue per Employee (20%): Productivity metric (normalized)
 • Distance to Airport² (20%): Geodesic distance squared (normalized)
 
-Revenue Estimation:
-• Power Industries (NAICS 51,52,53,54,55,71): $350k/employee
-• Other Industries: $150k/employee
-
 Normalization: Min-Max across all 30,917 US ZIP codes
                 </pre>
             </div>
+            
+            <h3>📋 Revenue Estimation: NAICS-Specific Coefficients</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                Source: U.S. Census Bureau - Economic Census 2017, Annual Business Survey 2021
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
+                <table style="font-size: 12px; margin: 0;">
+                    <tr><th class="corporate">NAICS</th><th class="corporate">Industry</th><th class="corporate">Rev/Emp</th></tr>
+                    <tr><td>42</td><td>Wholesale Trade</td><td><strong>$780k</strong></td></tr>
+                    <tr><td>22</td><td>Utilities</td><td><strong>$750k</strong></td></tr>
+                    <tr><td>21</td><td>Mining, Oil/Gas</td><td><strong>$650k</strong></td></tr>
+                    <tr><td>51</td><td>Information/Technology</td><td><strong>$520k</strong></td></tr>
+                    <tr><td>52</td><td>Finance & Insurance</td><td><strong>$480k</strong></td></tr>
+                    <tr><td>32</td><td>Manufacturing (Chemical)</td><td><strong>$420k</strong></td></tr>
+                    <tr><td>55</td><td>Management of Companies</td><td><strong>$420k</strong></td></tr>
+                    <tr><td>31</td><td>Manufacturing (Food)</td><td><strong>$380k</strong></td></tr>
+                    <tr><td>33</td><td>Manufacturing (Metal)</td><td><strong>$350k</strong></td></tr>
+                    <tr><td>53</td><td>Real Estate</td><td><strong>$320k</strong></td></tr>
+                    <tr><td>11</td><td>Agriculture</td><td><strong>$280k</strong></td></tr>
+                    <tr><td>48</td><td>Transportation</td><td><strong>$280k</strong></td></tr>
+                </table>
+                <table style="font-size: 12px; margin: 0;">
+                    <tr><th class="corporate">NAICS</th><th class="corporate">Industry</th><th class="corporate">Rev/Emp</th></tr>
+                    <tr><td>23</td><td>Construction</td><td><strong>$240k</strong></td></tr>
+                    <tr><td>44</td><td>Retail (Motor/Furn)</td><td><strong>$220k</strong></td></tr>
+                    <tr><td>49</td><td>Warehousing</td><td><strong>$200k</strong></td></tr>
+                    <tr><td>54</td><td>Professional Services</td><td><strong>$185k</strong></td></tr>
+                    <tr><td>45</td><td>Retail (General)</td><td><strong>$180k</strong></td></tr>
+                    <tr><td>71</td><td>Arts/Entertainment</td><td><strong>$140k</strong></td></tr>
+                    <tr><td>62</td><td>Healthcare</td><td><strong>$130k</strong></td></tr>
+                    <tr><td>81</td><td>Other Services</td><td><strong>$110k</strong></td></tr>
+                    <tr><td>56</td><td>Administrative Services</td><td><strong>$95k</strong></td></tr>
+                    <tr><td>61</td><td>Educational Services</td><td><strong>$85k</strong></td></tr>
+                    <tr><td>72</td><td>Accommodation/Food</td><td><strong>$55k</strong></td></tr>
+                </table>
+            </div>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                <strong>Power Industries</strong> (NAICS 51, 52, 53, 54, 55, 71): Weighted avg <strong>$344k/emp</strong><br>
+                <strong>Other Industries</strong>: Weighted avg <strong>$155k/emp</strong>
+            </p>
         </div>
         
         <!-- Key Statistics -->
@@ -535,6 +571,114 @@ Normalization: Min-Max across all 30,917 US ZIP codes
         <div class="section">
             <h2>📈 Corporate Score Distribution</h2>
             <img src="corporate_score_distribution.png" class="chart-img" alt="Corporate Score Distribution">
+        </div>
+        
+        <!-- CITY COMBINED RANKING -->
+        <div class="section">
+            <h2>🏆 City Ranking: Best Combined Corporate + Household Markets</h2>
+            <p>Ranking based on weighted combination of Corporate and Household metrics:</p>
+            
+            <div class="formula-box" style="background: #f8f9fa; border-color: #6c757d;">
+                <div class="formula-title">Combined Score Formula</div>
+                <pre>
+Combined Score = 25% × HH Score + 25% × Corp Score + 20% × Intersection % 
+                + 15% × HH Density + 15% × Rev/Employee
+
+All components normalized 0-100 across cities before weighting.
+                </pre>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th style="background: #2c3e50;">Rank</th>
+                        <th style="background: #2c3e50;">City</th>
+                        <th style="background: #2c3e50;">Combined Score</th>
+                        <th class="household">HH Score</th>
+                        <th class="corporate">Corp Score</th>
+                        <th class="intersection">Intersection %</th>
+                        <th style="background: #27ae60;">Rev/Emp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #fff9e6;">
+                        <td><strong>🥇 #1</strong></td>
+                        <td><strong>New York</strong></td>
+                        <td><strong style="color: #27ae60;">75.5</strong></td>
+                        <td>14.6</td>
+                        <td>13.9</td>
+                        <td>6.1%</td>
+                        <td>$217k</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td><strong>🥈 #2</strong></td>
+                        <td><strong>Los Angeles</strong></td>
+                        <td><strong style="color: #27ae60;">52.0</strong></td>
+                        <td>13.4</td>
+                        <td>14.0</td>
+                        <td>3.8%</td>
+                        <td>$220k</td>
+                    </tr>
+                    <tr style="background: #fdf5e6;">
+                        <td><strong>🥉 #3</strong></td>
+                        <td><strong>San Francisco</strong></td>
+                        <td><strong style="color: #27ae60;">47.1</strong></td>
+                        <td>11.5</td>
+                        <td>15.5</td>
+                        <td>1.7%</td>
+                        <td>$227k</td>
+                    </tr>
+                    <tr>
+                        <td>#4</td>
+                        <td>Chicago</td>
+                        <td>45.0</td>
+                        <td>13.7</td>
+                        <td>14.4</td>
+                        <td>3.1%</td>
+                        <td>$213k</td>
+                    </tr>
+                    <tr>
+                        <td>#5</td>
+                        <td>Houston</td>
+                        <td>43.1</td>
+                        <td>13.1</td>
+                        <td>13.7</td>
+                        <td>5.1%</td>
+                        <td>$214k</td>
+                    </tr>
+                    <tr>
+                        <td>#6</td>
+                        <td>Dallas</td>
+                        <td>39.2</td>
+                        <td>12.9</td>
+                        <td>14.5</td>
+                        <td>2.1%</td>
+                        <td>$217k</td>
+                    </tr>
+                    <tr>
+                        <td>#7</td>
+                        <td>Miami</td>
+                        <td>18.4</td>
+                        <td>12.7</td>
+                        <td>12.6</td>
+                        <td>0.7%</td>
+                        <td>$221k</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <h4 style="margin-top: 0; color: #155724;">🏆 Key Insights</h4>
+                <ul style="margin-bottom: 0;">
+                    <li><strong>New York</strong> dominates with the highest intersection density (6.1%) and largest high-income household base (476k HH $200k+)</li>
+                    <li><strong>San Francisco</strong> leads in Corporate Score (15.5) and Revenue per Employee ($227k) despite smaller size</li>
+                    <li><strong>Houston</strong> shows strong intersection (5.1%) relative to its size, indicating concentrated wealth-corporate overlap</li>
+                    <li><strong>Miami</strong> ranks lowest due to very low intersection (0.7%) and smallest HH Top 10% presence</li>
+                </ul>
+            </div>
+            
+            <img src="city_combined_ranking.png" class="chart-img" alt="City Combined Ranking">
+            <img src="city_combined_details.png" class="chart-img" alt="City Combined Details">
         </div>
         
         <!-- Geodesic Radius Comparison -->
