@@ -252,7 +252,7 @@
             
             <div class="formula corporate">
                 <strong>Formula:</strong><br><br>
-                Score = (Revenue<sup>0.40</sup> × Employment<sup>0.20</sup> × Rev/Emp<sup>0.20</sup> × Distance²<sup>0.20</sup>)
+                Score = (Revenue<sup>0.40</sup> × Employment<sup>0.20</sup> × Payroll/Emp<sup>0.20</sup> × Distance²<sup>0.20</sup>)
             </div>
             
             <h3>Components</h3>
@@ -276,10 +276,10 @@
                     <td>Census CBP 2021</td>
                 </tr>
                 <tr>
-                    <td><strong>Revenue per Employee</strong></td>
+                    <td><strong>Payroll per Employee</strong></td>
                     <td>20%</td>
-                    <td>Productivity metric - revenue divided by employees (normalized 0-1)</td>
-                    <td>Calculated</td>
+                    <td>Productivity proxy - annual payroll divided by employees (normalized 0-1). 100% REAL DATA from Census CBP.</td>
+                    <td>Census CBP 2021</td>
                 </tr>
                 <tr>
                     <td><strong>Distance to Airport²</strong></td>
@@ -291,12 +291,11 @@
             
             <h3>Results</h3>
             <ul>
-                <li><strong>Total ZIPs Analyzed:</strong> 30,917</li>
-                <li><strong>Top 10% Threshold:</strong> 8.83</li>
-                <li><strong>Top 10% ZIPs:</strong> 3,092</li>
-                <li><strong>Total Employment in Top 10%:</strong> 67,493,890</li>
-                <li><strong>Total Revenue in Top 10%:</strong> $14.6 Trillion</li>
-                <li><strong>Avg Revenue/Employee (Top 10%):</strong> $212,546</li>
+                <li><strong>Total ZIPs Analyzed:</strong> 3,598 (7 metro areas only)</li>
+                <li><strong>Top 10% Threshold:</strong> 14.05</li>
+                <li><strong>Top 10% ZIPs:</strong> 360</li>
+                <li><strong>Total Employment (7 metros):</strong> 32.7M</li>
+                <li><strong>Avg Payroll/Employee:</strong> $59,768 (San Francisco highest: $89,726)</li>
             </ul>
         </div>
         
@@ -520,7 +519,7 @@
             
             <div class="formula">
                 <strong>Combined Score Formula:</strong><br><br>
-                Combined = 25% × HH_Score + 25% × Corp_Score + 20% × Intersection% + 15% × HH_Density + 15% × Rev/Emp
+                Combined = 25% × HH_Score + 25% × Corp_Score + 25% × Payroll/Emp + 25% × Intersection%
             </div>
             
             <h3>Component Weights and Rationale</h3>
@@ -551,8 +550,8 @@
                     <td>Total HH $200k+ in Top 10% - indicates market size</td>
                 </tr>
                 <tr>
-                    <td><strong>Rev/Employee</strong></td>
-                    <td>15%</td>
+                    <td><strong>Payroll/Employee</strong></td>
+                    <td>25%</td>
                     <td>Average revenue per employee - indicates corporate productivity</td>
                 </tr>
             </table>
@@ -571,7 +570,7 @@
                 </tr>
                 <tr><td>🥇 #1</td><td><strong>New York</strong></td><td>75.5</td><td>Largest market, highest intersection</td></tr>
                 <tr><td>🥈 #2</td><td><strong>Los Angeles</strong></td><td>52.0</td><td>Strong balance across all metrics</td></tr>
-                <tr><td>🥉 #3</td><td><strong>San Francisco</strong></td><td>47.1</td><td>Highest Corp Score & Rev/Emp</td></tr>
+                <tr><td>🥉 #3</td><td><strong>San Francisco</strong></td><td>47.1</td><td>Highest Corp Score & Payroll/Emp</td></tr>
                 <tr><td>#4</td><td>Chicago</td><td>45.0</td><td>High HH Score, good intersection</td></tr>
                 <tr><td>#5</td><td>Houston</td><td>43.1</td><td>Strong intersection relative to size</td></tr>
                 <tr><td>#6</td><td>Dallas</td><td>39.2</td><td>High Corp Score</td></tr>
@@ -594,4 +593,10 @@
     </div>
 </body>
 </html>
+
+
+
+
+
+
 

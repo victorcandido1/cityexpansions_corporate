@@ -211,7 +211,7 @@
         <div class="highlight">
             <strong>Household Data:</strong> IRS SOI 2022, Census ACS 5yr 2022, Google Distance Matrix API<br>
             <strong>Corporate Data:</strong> U.S. Census Bureau - County Business Patterns 2021<br>
-            <strong>Geographic Coverage:</strong> 7 Major Metro Areas + Other US Regions
+            <strong>Geographic Coverage:</strong> 7 Major Metro Areas (LA, NY, CHI, DAL, HOU, MIA, SF)
         </div>
         
         <!-- SCORE FORMULAS EXPLANATION -->
@@ -237,15 +237,15 @@ Normalization: Min-Max across all 2,716 analyzed ZIP codes
             <div class="formula-box corporate">
                 <div class="formula-title">💼 CORPORATE GEOMETRIC SCORE</div>
                 <pre>
-Score = (Revenue^0.40 × Employment^0.20 × Rev/Emp^0.20 × Distance²^0.20)
+Score = (Revenue^0.40 × Employment^0.20 × Payroll/Emp^0.20 × Distance²^0.20)
 
 Components:
 • Revenue (40%): Estimated total revenue (normalized)
 • Employment (20%): Total number of employees (normalized)
-• Revenue per Employee (20%): Productivity metric (normalized)
+• Payroll per Employee (20%): Census CBP real data - productivity proxy (normalized)
 • Distance to Airport² (20%): Geodesic distance squared (normalized)
 
-Normalization: Min-Max across all 30,917 US ZIP codes
+Normalization: Min-Max across 3,598 ZIP codes (7 metro areas only)
                 </pre>
             </div>
             
@@ -307,15 +307,15 @@ Normalization: Min-Max across all 30,917 US ZIP codes
                     <div class="label">Threshold Score</div>
                 </div>
                 <div class="stat-card corporate">
-                    <div class="number">3,092</div>
+                    <div class="number">360</div>
                     <div class="label">Corporate Top 10% ZIPs</div>
                 </div>
                 <div class="stat-card corporate">
-                    <div class="number">67.5M</div>
-                    <div class="label">Total Employment</div>
+                    <div class="number">32.7M</div>
+                    <div class="label">Total Employment (7 metros)</div>
                 </div>
                 <div class="stat-card corporate">
-                    <div class="number">8.83</div>
+                    <div class="number">14.05</div>
                     <div class="label">Threshold Score</div>
                 </div>
                 <div class="stat-card intersection">
@@ -323,8 +323,8 @@ Normalization: Min-Max across all 30,917 US ZIP codes
                     <div class="label">INTERSECTION ZIPs</div>
                 </div>
                 <div class="stat-card intersection">
-                    <div class="number">$212k</div>
-                    <div class="label">Avg Rev/Employee</div>
+                    <div class="number">$60k</div>
+                    <div class="label">Avg Payroll/Employee</div>
                 </div>
             </div>
         </div>
@@ -472,7 +472,7 @@ Normalization: Min-Max across all 30,917 US ZIP codes
         
         <!-- Corporate Analysis by City -->
         <div class="section">
-            <h2>💼 Corporate Analysis by City (Weighted by Rev/Employee)</h2>
+            <h2>💼 Corporate Analysis by City (Weighted by Payroll/Employee)</h2>
             <table>
                 <thead>
                     <tr>
@@ -480,7 +480,7 @@ Normalization: Min-Max across all 30,917 US ZIP codes
                         <th class="corporate">ZIPs</th>
                         <th class="corporate">Employment</th>
                         <th class="corporate">Revenue ($M)</th>
-                        <th class="corporate">Avg Rev/Emp</th>
+                        <th class="corporate">Avg Payroll/Emp</th>
                         <th class="corporate">Weighted Score</th>
                         <th class="corporate">Simple Avg</th>
                     </tr>
@@ -555,16 +555,18 @@ Normalization: Min-Max across all 30,917 US ZIP codes
             <img src="corporate_weighted_by_revemp.png" class="chart-img" alt="Corporate Weighted Analysis">
         </div>
         
-        <!-- Revenue per Employee Analysis -->
+        <!-- Payroll per Employee Analysis -->
         <div class="section">
-            <h2>💰 Revenue per Employee Analysis</h2>
-            <p style="background: #e7f3ff; padding: 15px; border-radius: 8px;">
-                <strong>All ZIPs Average:</strong> $179,023/employee<br>
-                <strong>Top 10% Average:</strong> $212,546/employee<br>
-                <strong>Top 10% Median:</strong> $207,470/employee
+            <h2>💰 Payroll per Employee Analysis (Census CBP Real Data)</h2>
+            <p style="background: #d4edda; padding: 15px; border-radius: 8px; border-left: 5px solid #28a745;">
+                <span class="data-badge">100% REAL DATA</span><br><br>
+                <strong>All ZIPs Average:</strong> $59,768/employee<br>
+                <strong>San Francisco (Highest):</strong> $89,726/employee<br>
+                <strong>New York:</strong> $68,506/employee<br>
+                <strong>Dallas (Lowest):</strong> $47,415/employee
             </p>
             
-            <img src="revenue_per_employee_analysis.png" class="chart-img" alt="Revenue per Employee Analysis">
+            <img src="corporate_score_analysis.png" class="chart-img" alt="Payroll per Employee Analysis">
         </div>
         
         <!-- Corporate Score Distribution -->
@@ -581,8 +583,7 @@ Normalization: Min-Max across all 30,917 US ZIP codes
             <div class="formula-box" style="background: #f8f9fa; border-color: #6c757d;">
                 <div class="formula-title">Combined Score Formula</div>
                 <pre>
-Combined Score = 25% × HH Score + 25% × Corp Score + 20% × Intersection % 
-                + 15% × HH Density + 15% × Rev/Employee
+Combined Score = 25% × HH Score + 25% × Corp Score + 25% × Payroll/Employee + 25% × Intersection %
 
 All components normalized 0-100 across cities before weighting.
                 </pre>
@@ -597,7 +598,7 @@ All components normalized 0-100 across cities before weighting.
                         <th class="household">HH Score</th>
                         <th class="corporate">Corp Score</th>
                         <th class="intersection">Intersection %</th>
-                        <th style="background: #27ae60;">Rev/Emp</th>
+                        <th style="background: #27ae60;">Payroll/Emp</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -671,7 +672,7 @@ All components normalized 0-100 across cities before weighting.
                 <h4 style="margin-top: 0; color: #155724;">🏆 Key Insights</h4>
                 <ul style="margin-bottom: 0;">
                     <li><strong>New York</strong> dominates with the highest intersection density (6.1%) and largest high-income household base (476k HH $200k+)</li>
-                    <li><strong>San Francisco</strong> leads in Corporate Score (15.5) and Revenue per Employee ($227k) despite smaller size</li>
+                    <li><strong>San Francisco</strong> leads in Corporate Score (9.15) and Payroll per Employee ($90k) despite smaller size</li>
                     <li><strong>Houston</strong> shows strong intersection (5.1%) relative to its size, indicating concentrated wealth-corporate overlap</li>
                     <li><strong>Miami</strong> ranks lowest due to very low intersection (0.7%) and smallest HH Top 10% presence</li>
                 </ul>
