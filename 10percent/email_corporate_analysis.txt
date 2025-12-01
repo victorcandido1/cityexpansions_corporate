@@ -1,0 +1,109 @@
+Subject: Corporate Power Analysis - Methodology & Results
+
+Hi team,
+
+I'm sharing the complete analysis of corporate data that we've integrated into our GeoEco dashboard. This analysis identifies the Top 10% ZIP codes with highest corporate concentration across 7 major US metro areas.
+
+═══════════════════════════════════════════════════════════════════════════════
+KEY NUMBERS
+═══════════════════════════════════════════════════════════════════════════════
+• ZIP Codes Analyzed: 3,598
+• Top 10% ZIPs: 360
+• Total Employment: 32.7 Million
+• Top 10% Threshold Score: 14.05
+
+═══════════════════════════════════════════════════════════════════════════════
+DATA SOURCE
+═══════════════════════════════════════════════════════════════════════════════
+U.S. Census Bureau - County Business Patterns (CBP) 2021
+✓ 100% Official Government Data
+
+Variables used:
+• Establishments: Number of business locations per ZIP
+• Employment: Total employees per ZIP code
+• Annual Payroll: Total wages paid (real data, not estimated)
+• Industry Codes: NAICS classification for each business
+
+═══════════════════════════════════════════════════════════════════════════════
+CORPORATE SCORE FORMULA
+═══════════════════════════════════════════════════════════════════════════════
+We use a Weighted Geometric Mean with four normalized components (0-1):
+
+   Corporate Score = Revenue^0.40 × Employment^0.20 × Payroll/Emp^0.20 × Distance²^0.20
+
+COMPONENTS:
+┌─────────────────────┬────────┬─────────────────────────────────────────────┐
+│ Component           │ Weight │ Description                                 │
+├─────────────────────┼────────┼─────────────────────────────────────────────┤
+│ Revenue             │ 40%    │ Estimated using NAICS-specific coefficients │
+│ Employment          │ 20%    │ Total number of employees                   │
+│ Payroll/Employee    │ 20%    │ Avg salary - 100% REAL Census data          │
+│ Distance to Airport²│ 20%    │ Proximity to major hub (closer = higher)    │
+└─────────────────────┴────────┴─────────────────────────────────────────────┘
+
+WHY PAYROLL/EMPLOYEE?
+This is 100% real data from Census (not estimated). Higher salaries correlate 
+with higher-skilled, more productive workers.
+
+═══════════════════════════════════════════════════════════════════════════════
+RESULTS BY CITY
+═══════════════════════════════════════════════════════════════════════════════
+┌─────────────────┬───────────┬─────────┬───────────┬─────────────┐
+│ City            │ Total ZIPs│ Top 10% │ Avg Score │ Payroll/Emp │
+├─────────────────┼───────────┼─────────┼───────────┼─────────────┤
+│ 🥇 San Francisco│    288    │ 57 (20%)│   9.15    │  $89,726    │
+│ 🥈 Los Angeles  │    638    │ 92 (14%)│   8.23    │  $58,524    │
+│ 🥉 New York     │    919    │ 69 (8%) │   6.58    │  $68,506    │
+│    Miami        │    430    │ 32 (7%) │   6.92    │  $48,829    │
+│    Chicago      │    392    │ 39 (10%)│   6.89    │  $55,613    │
+│    Houston      │    370    │ 28 (8%) │   5.84    │  $52,739    │
+│    Dallas       │    561    │ 43 (8%) │   5.10    │  $47,415    │
+└─────────────────┴───────────┴─────────┴───────────┴─────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════
+INTERSECTION WITH HOUSEHOLD WEALTH
+═══════════════════════════════════════════════════════════════════════════════
+ZIP codes that are BOTH Top 10% Corporate AND Top 10% Household Wealth:
+
+• New York:     6.1% of city ZIPs  ← HIGHEST OVERLAP
+• Houston:      5.1% of city ZIPs
+• Los Angeles:  3.8% of city ZIPs
+• Chicago:      3.1% of city ZIPs
+• Dallas:       2.1% of city ZIPs
+• San Francisco:1.9% of city ZIPs
+• Miami:        1.4% of city ZIPs
+
+═══════════════════════════════════════════════════════════════════════════════
+COMBINED CITY RANKING
+═══════════════════════════════════════════════════════════════════════════════
+Final ranking combining Corporate and Household metrics:
+
+#1 🥇 NEW YORK        (75.5) - Largest market, highest intersection
+#2 🥈 LOS ANGELES     (52.0) - Strong balance across all metrics
+#3 🥉 SAN FRANCISCO   (47.1) - Highest Corp Score & Payroll/Emp
+#4    CHICAGO         (45.0) - High HH Score, good intersection
+#5    HOUSTON         (43.1) - Strong relative intersection
+#6    DALLAS          (39.2) - High corporate concentration
+#7    MIAMI           (18.4) - Lower intersection limits potential
+
+═══════════════════════════════════════════════════════════════════════════════
+KEY TAKEAWAYS
+═══════════════════════════════════════════════════════════════════════════════
+• San Francisco leads in corporate quality (highest score & payroll/employee)
+• New York dominates in scale and has best Corporate-Household overlap
+• Payroll/Employee is a reliable productivity proxy using 100% real Census data
+• All analysis uses official government data from Census Bureau CBP 2021
+
+═══════════════════════════════════════════════════════════════════════════════
+DASHBOARD ACCESS
+═══════════════════════════════════════════════════════════════════════════════
+Complete interactive dashboard:
+https://victorcandido1.github.io/cityexpansions_corporate/10percent/dashboard_integrated.html
+
+Full methodology documentation:
+https://victorcandido1.github.io/cityexpansions_corporate/10percent/METHODOLOGY.html
+
+───────────────────────────────────────────────────────────────────────────────
+Best regards,
+GeoEco Analytics Team
+

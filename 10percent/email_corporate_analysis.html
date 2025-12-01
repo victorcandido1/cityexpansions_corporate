@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Corporate Power Analysis - Summary Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .email-container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0066cc;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 15px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #333;
+            font-size: 18px;
+            margin-top: 30px;
+            border-left: 4px solid #0066cc;
+            padding-left: 12px;
+        }
+        .highlight-box {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .formula-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-family: 'Consolas', monospace;
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        th {
+            background: #0066cc;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover { background: #f5f5f5; }
+        .badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge.blue { background: #0066cc; }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-top: 3px solid #0066cc;
+        }
+        .stat-card .number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            color: #666;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .signature {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        
+        <h1>📊 Corporate Power Analysis - Methodology & Results</h1>
+        
+        <p>Hi team,</p>
+        
+        <p>I'm sharing the complete analysis of corporate data that we've integrated into our GeoEco dashboard. 
+        This analysis identifies the <strong>Top 10% ZIP codes with highest corporate concentration</strong> across 
+        7 major US metro areas.</p>
+
+        <!-- KEY STATS -->
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="number">3,598</div>
+                <div class="label">ZIP Codes Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">360</div>
+                <div class="label">Top 10% ZIPs</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">32.7M</div>
+                <div class="label">Total Employment</div>
+            </div>
+        </div>
+
+        <h2>📁 Data Source</h2>
+        
+        <div class="highlight-box">
+            <strong>U.S. Census Bureau - County Business Patterns (CBP) 2021</strong><br>
+            <span class="badge">100% Official Government Data</span>
+            <ul style="margin-top: 10px; margin-bottom: 0;">
+                <li><strong>Establishments:</strong> Number of business locations</li>
+                <li><strong>Employment:</strong> Total employees per ZIP code</li>
+                <li><strong>Annual Payroll:</strong> Total wages paid (in $thousands)</li>
+                <li><strong>Industry Codes:</strong> NAICS classification for each business</li>
+            </ul>
+        </div>
+
+        <h2>🧮 Corporate Score Formula</h2>
+        
+        <p>We developed a <strong>Weighted Geometric Mean</strong> score using four normalized components:</p>
+        
+        <div class="formula-box">
+            <strong>Corporate Score = Revenue<sup>0.40</sup> × Employment<sup>0.20</sup> × Payroll/Emp<sup>0.20</sup> × Distance²<sup>0.20</sup></strong>
+        </div>
+        
+        <table>
+            <tr>
+                <th>Component</th>
+                <th>Weight</th>
+                <th>Description</th>
+                <th>Data Source</th>
+            </tr>
+            <tr>
+                <td><strong>Revenue</strong></td>
+                <td>40%</td>
+                <td>Estimated revenue using NAICS-specific coefficients</td>
+                <td>Census Economic Census</td>
+            </tr>
+            <tr>
+                <td><strong>Employment</strong></td>
+                <td>20%</td>
+                <td>Total number of employees</td>
+                <td>Census CBP 2021</td>
+            </tr>
+            <tr>
+                <td><strong>Payroll/Employee</strong></td>
+                <td>20%</td>
+                <td>Average salary - productivity proxy <span class="badge">REAL DATA</span></td>
+                <td>Census CBP 2021</td>
+            </tr>
+            <tr>
+                <td><strong>Distance to Airport²</strong></td>
+                <td>20%</td>
+                <td>Proximity to major hub (closer = higher score)</td>
+                <td>Geodesic calculation</td>
+            </tr>
+        </table>
+        
+        <p><strong>Why Payroll/Employee?</strong> This is 100% real data from Census (not estimated), and higher salaries 
+        correlate with higher-skilled, more productive workers. San Francisco leads with $90k avg, while Dallas has $47k.</p>
+
+        <h2>📈 Results by City</h2>
+        
+        <img src="corporate_score_analysis.png" alt="Corporate Score Analysis">
+        
+        <table>
+            <tr>
+                <th>City</th>
+                <th>Total ZIPs</th>
+                <th>Top 10%</th>
+                <th>Avg Score</th>
+                <th>Payroll/Emp</th>
+            </tr>
+            <tr>
+                <td>🥇 <strong>San Francisco</strong></td>
+                <td>288</td>
+                <td>57 (20%)</td>
+                <td>9.15</td>
+                <td><strong>$89,726</strong></td>
+            </tr>
+            <tr>
+                <td>🥈 <strong>Los Angeles</strong></td>
+                <td>638</td>
+                <td>92 (14%)</td>
+                <td>8.23</td>
+                <td>$58,524</td>
+            </tr>
+            <tr>
+                <td>🥉 <strong>New York</strong></td>
+                <td>919</td>
+                <td>69 (8%)</td>
+                <td>6.58</td>
+                <td>$68,506</td>
+            </tr>
+            <tr>
+                <td><strong>Miami</strong></td>
+                <td>430</td>
+                <td>32 (7%)</td>
+                <td>6.92</td>
+                <td>$48,829</td>
+            </tr>
+            <tr>
+                <td><strong>Chicago</strong></td>
+                <td>392</td>
+                <td>39 (10%)</td>
+                <td>6.89</td>
+                <td>$55,613</td>
+            </tr>
+            <tr>
+                <td><strong>Houston</strong></td>
+                <td>370</td>
+                <td>28 (8%)</td>
+                <td>5.84</td>
+                <td>$52,739</td>
+            </tr>
+            <tr>
+                <td><strong>Dallas</strong></td>
+                <td>561</td>
+                <td>43 (8%)</td>
+                <td>5.10</td>
+                <td>$47,415</td>
+            </tr>
+        </table>
+
+        <h2>🎯 Intersection with Household Wealth</h2>
+        
+        <p>We identified ZIP codes that are <strong>BOTH</strong> in the Top 10% for Corporate Power AND Top 10% for Household Wealth:</p>
+        
+        <div class="highlight-box">
+            <strong>Key Finding:</strong> New York has the highest intersection rate at <strong>6.1%</strong> of city ZIP codes, 
+            followed by Houston (5.1%) and Los Angeles (3.8%). These are the prime target areas where 
+            wealthy households and corporate concentration overlap.
+        </div>
+        
+        <img src="corporate_score_components.png" alt="Score Components Analysis">
+
+        <h2>🏆 Combined City Ranking</h2>
+        
+        <p>Final ranking considering both Corporate and Household metrics:</p>
+        
+        <table>
+            <tr>
+                <th>Rank</th>
+                <th>City</th>
+                <th>Combined Score</th>
+                <th>Highlights</th>
+            </tr>
+            <tr style="background: #fff9e6;">
+                <td>🥇 #1</td>
+                <td><strong>New York</strong></td>
+                <td>75.5</td>
+                <td>Largest market, highest intersection (6.1%)</td>
+            </tr>
+            <tr style="background: #f5f5f5;">
+                <td>🥈 #2</td>
+                <td><strong>Los Angeles</strong></td>
+                <td>52.0</td>
+                <td>Strong balance across all metrics</td>
+            </tr>
+            <tr style="background: #fdf5ed;">
+                <td>🥉 #3</td>
+                <td><strong>San Francisco</strong></td>
+                <td>47.1</td>
+                <td>Highest Corp Score & Payroll/Emp</td>
+            </tr>
+            <tr>
+                <td>#4</td>
+                <td>Chicago</td>
+                <td>45.0</td>
+                <td>High HH Score, good intersection</td>
+            </tr>
+            <tr>
+                <td>#5</td>
+                <td>Houston</td>
+                <td>43.1</td>
+                <td>Strong relative intersection</td>
+            </tr>
+            <tr>
+                <td>#6</td>
+                <td>Dallas</td>
+                <td>39.2</td>
+                <td>High corporate concentration</td>
+            </tr>
+            <tr>
+                <td>#7</td>
+                <td>Miami</td>
+                <td>18.4</td>
+                <td>Lower intersection limits potential</td>
+            </tr>
+        </table>
+
+        <h2>📋 Key Takeaways</h2>
+        
+        <ul>
+            <li><strong>San Francisco</strong> leads in corporate quality metrics (highest score & payroll/employee)</li>
+            <li><strong>New York</strong> dominates in scale and has the best Corporate-Household overlap</li>
+            <li><strong>Payroll per Employee</strong> is a reliable productivity proxy using 100% real Census data</li>
+            <li>The <strong>Top 10% threshold</strong> is 14.05 on our score scale (0-100)</li>
+            <li>All analysis uses <strong>official government data</strong> from Census Bureau CBP 2021</li>
+        </ul>
+
+        <h2>🔗 Dashboard Access</h2>
+        
+        <p>The complete interactive dashboard with all maps and detailed statistics is available at:<br>
+        <a href="https://victorcandido1.github.io/cityexpansions_corporate/10percent/dashboard_integrated.html" 
+           style="color: #0066cc; font-weight: bold;">
+           https://victorcandido1.github.io/cityexpansions_corporate/10percent/dashboard_integrated.html
+        </a></p>
+
+        <div class="signature">
+            <p>Best regards,<br>
+            <strong>GeoEco Analytics Team</strong></p>
+        </div>
+        
+    </div>
+</body>
+</html>
+
