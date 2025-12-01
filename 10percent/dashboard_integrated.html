@@ -211,7 +211,7 @@
                     <div class="label">Total Employment</div>
                 </div>
                 <div class="stat-card corporate">
-                    <div class="number">$11184.0B</div>
+                    <div class="number">$12,591B</div>
                     <div class="label">Est. Total Revenue</div>
                 </div>
                 <div class="stat-card intersection">
@@ -240,7 +240,7 @@
                     <strong>Intersection Statistics:</strong><br>
                     • 849,516 Households $200k+<br>
                     • 4,802,648 Total Employment<br>
-                    • $960.5B Estimated Revenue<br>
+                    • $1,180B Estimated Revenue<br>
                     • $351 Median AGI<br>
                     • 18.74 Median Corporate Power Index
                 </p>
@@ -266,7 +266,7 @@
                     <p><strong>Threshold:</strong> Corporate Power Index >= 14.86</p>
                     <p><strong>ZIPs:</strong> 3,092</p>
                     <p><strong>Total Employment:</strong> 55,919,796</p>
-                    <p><strong>Total Revenue:</strong> $11,184.0B</p>
+                    <p><strong>Total Revenue:</strong> $12,591B</p>
                     <p><strong>Power Industries Emp:</strong> 21,015,319</p>
                 </div>
             </div>
@@ -567,15 +567,12 @@
             
             <h3>Geographic Analysis</h3>
             <img src="distance_radius_analysis.png" class="chart-img" alt="Distance & Radius Analysis">
-            <p><a href="distance_radius_analysis.csv" class="map-link">📥 Download Distance Data (CSV)</a></p>
             
             <h3>Weighted Averages</h3>
             <img src="weighted_averages_chart.png" class="chart-img" alt="Weighted Averages">
-            <p><a href="weighted_averages_analysis.csv" class="map-link">📥 Download Weighted Averages (CSV)</a></p>
             
             <h3>HH $200k+ by Region</h3>
             <img src="hh200k_by_region_charts.png" class="chart-img" alt="HH200k by Region">
-            <p><a href="hh200k_by_region.csv" class="map-link">📥 Download HH by Region (CSV)</a></p>
         </div>
         
         <!-- Corporate Statistical Analysis -->
@@ -584,7 +581,10 @@
             <p style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
                 <strong>Data Source:</strong> U.S. Census Bureau - County Business Patterns 2021<br>
                 <strong>100% Real Data:</strong> Establishments, Employment, Payroll from Census API<br>
-                <strong>Estimates:</strong> Revenue estimated using BLS revenue-per-employee ratios
+                <strong>Estimates:</strong> Revenue estimated using BLS industry-specific revenue-per-employee ratios<br>
+                <span style="font-size: 12px; color: #666;">
+                    Power Industries (Finance, Tech, Prof. Services): $350k/emp | Other Industries: $150k/emp
+                </span>
             </p>
             
             <h3>Distribution Analysis</h3>
@@ -600,15 +600,12 @@
             <h3>Power Industries</h3>
             <img src="corporate_histogram_top10_power_share.png" class="chart-img" alt="Power Industries Share">
             <img src="corporate_power_industries_by_region.png" class="chart-img" alt="Power Industries by Region">
-            <p><a href="corporate_power_industries_by_region.csv" class="map-link corporate">📥 Download Power Industries by Region (CSV)</a></p>
             
             <h3>Geographic Analysis</h3>
-            <img src="corporate_distance_radius_analysis.png" class="chart-img" alt="Distance & Radius Analysis">
-            <p><a href="corporate_distance_analysis.csv" class="map-link corporate">📥 Download Distance Data (CSV)</a></p>
+            <img src="corporate_geodesic_analysis.png" class="chart-img" alt="Distance & Radius Analysis">
             
             <h3>Weighted Averages</h3>
             <img src="corporate_weighted_averages_chart.png" class="chart-img" alt="Weighted Averages">
-            <p><a href="corporate_weighted_averages_analysis.csv" class="map-link corporate">📥 Download Weighted Averages (CSV)</a></p>
             
             <h3>Comparative Analysis</h3>
             <img src="corporate_comparative_analysis.png" class="chart-img" alt="Comparative Analysis">
@@ -617,42 +614,6 @@
                 <strong>Top Right:</strong> Power Index vs Power Share relationship<br>
                 <strong>Bottom Left:</strong> Employment vs Establishments density<br>
                 <strong>Bottom Right:</strong> Revenue per Employee by city
-            </p>
-        </div>
-        
-        <!-- Data Downloads -->
-        <div class="section">
-            <h2>📥 Data Downloads</h2>
-            <h3>Household Data</h3>
-            <p>
-                <a href="top10_richest_data.csv" class="map-link">📊 Top 10% Household Data (CSV)</a>
-                <a href="distance_radius_analysis.csv" class="map-link">📏 Distance Analysis</a>
-                <a href="weighted_averages_analysis.csv" class="map-link">⚖️ Weighted Averages</a>
-                <a href="hh200k_by_region.csv" class="map-link">🏠 HH by Region</a>
-            </p>
-            
-            <h3>Corporate Data</h3>
-            <p>
-                <a href="corporate_all_zips.csv" class="map-link corporate">📊 All Corporate ZIPs (CSV)</a>
-                <a href="top10_corporate_data.csv" class="map-link corporate">⭐ Top 10% Corporate ZIPs (CSV)</a>
-                <a href="industry_by_zip_all.csv" class="map-link corporate">🏭 Industry by ZIP (CSV)</a>
-                <a href="corporate_power_by_zip.csv" class="map-link corporate">⚡ Power Industries by ZIP</a>
-                <a href="corporate_by_city_summary.csv" class="map-link corporate">🏙️ City Summary</a>
-                <a href="corporate_weighted_averages_analysis.csv" class="map-link corporate">⚖️ Weighted Averages</a>
-                <a href="corporate_power_industries_by_region.csv" class="map-link corporate">🏭 Power Industries by Region</a>
-                <a href="corporate_distance_analysis.csv" class="map-link corporate">📏 Distance Analysis</a>
-            </p>
-            
-            <h3>Intersection Data</h3>
-            <p>
-                <a href="intersection_analysis.csv" class="map-link intersection">🎯 Intersection ZIPs (CSV)</a>
-                <a href="intersection_by_city.csv" class="map-link intersection">🏙️ Intersection by City (CSV)</a>
-            </p>
-            
-            <h3>Documentation</h3>
-            <p>
-                <a href="helicopter_market_analysis.tex" class="map-link">📄 LaTeX Paper</a>
-                <a href="CORPORATE_STATISTICS_EXPLANATION.md" class="map-link corporate">📊 Corporate Statistics Explanation</a>
             </p>
         </div>
         
