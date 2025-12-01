@@ -10,22 +10,36 @@ venv/
 ENV/
 .venv
 
-# Data files (large)
-*.csv
-*.xlsx
-*.gpkg
-*.json
-*.geojson
+# Data files (large) - but keep 10percent data
+# Exclude from root only
+/*.csv
+/*.xlsx
+/*.gpkg
+/*.json
+/*.geojson
+
+# Keep data in 10percent folder (except large files)
+!10percent/*.csv
+
+# Exclude large CSV files (>50MB) that exceed GitHub limits
+10percent/zbp_real_data.csv
+10percent/industry_by_zip_all.csv
+10percent/cache_zbp_data.csv
 
 # Cache files
 cache_*.json
 cache_*.csv
 cache_*.gpkg
 
-# Output files (generated)
-*.png
-*.jpg
-*.jpeg
+# Output files (generated) - but keep 10percent images
+# *.png  # commented out - need images in 10percent folder
+# *.jpg
+# *.jpeg
+
+# Exclude images from root only, keep 10percent folder images
+/*.png
+/*.jpg
+/*.jpeg
 
 # Keep important HTML files
 !METHODOLOGY.html
