@@ -370,12 +370,47 @@ def create_national_intersection_map(gdf, df_household, df_corporate, df_interse
     '''
     m.get_root().html.add_child(folium.Element(title_html))
     
-    # Add main airport markers for each metro
+    # Add all airports and heliports near the 7 metros using MarkerCluster
+    if len(df_airports) > 0:
+        # Create bounds for all 7 metros (expand around each city center)
+        airport_cluster = MarkerCluster(name='Airports & Heliports').add_to(m)
+        
+        # Add airports near each metro area
+        for city_key, config in CITIES.items():
+            # Filter airports within reasonable distance of each metro (lat/lon ± 2 degrees)
+            airports_nearby = df_airports[
+                (df_airports['lat'].between(config['airport_lat'] - 2, config['airport_lat'] + 2)) &
+                (df_airports['lon'].between(config['airport_lon'] - 2, config['airport_lon'] + 2))
+            ]
+            
+            for _, apt in airports_nearby.iterrows():
+                icon_color = 'blue' if 'heliport' in str(apt['facility_type']).lower() else 'red'
+                icon = 'helicopter' if 'heliport' in str(apt['facility_type']).lower() else 'plane'
+                
+                popup_html = f"""
+                <div style="font-family: Arial;">
+                    <h4>{apt['name']}</h4>
+                    <p><b>Type:</b> {apt['facility_type']}</p>
+                    <p><b>Code:</b> {apt['code']}</p>
+                    <p><b>City:</b> {apt.get('city', 'N/A')}, {apt.get('state', 'N/A')}</p>
+                </div>
+                """
+                
+                folium.Marker(
+                    [apt['lat'], apt['lon']],
+                    popup=folium.Popup(popup_html, max_width=250),
+                    tooltip=f"{apt['name']} ({apt['code']})",
+                    icon=folium.Icon(color=icon_color, icon=icon, prefix='fa')
+                ).add_to(airport_cluster)
+        
+        print(f"  Added airports/heliports to map")
+    
+    # Add main airport markers for each metro (highlighted)
     for city_key, config in CITIES.items():
         folium.Marker(
             [config['airport_lat'], config['airport_lon']],
-            popup=f"<b>{config['airport_code']}</b><br>{config['name']}",
-            tooltip=f"{config['airport_code']} - {config['name']}",
+            popup=f"<b>{config['airport_code']}</b><br>{config['name']}<br><i>Main Airport</i>",
+            tooltip=f"{config['airport_code']} - {config['name']} (Main)",
             icon=folium.Icon(color='darkred', icon='plane', prefix='fa')
         ).add_to(m)
     
