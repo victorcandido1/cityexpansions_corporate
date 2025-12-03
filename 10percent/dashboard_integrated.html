@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GeoEco Dashboard - Integrated Analysis</title>
+    <title>Integrated Dashboard - Households & Corporate Data</title>
     <style>
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
@@ -56,28 +56,6 @@
             background: #d1ecf1;
             border-left: 5px solid #17a2b8;
         }
-        .formula-box {
-            background: #f8f9fa;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 15px 0;
-            font-family: 'Consolas', monospace;
-        }
-        .formula-box.household {
-            border-color: #800026;
-            background: #fff5f5;
-        }
-        .formula-box.corporate {
-            border-color: #0066cc;
-            background: #f0f7ff;
-        }
-        .formula-title {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 10px;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
         .stats-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
@@ -95,7 +73,7 @@
         .stat-card.corporate { border-top: 4px solid #0066cc; }
         .stat-card.intersection { border-top: 4px solid #17a2b8; }
         .stat-card .number { 
-            font-size: 28px; 
+            font-size: 32px; 
             font-weight: bold; 
             color: #800026; 
         }
@@ -191,103 +169,22 @@
         .comparison-box.corporate {
             border-color: #0066cc;
         }
-        code {
-            background: #e9ecef;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Consolas', monospace;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <a href="METHODOLOGY.html" class="methodology-link">📚 METHODOLOGY - Complete Documentation</a>
-        <h1>🏠💼 GeoEco Dashboard: Integrated Wealth Analysis</h1>
+        <h1>🏠💼 INTEGRATED DASHBOARD: HOUSEHOLDS & CORPORATE DATA</h1>
         <p style="font-size: 16px; color: #666;">
             Comprehensive analysis combining Top 10% Richest Households and Top 10% Corporate Power
-            <span class="data-badge">100% REAL DATA</span>
+            <span class="data-badge">OFFICIAL GOVERNMENT DATA</span>
         </p>
         
         <div class="highlight">
-            <strong>Household Data:</strong> IRS SOI 2022, Census ACS 5yr 2022, Google Distance Matrix API<br>
+            <strong>Household Data:</strong> IRS SOI 2022, Census ACS 5yr 2022<br>
             <strong>Corporate Data:</strong> U.S. Census Bureau - County Business Patterns 2021<br>
-            <strong>Geographic Coverage:</strong> 7 Major Metro Areas (LA, NY, CHI, DAL, HOU, MIA, SF)
-        </div>
-        
-        <!-- SCORE FORMULAS EXPLANATION -->
-        <div class="section">
-            <h2>📐 Score Calculation Methodology</h2>
-            <p>Both scores use <strong>Weighted Geometric Mean</strong> with global normalization (0-1) across all US ZIP codes.</p>
-            
-            <div class="formula-box household">
-                <div class="formula-title">🏠 HOUSEHOLD GEOMETRIC SCORE</div>
-                <pre>
-Score = (IRS_Wealth^0.50 × Time²^0.20 × Pop200k^0.20 × Density^0.10)
-
-Components:
-• IRS Wealth Proxy (50%): AGI, Capital Gains, Dividends, Business Income per return
-• Travel Time² (20%): Time to airport squared (emphasizes exclusivity)
-• Population $200k+ (20%): Number of high-income households
-• Density (10%): High-income households per km²
-
-Normalization: Min-Max across all 2,716 analyzed ZIP codes
-                </pre>
-            </div>
-            
-            <div class="formula-box corporate">
-                <div class="formula-title">💼 CORPORATE GEOMETRIC SCORE</div>
-                <pre>
-Score = (Revenue^0.40 × Employment^0.20 × Payroll/Emp^0.20 × Distance²^0.20)
-
-Components:
-• Revenue (40%): Estimated total revenue (normalized)
-• Employment (20%): Total number of employees (normalized)
-• Payroll per Employee (20%): Census CBP real data - productivity proxy (normalized)
-• Distance to Airport² (20%): Geodesic distance squared (normalized)
-
-Normalization: Min-Max across 3,598 ZIP codes (7 metro areas only)
-                </pre>
-            </div>
-            
-            <h3>📋 Revenue Estimation: NAICS-Specific Coefficients</h3>
-            <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
-                Source: U.S. Census Bureau - Economic Census 2017, Annual Business Survey 2021
-            </p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px;">
-                <table style="font-size: 12px; margin: 0;">
-                    <tr><th class="corporate">NAICS</th><th class="corporate">Industry</th><th class="corporate">Rev/Emp</th></tr>
-                    <tr><td>42</td><td>Wholesale Trade</td><td><strong>$780k</strong></td></tr>
-                    <tr><td>22</td><td>Utilities</td><td><strong>$750k</strong></td></tr>
-                    <tr><td>21</td><td>Mining, Oil/Gas</td><td><strong>$650k</strong></td></tr>
-                    <tr><td>51</td><td>Information/Technology</td><td><strong>$520k</strong></td></tr>
-                    <tr><td>52</td><td>Finance & Insurance</td><td><strong>$480k</strong></td></tr>
-                    <tr><td>32</td><td>Manufacturing (Chemical)</td><td><strong>$420k</strong></td></tr>
-                    <tr><td>55</td><td>Management of Companies</td><td><strong>$420k</strong></td></tr>
-                    <tr><td>31</td><td>Manufacturing (Food)</td><td><strong>$380k</strong></td></tr>
-                    <tr><td>33</td><td>Manufacturing (Metal)</td><td><strong>$350k</strong></td></tr>
-                    <tr><td>53</td><td>Real Estate</td><td><strong>$320k</strong></td></tr>
-                    <tr><td>11</td><td>Agriculture</td><td><strong>$280k</strong></td></tr>
-                    <tr><td>48</td><td>Transportation</td><td><strong>$280k</strong></td></tr>
-                </table>
-                <table style="font-size: 12px; margin: 0;">
-                    <tr><th class="corporate">NAICS</th><th class="corporate">Industry</th><th class="corporate">Rev/Emp</th></tr>
-                    <tr><td>23</td><td>Construction</td><td><strong>$240k</strong></td></tr>
-                    <tr><td>44</td><td>Retail (Motor/Furn)</td><td><strong>$220k</strong></td></tr>
-                    <tr><td>49</td><td>Warehousing</td><td><strong>$200k</strong></td></tr>
-                    <tr><td>54</td><td>Professional Services</td><td><strong>$185k</strong></td></tr>
-                    <tr><td>45</td><td>Retail (General)</td><td><strong>$180k</strong></td></tr>
-                    <tr><td>71</td><td>Arts/Entertainment</td><td><strong>$140k</strong></td></tr>
-                    <tr><td>62</td><td>Healthcare</td><td><strong>$130k</strong></td></tr>
-                    <tr><td>81</td><td>Other Services</td><td><strong>$110k</strong></td></tr>
-                    <tr><td>56</td><td>Administrative Services</td><td><strong>$95k</strong></td></tr>
-                    <tr><td>61</td><td>Educational Services</td><td><strong>$85k</strong></td></tr>
-                    <tr><td>72</td><td>Accommodation/Food</td><td><strong>$55k</strong></td></tr>
-                </table>
-            </div>
-            <p style="font-size: 12px; color: #666; margin-top: 10px;">
-                <strong>Power Industries</strong> (NAICS 51, 52, 53, 54, 55, 71): Weighted avg <strong>$344k/emp</strong><br>
-                <strong>Other Industries</strong>: Weighted avg <strong>$155k/emp</strong>
-            </p>
+            <strong>Geographic Coverage:</strong> 7 Major Metro Areas Only (Los Angeles, New York, Chicago, Dallas, Houston, Miami, San Francisco)<br>
+            <strong>Note:</strong> Top 10% rankings are relative to these 7 metros, not the entire United States. Revenue figures are estimated using Census/BLS benchmarks.
         </div>
         
         <!-- Key Statistics -->
@@ -303,126 +200,89 @@ Normalization: Min-Max across 3,598 ZIP codes (7 metro areas only)
                     <div class="label">HH $200k+</div>
                 </div>
                 <div class="stat-card household">
-                    <div class="number">9.48%</div>
-                    <div class="label">Threshold Score</div>
+                    <div class="number">$0k</div>
+                    <div class="label">Median AGI/Return</div>
                 </div>
                 <div class="stat-card corporate">
-                    <div class="number">360</div>
+                    <div class="number">3,092</div>
                     <div class="label">Corporate Top 10% ZIPs</div>
                 </div>
                 <div class="stat-card corporate">
-                    <div class="number">32.7M</div>
-                    <div class="label">Total Employment (7 metros)</div>
+                    <div class="number">55,919,796</div>
+                    <div class="label">Total Employment</div>
                 </div>
                 <div class="stat-card corporate">
-                    <div class="number">14.05</div>
-                    <div class="label">Threshold Score</div>
+                    <div class="number">$11184.0B</div>
+                    <div class="label">Est. Total Revenue</div>
                 </div>
                 <div class="stat-card intersection">
-                    <div class="number">131</div>
+                    <div class="number">197</div>
                     <div class="label">INTERSECTION ZIPs</div>
                 </div>
                 <div class="stat-card intersection">
-                    <div class="number">$60k</div>
-                    <div class="label">Avg Payroll/Employee</div>
+                    <div class="number">72.4%</div>
+                    <div class="label">% of Household Top 10%</div>
                 </div>
             </div>
         </div>
         
-        <!-- INTERSECTION ANALYSIS (% by area) -->
+        <!-- INTERSECTION HIGHLIGHT -->
         <div class="section">
-            <h2>🎯 Intersection Analysis by City (%)</h2>
-            <p>Percentage of ZIP codes that are in BOTH Top 10% Household Wealth AND Top 10% Corporate Power.</p>
+            <div class="highlight intersection">
+                <h2 style="margin-top: 0; color: #17a2b8;">🎯 INTERSECTION: Where Wealth Meets Corporate Power</h2>
+                <p style="font-size: 16px; margin: 10px 0;">
+                    <strong>197 ZIP codes</strong> are in BOTH Top 10% Household Wealth AND Top 10% Corporate Power
+                </p>
+                <p>
+                    This represents <strong>72.4%</strong> of wealthy household ZIPs and 
+                    <strong>6.4%</strong> of corporate power ZIPs.
+                </p>
+                <p>
+                    <strong>Intersection Statistics:</strong><br>
+                    • 849,516 Households $200k+<br>
+                    • 4,802,648 Total Employment<br>
+                    • $960.5B Estimated Revenue<br>
+                    • $351 Median AGI<br>
+                    • 18.74 Median Corporate Power Index
+                </p>
+            </div>
+        </div>
+        
+        <!-- Advanced Statistics -->
+        <div class="section">
+            <h2>📈 Advanced Statistics: Household vs Corporate Wealth</h2>
             
-            <table>
-                <thead>
-                    <tr>
-                        <th>City</th>
-                        <th>Total ZIPs</th>
-                        <th class="corporate">Corp Top 10%</th>
-                        <th class="household">HH Top 10%</th>
-                        <th class="intersection">Intersection</th>
-                        <th class="intersection">% of City</th>
-                        <th class="intersection">% of Corp</th>
-                        <th class="intersection">% of HH</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>New York</strong></td>
-                        <td>919</td>
-                        <td>189</td>
-                        <td>132</td>
-                        <td><strong>56</strong></td>
-                        <td><strong>6.1%</strong></td>
-                        <td>29.6%</td>
-                        <td>42.4%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Houston</strong></td>
-                        <td>370</td>
-                        <td>80</td>
-                        <td>28</td>
-                        <td><strong>19</strong></td>
-                        <td><strong>5.1%</strong></td>
-                        <td>23.8%</td>
-                        <td>67.9%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Los Angeles</strong></td>
-                        <td>638</td>
-                        <td>224</td>
-                        <td>46</td>
-                        <td><strong>24</strong></td>
-                        <td><strong>3.8%</strong></td>
-                        <td>10.7%</td>
-                        <td>52.2%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Chicago</strong></td>
-                        <td>392</td>
-                        <td>98</td>
-                        <td>20</td>
-                        <td><strong>12</strong></td>
-                        <td><strong>3.1%</strong></td>
-                        <td>12.2%</td>
-                        <td>60.0%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Dallas</strong></td>
-                        <td>561</td>
-                        <td>94</td>
-                        <td>17</td>
-                        <td><strong>12</strong></td>
-                        <td><strong>2.1%</strong></td>
-                        <td>12.8%</td>
-                        <td>70.6%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>San Francisco</strong></td>
-                        <td>288</td>
-                        <td>94</td>
-                        <td>23</td>
-                        <td><strong>5</strong></td>
-                        <td><strong>1.7%</strong></td>
-                        <td>5.3%</td>
-                        <td>21.7%</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Miami</strong></td>
-                        <td>430</td>
-                        <td>135</td>
-                        <td>6</td>
-                        <td><strong>3</strong></td>
-                        <td><strong>0.7%</strong></td>
-                        <td>2.2%</td>
-                        <td>50.0%</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="comparison-grid">
+                <div class="comparison-box household">
+                    <h3>Household Wealth (Top 10%)</h3>
+                    <p><strong>Threshold:</strong> Geometric Score >= 9.48%</p>
+                    <p><strong>ZIPs:</strong> 272</p>
+                    <p><strong>Total HH $200k+:</strong> 1,040,340</p>
+                    <p><strong>Median AGI:</strong> $341</p>
+                    <p><strong>Total Population:</strong> 6.7M</p>
+                </div>
+                
+                <div class="comparison-box corporate">
+                    <h3>Corporate Power (Top 10%)</h3>
+                    <p><strong>Threshold:</strong> Corporate Power Index >= 14.86</p>
+                    <p><strong>ZIPs:</strong> 3,092</p>
+                    <p><strong>Total Employment:</strong> 55,919,796</p>
+                    <p><strong>Total Revenue:</strong> $11,184.0B</p>
+                    <p><strong>Power Industries Emp:</strong> 21,015,319</p>
+                </div>
+            </div>
             
-            <h3>Intersection Visualization</h3>
-            <img src="intersection_percentage_analysis.png" class="chart-img" alt="Intersection Analysis">
+            <div style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <h3 style="margin-top: 0;">Correlation Analysis</h3>
+                <p>
+                    <strong>Correlation Coefficient:</strong> 0.261
+                </p>
+                <p style="font-size: 13px; color: #666;">
+                    Measures the relationship between Household Geometric Score and Corporate Power Index.
+                    Values range from -1 (perfect negative) to +1 (perfect positive).
+                    A value of 0.261 indicates a positive correlation.
+                </p>
+            </div>
         </div>
         
         <!-- Maps Section -->
@@ -432,35 +292,45 @@ Normalization: Min-Max across 3,598 ZIP codes (7 metro areas only)
             <h3>Household Maps (Top 10% Richest)</h3>
             <p>
                 <a href="map_top10_national.html" class="map-link">National Map</a>
-                <a href="map_top10_los_angeles.html" class="map-link">Los Angeles</a>
-                <a href="map_top10_new_york.html" class="map-link">New York</a>
-                <a href="map_top10_chicago.html" class="map-link">Chicago</a>
-                <a href="map_top10_dallas.html" class="map-link">Dallas</a>
-                <a href="map_top10_houston.html" class="map-link">Houston</a>
-                <a href="map_top10_miami.html" class="map-link">Miami</a>
-                <a href="map_top10_san_francisco.html" class="map-link">San Francisco</a>
+                <a href="map_top10_los_angeles.html" class="map-link">Los Angeles (46)</a>
+                <a href="map_top10_new_york.html" class="map-link">New York (132)</a>
+                <a href="map_top10_chicago.html" class="map-link">Chicago (20)</a>
+                <a href="map_top10_dallas.html" class="map-link">Dallas (17)</a>
+                <a href="map_top10_houston.html" class="map-link">Houston (28)</a>
+                <a href="map_top10_miami.html" class="map-link">Miami (6)</a>
+                <a href="map_top10_san_francisco.html" class="map-link">San Francisco (23)</a>
             </p>
             
-            <h3>Corporate Maps (Top 10%)</h3>
+            <h3>Corporate Maps</h3>
             <p>
-                <a href="map_corporate_los_angeles_top10.html" class="map-link corporate">Los Angeles</a>
-                <a href="map_corporate_new_york_top10.html" class="map-link corporate">New York</a>
-                <a href="map_corporate_chicago_top10.html" class="map-link corporate">Chicago</a>
-                <a href="map_corporate_dallas_top10.html" class="map-link corporate">Dallas</a>
-                <a href="map_corporate_houston_top10.html" class="map-link corporate">Houston</a>
-                <a href="map_corporate_miami_top10.html" class="map-link corporate">Miami</a>
-                <a href="map_corporate_san_francisco_top10.html" class="map-link corporate">San Francisco</a>
+                <strong>All ZIPs:</strong><br>
+                <a href="map_corporate_los_angeles_all.html" class="map-link corporate">All - Los Angeles</a>
+                <a href="map_corporate_new_york_all.html" class="map-link corporate">All - New York</a>
+                <a href="map_corporate_chicago_all.html" class="map-link corporate">All - Chicago</a>
+                <a href="map_corporate_dallas_all.html" class="map-link corporate">All - Dallas</a>
+                <a href="map_corporate_houston_all.html" class="map-link corporate">All - Houston</a>
+                <a href="map_corporate_miami_all.html" class="map-link corporate">All - Miami</a>
+                <a href="map_corporate_san_francisco_all.html" class="map-link corporate">All - San Francisco</a>
             </p>
-            
-            <h3>🎯 Overlay Maps (Household + Corporate)</h3>
             <p>
-                <a href="map_overlay_los_angeles.html" class="map-link intersection">Los Angeles</a>
-                <a href="map_overlay_new_york.html" class="map-link intersection">New York</a>
-                <a href="map_overlay_chicago.html" class="map-link intersection">Chicago</a>
-                <a href="map_overlay_dallas.html" class="map-link intersection">Dallas</a>
-                <a href="map_overlay_houston.html" class="map-link intersection">Houston</a>
-                <a href="map_overlay_miami.html" class="map-link intersection">Miami</a>
-                <a href="map_overlay_san_francisco.html" class="map-link intersection">San Francisco</a>
+                <strong>Top 10% Corporate Power ZIPs:</strong><br>
+                <a href="map_corporate_los_angeles_top10.html" class="map-link corporate">Top 10% - Los Angeles</a>
+                <a href="map_corporate_new_york_top10.html" class="map-link corporate">Top 10% - New York</a>
+                <a href="map_corporate_chicago_top10.html" class="map-link corporate">Top 10% - Chicago</a>
+                <a href="map_corporate_dallas_top10.html" class="map-link corporate">Top 10% - Dallas</a>
+                <a href="map_corporate_houston_top10.html" class="map-link corporate">Top 10% - Houston</a>
+                <a href="map_corporate_miami_top10.html" class="map-link corporate">Top 10% - Miami</a>
+                <a href="map_corporate_san_francisco_top10.html" class="map-link corporate">Top 10% - San Francisco</a>
+            </p>
+            <p>
+                <strong>🎯 Overlay Maps (Household + Corporate Combined):</strong><br>
+                <a href="map_overlay_los_angeles.html" class="map-link intersection">Overlay - Los Angeles</a>
+                <a href="map_overlay_new_york.html" class="map-link intersection">Overlay - New York</a>
+                <a href="map_overlay_chicago.html" class="map-link intersection">Overlay - Chicago</a>
+                <a href="map_overlay_dallas.html" class="map-link intersection">Overlay - Dallas</a>
+                <a href="map_overlay_houston.html" class="map-link intersection">Overlay - Houston</a>
+                <a href="map_overlay_miami.html" class="map-link intersection">Overlay - Miami</a>
+                <a href="map_overlay_san_francisco.html" class="map-link intersection">Overlay - San Francisco</a>
             </p>
             <p style="font-size: 12px; color: #666;">
                 <strong>Legend:</strong> 
@@ -470,225 +340,221 @@ Normalization: Min-Max across 3,598 ZIP codes (7 metro areas only)
             </p>
         </div>
         
-        <!-- Corporate Analysis by City -->
+        <!-- Intersection by City -->
         <div class="section">
-            <h2>💼 Corporate Analysis by City (Weighted by Payroll/Employee)</h2>
+            <h2>🏙️ Intersection by City</h2>
             <table>
                 <thead>
                     <tr>
-                        <th class="corporate">City</th>
-                        <th class="corporate">ZIPs</th>
-                        <th class="corporate">Employment</th>
-                        <th class="corporate">Revenue ($M)</th>
-                        <th class="corporate">Avg Payroll/Emp</th>
-                        <th class="corporate">Weighted Score</th>
-                        <th class="corporate">Simple Avg</th>
+                        <th>City</th>
+                        <th class="household">HH Top 10%</th>
+                        <th class="corporate">Corp Top 10%</th>
+                        <th class="intersection">INTERSECTION</th>
+                        <th class="intersection">% of HH</th>
+                        <th class="intersection">% of Corp</th>
+                        <th class="intersection">HH $200k+</th>
+                        <th class="intersection">Employment</th>
+                        <th class="intersection">Revenue ($M)</th>
                     </tr>
                 </thead>
                 <tbody>
+
                     <tr>
-                        <td><strong>San Francisco</strong></td>
-                        <td>94</td>
-                        <td>2,687,968</td>
-                        <td>$623,728</td>
-                        <td><strong>$232k</strong></td>
-                        <td>15.74</td>
-                        <td>15.47</td>
+                        <td><strong>Los Angeles</strong></td>
+                        <td>46</td>
+                        <td>252</td>
+                        <td><strong>44</strong></td>
+                        <td>95.7%</td>
+                        <td>17.5%</td>
+                        <td>163,934</td>
+                        <td>655,420</td>
+                        <td>$131,084</td>
                     </tr>
+
+                    <tr>
+                        <td><strong>New York</strong></td>
+                        <td>132</td>
+                        <td>189</td>
+                        <td><strong>70</strong></td>
+                        <td>53.0%</td>
+                        <td>37.0%</td>
+                        <td>333,127</td>
+                        <td>2,221,938</td>
+                        <td>$444,388</td>
+                    </tr>
+
                     <tr>
                         <td><strong>Chicago</strong></td>
-                        <td>98</td>
-                        <td>2,548,370</td>
-                        <td>$569,917</td>
-                        <td><strong>$224k</strong></td>
-                        <td>14.89</td>
-                        <td>14.37</td>
+                        <td>20</td>
+                        <td>77</td>
+                        <td><strong>19</strong></td>
+                        <td>95.0%</td>
+                        <td>24.7%</td>
+                        <td>87,399</td>
+                        <td>668,341</td>
+                        <td>$133,668</td>
                     </tr>
-                    <tr>
-                        <td><strong>Los Angeles</strong></td>
-                        <td>224</td>
-                        <td>5,281,368</td>
-                        <td>$1,174,059</td>
-                        <td><strong>$222k</strong></td>
-                        <td>14.28</td>
-                        <td>14.04</td>
-                    </tr>
-                    <tr>
-                        <td><strong>New York</strong></td>
-                        <td>189</td>
-                        <td>4,869,267</td>
-                        <td>$1,081,538</td>
-                        <td><strong>$222k</strong></td>
-                        <td>14.09</td>
-                        <td>13.87</td>
-                    </tr>
+
                     <tr>
                         <td><strong>Dallas</strong></td>
-                        <td>94</td>
-                        <td>2,452,320</td>
-                        <td>$541,458</td>
-                        <td><strong>$221k</strong></td>
-                        <td>14.76</td>
-                        <td>14.53</td>
+                        <td>17</td>
+                        <td>86</td>
+                        <td><strong>15</strong></td>
+                        <td>88.2%</td>
+                        <td>17.4%</td>
+                        <td>55,831</td>
+                        <td>373,620</td>
+                        <td>$74,724</td>
                     </tr>
-                    <tr>
-                        <td><strong>Miami</strong></td>
-                        <td>135</td>
-                        <td>2,501,738</td>
-                        <td>$554,110</td>
-                        <td><strong>$221k</strong></td>
-                        <td>12.73</td>
-                        <td>12.62</td>
-                    </tr>
+
                     <tr>
                         <td><strong>Houston</strong></td>
-                        <td>80</td>
-                        <td>1,851,552</td>
-                        <td>$398,916</td>
-                        <td><strong>$215k</strong></td>
-                        <td>13.92</td>
-                        <td>13.74</td>
+                        <td>28</td>
+                        <td>59</td>
+                        <td><strong>21</strong></td>
+                        <td>75.0%</td>
+                        <td>35.6%</td>
+                        <td>93,106</td>
+                        <td>576,680</td>
+                        <td>$115,336</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Miami</strong></td>
+                        <td>6</td>
+                        <td>146</td>
+                        <td><strong>6</strong></td>
+                        <td>100.0%</td>
+                        <td>4.1%</td>
+                        <td>10,846</td>
+                        <td>56,259</td>
+                        <td>$11,252</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>San Francisco</strong></td>
+                        <td>23</td>
+                        <td>111</td>
+                        <td><strong>22</strong></td>
+                        <td>95.7%</td>
+                        <td>19.8%</td>
+                        <td>105,273</td>
+                        <td>250,390</td>
+                        <td>$50,078</td>
                     </tr>
                 </tbody>
             </table>
-            
-            <img src="corporate_weighted_by_revemp.png" class="chart-img" alt="Corporate Weighted Analysis">
         </div>
         
-        <!-- Payroll per Employee Analysis -->
+        <!-- City Breakdown -->
         <div class="section">
-            <h2>💰 Payroll per Employee Analysis (Census CBP Real Data)</h2>
-            <p style="background: #d4edda; padding: 15px; border-radius: 8px; border-left: 5px solid #28a745;">
-                <span class="data-badge">100% REAL DATA</span><br><br>
-                <strong>All ZIPs Average:</strong> $59,768/employee<br>
-                <strong>San Francisco (Highest):</strong> $89,726/employee<br>
-                <strong>New York:</strong> $68,506/employee<br>
-                <strong>Dallas (Lowest):</strong> $47,415/employee
-            </p>
-            
-            <img src="corporate_score_analysis.png" class="chart-img" alt="Payroll per Employee Analysis">
-        </div>
-        
-        <!-- Corporate Score Distribution -->
-        <div class="section">
-            <h2>📈 Corporate Score Distribution</h2>
-            <img src="corporate_score_distribution.png" class="chart-img" alt="Corporate Score Distribution">
-        </div>
-        
-        <!-- CITY COMBINED RANKING -->
-        <div class="section">
-            <h2>🏆 City Ranking: Best Combined Corporate + Household Markets</h2>
-            <p>Ranking based on weighted combination of Corporate and Household metrics:</p>
-            
-            <div class="formula-box" style="background: #f8f9fa; border-color: #6c757d;">
-                <div class="formula-title">Combined Score Formula</div>
-                <pre>
-Combined Score = 25% × HH Score + 25% × Corp Score + 25% × Payroll/Employee + 25% × Intersection %
-
-All components normalized 0-100 across cities before weighting.
-                </pre>
-            </div>
-            
+            <h2>🏙️ City Breakdown - Integrated View</h2>
             <table>
                 <thead>
                     <tr>
-                        <th style="background: #2c3e50;">Rank</th>
-                        <th style="background: #2c3e50;">City</th>
-                        <th style="background: #2c3e50;">Combined Score</th>
-                        <th class="household">HH Score</th>
-                        <th class="corporate">Corp Score</th>
-                        <th class="intersection">Intersection %</th>
-                        <th style="background: #27ae60;">Payroll/Emp</th>
+                        <th>City</th>
+                        <th colspan="4" style="text-align: center; background: #800026;">HOUSEHOLDS (Top 10%)</th>
+                        <th colspan="4" style="text-align: center; background: #0066cc;">CORPORATE (Top 10%)</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th style="background: #800026;">ZIPs</th>
+                        <th style="background: #800026;">HH $200k+</th>
+                        <th style="background: #800026;">Med AGI</th>
+                        <th style="background: #800026;">Med Score</th>
+                        <th style="background: #0066cc;">ZIPs</th>
+                        <th style="background: #0066cc;">Employment</th>
+                        <th style="background: #0066cc;">Revenue ($M)</th>
+                        <th style="background: #0066cc;">Power %</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="background: #fff9e6;">
-                        <td><strong>🥇 #1</strong></td>
-                        <td><strong>New York</strong></td>
-                        <td><strong style="color: #27ae60;">75.5</strong></td>
-                        <td>14.6</td>
-                        <td>13.9</td>
-                        <td>6.1%</td>
-                        <td>$217k</td>
-                    </tr>
-                    <tr style="background: #f5f5f5;">
-                        <td><strong>🥈 #2</strong></td>
+
+                    <tr>
                         <td><strong>Los Angeles</strong></td>
-                        <td><strong style="color: #27ae60;">52.0</strong></td>
-                        <td>13.4</td>
-                        <td>14.0</td>
-                        <td>3.8%</td>
-                        <td>$220k</td>
+                        <td>46</td>
+                        <td>169,722</td>
+                        <td>$322</td>
+                        <td>12.78%</td>
+                        <td>252</td>
+                        <td>4,860,964</td>
+                        <td>$972,193</td>
+                        <td>45.9%</td>
                     </tr>
-                    <tr style="background: #fdf5e6;">
-                        <td><strong>🥉 #3</strong></td>
+
+                    <tr>
+                        <td><strong>New York</strong></td>
+                        <td>132</td>
+                        <td>476,222</td>
+                        <td>$343</td>
+                        <td>12.39%</td>
+                        <td>189</td>
+                        <td>4,213,924</td>
+                        <td>$842,785</td>
+                        <td>46.6%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Chicago</strong></td>
+                        <td>20</td>
+                        <td>92,187</td>
+                        <td>$322</td>
+                        <td>13.67%</td>
+                        <td>77</td>
+                        <td>2,104,062</td>
+                        <td>$420,812</td>
+                        <td>39.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Dallas</strong></td>
+                        <td>17</td>
+                        <td>61,850</td>
+                        <td>$279</td>
+                        <td>11.11%</td>
+                        <td>86</td>
+                        <td>2,142,101</td>
+                        <td>$428,420</td>
+                        <td>41.6%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Houston</strong></td>
+                        <td>28</td>
+                        <td>117,330</td>
+                        <td>$205</td>
+                        <td>11.45%</td>
+                        <td>59</td>
+                        <td>1,484,271</td>
+                        <td>$296,854</td>
+                        <td>39.2%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Miami</strong></td>
+                        <td>6</td>
+                        <td>10,846</td>
+                        <td>$803</td>
+                        <td>11.86%</td>
+                        <td>146</td>
+                        <td>2,404,848</td>
+                        <td>$480,970</td>
+                        <td>42.5%</td>
+                    </tr>
+
+                    <tr>
                         <td><strong>San Francisco</strong></td>
-                        <td><strong style="color: #27ae60;">47.1</strong></td>
-                        <td>11.5</td>
-                        <td>15.5</td>
-                        <td>1.7%</td>
-                        <td>$227k</td>
-                    </tr>
-                    <tr>
-                        <td>#4</td>
-                        <td>Chicago</td>
-                        <td>45.0</td>
-                        <td>13.7</td>
-                        <td>14.4</td>
-                        <td>3.1%</td>
-                        <td>$213k</td>
-                    </tr>
-                    <tr>
-                        <td>#5</td>
-                        <td>Houston</td>
-                        <td>43.1</td>
-                        <td>13.1</td>
-                        <td>13.7</td>
-                        <td>5.1%</td>
-                        <td>$214k</td>
-                    </tr>
-                    <tr>
-                        <td>#6</td>
-                        <td>Dallas</td>
-                        <td>39.2</td>
-                        <td>12.9</td>
-                        <td>14.5</td>
-                        <td>2.1%</td>
-                        <td>$217k</td>
-                    </tr>
-                    <tr>
-                        <td>#7</td>
-                        <td>Miami</td>
-                        <td>18.4</td>
-                        <td>12.7</td>
-                        <td>12.6</td>
-                        <td>0.7%</td>
-                        <td>$221k</td>
+                        <td>23</td>
+                        <td>112,183</td>
+                        <td>$457</td>
+                        <td>11.11%</td>
+                        <td>111</td>
+                        <td>2,586,920</td>
+                        <td>$517,384</td>
+                        <td>45.7%</td>
                     </tr>
                 </tbody>
             </table>
-            
-            <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                <h4 style="margin-top: 0; color: #155724;">🏆 Key Insights</h4>
-                <ul style="margin-bottom: 0;">
-                    <li><strong>New York</strong> dominates with the highest intersection density (6.1%) and largest high-income household base (476k HH $200k+)</li>
-                    <li><strong>San Francisco</strong> leads in Corporate Score (9.15) and Payroll per Employee ($90k) despite smaller size</li>
-                    <li><strong>Houston</strong> shows strong intersection (5.1%) relative to its size, indicating concentrated wealth-corporate overlap</li>
-                    <li><strong>Miami</strong> ranks lowest due to very low intersection (0.7%) and smallest HH Top 10% presence</li>
-                </ul>
-            </div>
-            
-            <img src="city_combined_ranking.png" class="chart-img" alt="City Combined Ranking">
-            <img src="city_combined_details.png" class="chart-img" alt="City Combined Details">
-        </div>
-        
-        <!-- Geodesic Radius Comparison -->
-        <div class="section">
-            <h2>🌍 Geodesic Radius Comparison: Corporate vs Household</h2>
-            <p>Comparison of distances to major airports between Corporate Top 10% and Household Top 10% ZIP codes.</p>
-            
-            <img src="geodesic_radius_comparison.png" class="chart-img" alt="Geodesic Radius Comparison">
-            <img src="geodesic_boxplot_comparison.png" class="chart-img" alt="Geodesic Boxplot Comparison">
         </div>
         
         <!-- Household Analysis -->
@@ -698,24 +564,107 @@ All components normalized 0-100 across cities before weighting.
             <img src="histogram_top10_scores.png" class="chart-img" alt="Score Distribution">
             <img src="histogram_top10_by_city.png" class="chart-img" alt="By City">
             <img src="histogram_top10_boxplot.png" class="chart-img" alt="Box Plot">
+            <img src="histogram_top10_agi.png" class="chart-img" alt="AGI Distribution">
             
             <h3>Geographic Analysis</h3>
             <img src="distance_radius_analysis.png" class="chart-img" alt="Distance & Radius Analysis">
+            <p><a href="distance_radius_analysis.csv" class="map-link">📥 Download Distance Data (CSV)</a></p>
             
             <h3>Weighted Averages</h3>
             <img src="weighted_averages_chart.png" class="chart-img" alt="Weighted Averages">
+            <p><a href="weighted_averages_analysis.csv" class="map-link">📥 Download Weighted Averages (CSV)</a></p>
             
             <h3>HH $200k+ by Region</h3>
             <img src="hh200k_by_region_charts.png" class="chart-img" alt="HH200k by Region">
+            <p><a href="hh200k_by_region.csv" class="map-link">📥 Download HH by Region (CSV)</a></p>
+        </div>
+        
+        <!-- Corporate Statistical Analysis -->
+        <div class="section">
+            <h2>🏢 Corporate Statistical Analysis (Top 10% Corporate Power)</h2>
+            <p style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <strong>Data Source:</strong> U.S. Census Bureau - County Business Patterns 2021<br>
+                <strong>Direct Government Data:</strong> Establishments, Employment, Payroll from Census API (100% real counts)<br>
+                <strong>Estimates:</strong> Revenue estimated using BLS revenue-per-employee ratios (see Methodology Section 12)
+            </p>
+            
+            <h3>Distribution Analysis</h3>
+            <img src="corporate_histogram_all_vs_top10.png" class="chart-img" alt="All vs Top 10% Corporate">
+            <img src="corporate_histogram_top10_power_index.png" class="chart-img" alt="Power Index Distribution">
+            <img src="corporate_histogram_top10_by_city.png" class="chart-img" alt="Corporate by City">
+            <img src="corporate_histogram_top10_boxplot.png" class="chart-img" alt="Box Plot by City">
+            
+            <h3>Revenue & Employment</h3>
+            <img src="corporate_histogram_top10_revenue.png" class="chart-img" alt="Revenue Distribution">
+            <img src="corporate_histogram_top10_employment.png" class="chart-img" alt="Employment Distribution">
+            
+            <h3>Power Industries</h3>
+            <img src="corporate_histogram_top10_power_share.png" class="chart-img" alt="Power Industries Share">
+            <img src="corporate_power_industries_by_region.png" class="chart-img" alt="Power Industries by Region">
+            <p><a href="corporate_power_industries_by_region.csv" class="map-link corporate">📥 Download Power Industries by Region (CSV)</a></p>
+            
+            <h3>Geographic Analysis</h3>
+            <img src="corporate_distance_radius_analysis.png" class="chart-img" alt="Distance & Radius Analysis">
+            <p><a href="corporate_distance_analysis.csv" class="map-link corporate">📥 Download Distance Data (CSV)</a></p>
+            
+            <h3>Weighted Averages</h3>
+            <img src="corporate_weighted_averages_chart.png" class="chart-img" alt="Weighted Averages">
+            <p><a href="corporate_weighted_averages_analysis.csv" class="map-link corporate">📥 Download Weighted Averages (CSV)</a></p>
+            
+            <h3>Comparative Analysis</h3>
+            <img src="corporate_comparative_analysis.png" class="chart-img" alt="Comparative Analysis">
+            <p style="font-size: 13px; color: #666; margin-top: 10px;">
+                <strong>Top Left:</strong> Revenue vs Employment correlation<br>
+                <strong>Top Right:</strong> Power Index vs Power Share relationship<br>
+                <strong>Bottom Left:</strong> Employment vs Establishments density<br>
+                <strong>Bottom Right:</strong> Revenue per Employee by city
+            </p>
+        </div>
+        
+        <!-- Data Downloads -->
+        <div class="section">
+            <h2>📥 Data Downloads</h2>
+            <h3>Household Data</h3>
+            <p>
+                <a href="top10_richest_data.csv" class="map-link">📊 Top 10% Household Data (CSV)</a>
+                <a href="distance_radius_analysis.csv" class="map-link">📏 Distance Analysis</a>
+                <a href="weighted_averages_analysis.csv" class="map-link">⚖️ Weighted Averages</a>
+                <a href="hh200k_by_region.csv" class="map-link">🏠 HH by Region</a>
+            </p>
+            
+            <h3>Corporate Data</h3>
+            <p>
+                <a href="corporate_all_zips.csv" class="map-link corporate">📊 All Corporate ZIPs (CSV)</a>
+                <a href="top10_corporate_data.csv" class="map-link corporate">⭐ Top 10% Corporate ZIPs (CSV)</a>
+                <a href="industry_by_zip_all.csv" class="map-link corporate">🏭 Industry by ZIP (CSV)</a>
+                <a href="corporate_power_by_zip.csv" class="map-link corporate">⚡ Power Industries by ZIP</a>
+                <a href="corporate_by_city_summary.csv" class="map-link corporate">🏙️ City Summary</a>
+                <a href="corporate_weighted_averages_analysis.csv" class="map-link corporate">⚖️ Weighted Averages</a>
+                <a href="corporate_power_industries_by_region.csv" class="map-link corporate">🏭 Power Industries by Region</a>
+                <a href="corporate_distance_analysis.csv" class="map-link corporate">📏 Distance Analysis</a>
+            </p>
+            
+            <h3>Intersection Data</h3>
+            <p>
+                <a href="intersection_analysis.csv" class="map-link intersection">🎯 Intersection ZIPs (CSV)</a>
+                <a href="intersection_by_city.csv" class="map-link intersection">🏙️ Intersection by City (CSV)</a>
+            </p>
+            
+            <h3>Documentation</h3>
+            <p>
+                <a href="helicopter_market_analysis.tex" class="map-link">📄 LaTeX Paper</a>
+                <a href="CORPORATE_STATISTICS_EXPLANATION.md" class="map-link corporate">📊 Corporate Statistics Explanation</a>
+            </p>
         </div>
         
         <!-- Footer -->
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
+            <strong>Generated:</strong> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br>
             <strong>Data Sources:</strong><br>
             • Households: IRS SOI 2022, Census ACS 5yr 2022, Google Distance Matrix API<br>
             • Corporate: U.S. Census Bureau - County Business Patterns 2021<br>
-            <strong>Methodology:</strong> Weighted Geometric Mean with Global Min-Max Normalization<br>
-            <strong>Note:</strong> All data is 100% real from official government sources. Revenue estimated using BLS industry-specific ratios.
+            <strong>Note:</strong> All base counts (employment, payroll, households) are from official government sources. 
+            Revenue is estimated using Census/BLS benchmarks. See Methodology Section 12 for details.
         </div>
     </div>
 </body>

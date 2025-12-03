@@ -43,23 +43,15 @@
         }
         .formula {
             background: #e8f4f8;
-            padding: 20px;
+            padding: 15px;
             border-left: 4px solid #3498db;
             margin: 15px 0;
             font-family: 'Courier New', monospace;
             font-size: 1.1em;
         }
-        .formula.household {
-            background: #fff5f5;
-            border-left: 4px solid #800026;
-        }
-        .formula.corporate {
-            background: #f0f7ff;
-            border-left: 4px solid #0066cc;
-        }
         .data-source {
             background: #fff3cd;
-            padding: 15px;
+            padding: 10px;
             border-left: 4px solid #ffc107;
             margin: 10px 0;
         }
@@ -89,8 +81,6 @@
             background: #3498db;
             color: white;
         }
-        th.household { background: #800026; }
-        th.corporate { background: #0066cc; }
         tr:nth-child(even) {
             background: #f2f2f2;
         }
@@ -111,7 +101,7 @@
             padding-left: 0;
         }
         .toc li {
-            padding: 5px 0;
+            margin: 8px 0;
         }
         .toc a {
             color: #3498db;
@@ -122,12 +112,12 @@
         }
         .back-link {
             display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
             background: #3498db;
             color: white;
-            padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
-            margin: 20px 0;
         }
         .back-link:hover {
             background: #2980b9;
@@ -138,465 +128,1150 @@
     <div class="container">
         <a href="dashboard_integrated.html" class="back-link">← Back to Dashboard</a>
         
-        <h1>📚 Complete Methodology Documentation</h1>
+        <h1>Complete Methodology Documentation</h1>
+        <p><strong>GeoEco Dashboard - Household & Corporate Wealth Analysis</strong></p>
+        <p><em>Last Updated: November 30, 2025</em></p>
+        
+        <div class="important">
+            <strong>Data Integrity Statement:</strong> This analysis uses <strong>official U.S. government data sources</strong> (IRS, Census Bureau, BLS). 
+            All base counts (employment, payroll, households, population) are directly from government APIs. 
+            Revenue figures are <strong>estimated</strong> using Census/BLS benchmarks, as explained in Section 12.
+        </div>
+        
+        <div class="warning">
+            <strong>Geographic Scope:</strong> This analysis covers <strong>7 major U.S. metropolitan areas only</strong> 
+            (Los Angeles, New York, Chicago, Dallas, Houston, Miami, San Francisco). 
+            The "Top 10%" rankings are relative to these 7 metros, not the entire United States.
+            Other wealthy areas (Boston, Washington DC, Seattle, etc.) are not included in this analysis.
+        </div>
         
         <div class="toc">
-            <h3>Table of Contents</h3>
+            <h2>Table of Contents</h2>
             <ul>
                 <li><a href="#overview">1. Overview</a></li>
-                <li><a href="#household-score">2. Household Geometric Score</a></li>
-                <li><a href="#corporate-score">3. Corporate Geometric Score</a></li>
-                <li><a href="#data-sources">4. Data Sources</a></li>
-                <li><a href="#normalization">5. Normalization Process</a></li>
-                <li><a href="#revenue-estimation">6. Revenue Estimation</a></li>
-                <li><a href="#intersection">7. Intersection Analysis</a></li>
-                <li><a href="#geographic">8. Geographic Analysis</a></li>
+                <li><a href="#data-sources">2. Data Sources</a>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li><a href="#data-sources">2.1-2.3 Household, Corporate, Geographic Sources</a></li>
+                        <li><a href="#data-harmonization">2.4 Data Harmonization & Missing Data</a></li>
+                    </ul>
+                </li>
+                <li><a href="#household-analysis">3. Household Wealth Analysis</a></li>
+                <li><a href="#corporate-analysis">4. Corporate Power Analysis</a></li>
+                <li><a href="#geometric-score">5. Geometric Score Calculation</a></li>
+                <li><a href="#corporate-score">6. Corporate Score Calculation</a></li>
+                <li><a href="#top10-selection">7. Top 10% Selection Methodology</a></li>
+                <li><a href="#geographic-analysis">8. Geographic Analysis</a></li>
+                <li><a href="#statistical-analyses">9. Statistical Analyses</a></li>
+                <li><a href="#maps">10. Map Generation</a></li>
+                <li><a href="#intersection">11. Intersection Analysis</a></li>
+                <li><a href="#estimates">12. Data Estimates & Limitations</a></li>
             </ul>
         </div>
         
-        <!-- OVERVIEW -->
-        <div class="section" id="overview">
+        <section id="overview" class="section">
             <h2>1. Overview</h2>
-            <p>This analysis identifies the Top 10% wealthiest ZIP codes in the United States using two complementary scoring systems:</p>
+            <p>
+                This dashboard provides a comprehensive analysis of household wealth and corporate power across seven major U.S. metropolitan areas:
+                Los Angeles, New York, Chicago, Dallas, Houston, Miami, and San Francisco. The analysis identifies the top 10% wealthiest 
+                ZIP codes <strong>within these 7 metropolitan areas</strong> for both households and corporations, creating comparable metrics 
+                that integrate multiple dimensions of economic power.
+            </p>
+            
+            <h3>1.1 Geographic Scope and Limitations</h3>
+            <div class="warning">
+                <strong>Important:</strong> This analysis is limited to 7 specific major metropolitan areas. The "Top 10%" rankings 
+                are relative to the universe of ZIP codes within these 7 metros, <strong>not the entire United States</strong>.
+            </div>
             <ul>
-                <li><strong>Household Geometric Score:</strong> Based on IRS wealth data, travel time, and high-income household concentration</li>
-                <li><strong>Corporate Geometric Score:</strong> Based on business revenue, employment, productivity, and geographic location</li>
+                <li><strong>Included Metro Areas:</strong> Los Angeles, New York, Chicago, Dallas, Houston, Miami, San Francisco</li>
+                <li><strong>Not Included:</strong> Other wealthy metropolitan areas such as Boston, Washington DC, Seattle, 
+                    Philadelphia, Atlanta, and others are not part of this analysis</li>
+                <li><strong>Total ZIP Codes Analyzed:</strong> 2,716 ZIPs for households, 3,598 ZIPs for corporate data</li>
+                <li><strong>Top 10% Threshold:</strong> Calculated separately for households (272 ZIPs) and corporations (360 ZIPs) 
+                    within the 7-metro universe</li>
             </ul>
             
-            <div class="important">
-                <strong>Key Principle:</strong> Both scores use a <strong>Weighted Geometric Mean</strong> rather than arithmetic mean. This ensures that a ZIP code must perform well across ALL factors to achieve a high score - excellence in one area cannot compensate for poor performance in another.
-            </div>
-        </div>
-        
-        <!-- HOUSEHOLD SCORE -->
-        <div class="section" id="household-score">
-            <h2>2. Household Geometric Score</h2>
-            
-            <div class="formula household">
-                <strong>Formula:</strong><br><br>
-                Score = (IRS_Wealth<sup>0.50</sup> × Time²<sup>0.20</sup> × Pop200k<sup>0.20</sup> × Density<sup>0.10</sup>)
-            </div>
-            
-            <h3>Components</h3>
-            <table>
-                <tr>
-                    <th class="household">Component</th>
-                    <th class="household">Weight</th>
-                    <th class="household">Description</th>
-                    <th class="household">Data Source</th>
-                </tr>
-                <tr>
-                    <td><strong>IRS Wealth Proxy</strong></td>
-                    <td>50%</td>
-                    <td>Composite index of AGI, Capital Gains, Dividends, Business Income per tax return</td>
-                    <td>IRS SOI 2022</td>
-                </tr>
-                <tr>
-                    <td><strong>Travel Time²</strong></td>
-                    <td>20%</td>
-                    <td>Time to airport squared - emphasizes exclusivity (longer times = more exclusive)</td>
-                    <td>Google Distance Matrix API</td>
-                </tr>
-                <tr>
-                    <td><strong>Population $200k+</strong></td>
-                    <td>20%</td>
-                    <td>Absolute number of households with income ≥ $200,000</td>
-                    <td>Census ACS 2022</td>
-                </tr>
-                <tr>
-                    <td><strong>Density</strong></td>
-                    <td>10%</td>
-                    <td>High-income households per km² (concentration metric)</td>
-                    <td>Census ACS 2022</td>
-                </tr>
-            </table>
-            
-            <h3>IRS Wealth Proxy Composition</h3>
-            <table>
-                <tr>
-                    <th>Variable</th>
-                    <th>Weight</th>
-                </tr>
-                <tr><td>Adjusted Gross Income (AGI) per return</td><td>20%</td></tr>
-                <tr><td>Capital Gains per return</td><td>20%</td></tr>
-                <tr><td>Dividends per return</td><td>15%</td></tr>
-                <tr><td>Interest Income per return</td><td>10%</td></tr>
-                <tr><td>Business Income per return</td><td>10%</td></tr>
-                <tr><td>Real Estate Taxes per return</td><td>10%</td></tr>
-                <tr><td>Charitable Contributions per return</td><td>10%</td></tr>
-                <tr><td>Retirement Income per return</td><td>5%</td></tr>
-            </table>
-            
-            <div class="important">
-                <strong>Why Geometric Mean?</strong>
-                <ul>
-                    <li>Penalizes extreme imbalances (high wealth but no travel time = low score)</li>
-                    <li>Naturally handles multiplicative relationships</li>
-                    <li>Requires ALL factors to be reasonably high for a high score</li>
-                    <li>More robust to outliers in individual variables</li>
-                </ul>
-            </div>
-            
-            <h3>Results</h3>
+            <p>
+                The methodology combines:
+            </p>
             <ul>
-                <li><strong>Total ZIPs Analyzed:</strong> 2,716</li>
-                <li><strong>Top 10% Threshold:</strong> 9.48%</li>
-                <li><strong>Top 10% ZIPs:</strong> 272</li>
-                <li><strong>Total HH $200k+ in Top 10%:</strong> 1,040,340</li>
+                <li><strong>Household Wealth:</strong> IRS tax return data, Census demographics, and geographic accessibility</li>
+                <li><strong>Corporate Power:</strong> U.S. Census Bureau business patterns, employment, revenue estimates, and industry concentration</li>
+                <li><strong>Geographic Analysis:</strong> Travel times to major airports, geodesic distances, and regional patterns</li>
             </ul>
-        </div>
+        </section>
         
-        <!-- CORPORATE SCORE -->
-        <div class="section" id="corporate-score">
-            <h2>3. Corporate Geometric Score</h2>
+        <section id="data-sources" class="section">
+            <h2>2. Data Sources</h2>
             
-            <div class="formula corporate">
-                <strong>Formula:</strong><br><br>
-                Score = (Revenue<sup>0.40</sup> × Employment<sup>0.20</sup> × Payroll/Emp<sup>0.20</sup> × Distance²<sup>0.20</sup>)
-            </div>
-            
-            <h3>Components</h3>
-            <table>
-                <tr>
-                    <th class="corporate">Component</th>
-                    <th class="corporate">Weight</th>
-                    <th class="corporate">Description</th>
-                    <th class="corporate">Data Source</th>
-                </tr>
-                <tr>
-                    <td><strong>Revenue</strong></td>
-                    <td>40%</td>
-                    <td>Estimated total revenue (normalized 0-1)</td>
-                    <td>CBP 2021 + BLS ratios</td>
-                </tr>
-                <tr>
-                    <td><strong>Employment</strong></td>
-                    <td>20%</td>
-                    <td>Total number of employees (normalized 0-1)</td>
-                    <td>Census CBP 2021</td>
-                </tr>
-                <tr>
-                    <td><strong>Payroll per Employee</strong></td>
-                    <td>20%</td>
-                    <td>Productivity proxy - annual payroll divided by employees (normalized 0-1). 100% REAL DATA from Census CBP.</td>
-                    <td>Census CBP 2021</td>
-                </tr>
-                <tr>
-                    <td><strong>Distance to Airport²</strong></td>
-                    <td>20%</td>
-                    <td>Geodesic distance to major airport, squared (normalized 0-1)</td>
-                    <td>Calculated (Haversine)</td>
-                </tr>
-            </table>
-            
-            <h3>Results</h3>
-            <ul>
-                <li><strong>Total ZIPs Analyzed:</strong> 3,598 (7 metro areas only)</li>
-                <li><strong>Top 10% Threshold:</strong> 14.05</li>
-                <li><strong>Top 10% ZIPs:</strong> 360</li>
-                <li><strong>Total Employment (7 metros):</strong> 32.7M</li>
-                <li><strong>Avg Payroll/Employee:</strong> $59,768 (San Francisco highest: $89,726)</li>
-            </ul>
-        </div>
-        
-        <!-- DATA SOURCES -->
-        <div class="section" id="data-sources">
-            <h2>4. Data Sources</h2>
+            <h3>2.1 Household Data Sources</h3>
             
             <div class="data-source">
-                <h4>IRS Statistics of Income (SOI) 2022</h4>
+                <h4>Internal Revenue Service (IRS) - Statistics of Income (SOI) 2022</h4>
+                <p><strong>File:</strong> <code>22zpallagi.csv</code></p>
+                <p><strong>Data Provided:</strong></p>
                 <ul>
-                    <li><strong>Variables:</strong> AGI, dividends, capital gains, business income, real estate taxes, charitable contributions</li>
-                    <li><strong>Records:</strong> 166,131 zip code-level aggregations</li>
-                    <li><strong>URL:</strong> <a href="https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics" target="_blank">IRS SOI</a></li>
+                    <li><strong>AGI per Return:</strong> Adjusted Gross Income per tax return (in dollars)</li>
+                    <li><strong>Number of Returns:</strong> Total tax returns filed per ZIP code</li>
+                    <li><strong>Total AGI:</strong> Aggregate Adjusted Gross Income per ZIP code</li>
                 </ul>
+                <p><strong>Coverage:</strong> All ZIP codes in the United States with tax filing data</p>
+                <p><strong>URL:</strong> <a href="https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi" target="_blank">IRS SOI Tax Stats</a></p>
             </div>
             
             <div class="data-source">
-                <h4>Census American Community Survey (ACS) 2022</h4>
+                <h4>U.S. Census Bureau - American Community Survey (ACS) 5-Year Estimates 2022</h4>
+                <p><strong>API Endpoint:</strong> Census Bureau API</p>
+                <p><strong>Data Provided:</strong></p>
                 <ul>
-                    <li><strong>Variables:</strong> B19001_017E (Households with income ≥$200,000), B01003_001E (Total Population)</li>
-                    <li><strong>Geography:</strong> ZIP Code Tabulation Areas (ZCTA)</li>
-                    <li><strong>URL:</strong> <a href="https://www.census.gov/programs-surveys/acs" target="_blank">Census ACS</a></li>
+                    <li><strong>Households Earning $200,000+:</strong> Number of households with annual income ≥ $200,000</li>
+                    <li><strong>Total Population:</strong> Total population per ZIP code</li>
+                    <li><strong>Total Households:</strong> Total number of households per ZIP code</li>
+                    <li><strong>Geographic Boundaries:</strong> ZIP Code Tabulation Areas (ZCTAs)</li>
                 </ul>
-            </div>
-            
-            <div class="data-source">
-                <h4>Census County Business Patterns (CBP) 2021</h4>
-                <ul>
-                    <li><strong>Variables:</strong> Establishments, Employment, Annual Payroll by ZIP and NAICS code</li>
-                    <li><strong>Records:</strong> 30,917 ZIP codes with business data</li>
-                    <li><strong>100% Real Data:</strong> ✓</li>
-                    <li><strong>URL:</strong> <a href="https://www.census.gov/programs-surveys/cbp.html" target="_blank">Census CBP</a></li>
-                </ul>
+                <p><strong>Coverage:</strong> All ZIP codes in the United States</p>
+                <p><strong>API Key:</strong> Required (provided in configuration)</p>
+                <p><strong>URL:</strong> <a href="https://www.census.gov/data/developers/data-sets/acs-5year.html" target="_blank">Census ACS API</a></p>
             </div>
             
             <div class="data-source">
                 <h4>Google Distance Matrix API</h4>
+                <p><strong>Purpose:</strong> Calculate real-time travel times from ZIP code centroids to major airports</p>
+                <p><strong>Data Provided:</strong></p>
                 <ul>
-                    <li><strong>Variables:</strong> Travel time to major airports (with traffic)</li>
-                    <li><strong>Mode:</strong> Driving with pessimistic traffic scenario</li>
+                    <li><strong>Travel Time (minutes):</strong> Driving time from ZIP centroid to airport, accounting for current traffic</li>
+                    <li><strong>Mode:</strong> Driving (automobile)</li>
+                    <li><strong>Departure Time:</strong> "now" (real-time traffic conditions)</li>
                 </ul>
-            </div>
-        </div>
-        
-        <!-- NORMALIZATION -->
-        <div class="section" id="normalization">
-            <h2>5. Normalization Process</h2>
-            
-            <div class="formula">
-                <strong>Min-Max Normalization:</strong><br><br>
-                Normalized_Value = (Value - Min) / (Max - Min)
+                <p><strong>Processing:</strong> Parallel processing with 30 workers, batch size of 25 origins per request</p>
+                <p><strong>Caching:</strong> Results cached in JSON files to avoid redundant API calls</p>
+                <p><strong>URL:</strong> <a href="https://developers.google.com/maps/documentation/distance-matrix" target="_blank">Google Distance Matrix API</a></p>
             </div>
             
-            <div class="important">
-                <strong>Global Normalization:</strong> All values are normalized across the ENTIRE dataset (not per city). This ensures cross-city comparability - a score of 15 in New York means the same as a score of 15 in Los Angeles.
-            </div>
+            <h3>2.2 Corporate Data Sources</h3>
             
-            <h3>Normalization Scope</h3>
-            <table>
-                <tr>
-                    <th>Score Type</th>
-                    <th>Normalization Base</th>
-                    <th>Number of ZIPs</th>
-                </tr>
-                <tr>
-                    <td>Household Score</td>
-                    <td>7 Major Metro Areas</td>
-                    <td>2,716 ZIPs</td>
-                </tr>
-                <tr>
-                    <td>Corporate Score</td>
-                    <td>Entire United States</td>
-                    <td>30,917 ZIPs</td>
-                </tr>
-            </table>
-        </div>
-        
-        <!-- REVENUE ESTIMATION -->
-        <div class="section" id="revenue-estimation">
-            <h2>6. Revenue Estimation Methodology</h2>
-            
-            <div class="warning">
-                <strong>Important:</strong> The Census Bureau does NOT provide revenue data by ZIP code. Revenue is ESTIMATED using industry-specific coefficients derived from official Census Bureau data.
+            <div class="data-source">
+                <h4>U.S. Census Bureau - County Business Patterns (CBP) 2021</h4>
+                <p><strong>API Endpoint:</strong> <code>https://api.census.gov/data/2021/cbp</code></p>
+                <p><strong>Data Provided (100% REAL):</strong></p>
+                <ul>
+                    <li><strong>Establishments:</strong> Number of business establishments per ZIP code and NAICS industry code</li>
+                    <li><strong>Total Employment:</strong> Total number of employees per ZIP code (available for NAICS '00' = all industries)</li>
+                    <li><strong>Annual Payroll:</strong> Total annual payroll in thousands of dollars per ZIP code</li>
+                    <li><strong>NAICS Codes:</strong> 2-digit North American Industry Classification System codes</li>
+                </ul>
+                <p><strong>Coverage:</strong> 30,917 ZIP codes with business activity</p>
+                <p><strong>Total Records:</strong> 2,903,976 establishment records</p>
+                <p><strong>Processing:</strong> Parallel fetching with 20 workers, cached to avoid redundant API calls</p>
+                <p><strong>URL:</strong> <a href="https://www.census.gov/data/developers/data-sets/cbp-nonemp.html" target="_blank">Census CBP API</a></p>
             </div>
             
             <div class="data-source">
-                <h4>Data Sources for Revenue Coefficients</h4>
+                <h4>Bureau of Labor Statistics (BLS) - Revenue per Employee Ratios</h4>
+                <p><strong>Purpose:</strong> Estimate revenue for industries where Census Bureau suppresses detailed employment data</p>
+                <p><strong>Methodology:</strong> Industry-specific revenue-per-employee ratios from BLS economic data</p>
+                <p><strong>Application:</strong> Used to estimate revenue when Census suppresses employment by industry (privacy protection)</p>
+                <p><strong>Note:</strong> Revenue is NOT directly available from Census Bureau - this is a statistical estimate</p>
+            </div>
+            
+            <h3>2.3 Geographic Data Sources</h3>
+            
+            <div class="data-source">
+                <h4>U.S. Census Bureau - TIGER/Line Shapefiles</h4>
+                <p><strong>Data Provided:</strong></p>
                 <ul>
-                    <li><strong>U.S. Census Bureau - Economic Census 2017</strong> (latest complete census)</li>
-                    <li><strong>U.S. Census Bureau - Annual Business Survey 2021</strong></li>
-                    <li><strong>BLS - Quarterly Census of Employment and Wages (QCEW)</strong></li>
+                    <li><strong>ZIP Code Boundaries:</strong> ZIP Code Tabulation Areas (ZCTAs) as polygons</li>
+                    <li><strong>Centroids:</strong> Geographic center points of each ZIP code</li>
+                    <li><strong>Area:</strong> Land area in square kilometers</li>
                 </ul>
-                <p>Coefficients calculated as: Total Industry Receipts / Total Industry Employment</p>
+                <p><strong>Format:</strong> GeoPackage (GPKG) format, cached locally</p>
             </div>
             
-            <div class="formula">
-                <strong>Revenue Estimation Formula:</strong><br><br>
-                Revenue = (Power_Emp × $344,000) + (Other_Emp × $155,000)<br><br>
-                Where:<br>
-                • Power Industries = NAICS 51, 52, 53, 54, 55, 71<br>
-                • Other Industries = All other NAICS codes
+            <div class="data-source">
+                <h4>FAA Airport Data</h4>
+                <p><strong>File:</strong> <code>all-airport-data.xlsx</code></p>
+                <p><strong>Data Provided:</strong></p>
+                <ul>
+                    <li>Airport locations (latitude/longitude)</li>
+                    <li>Airport codes (IATA/ICAO)</li>
+                    <li>Facility types and ownership</li>
+                </ul>
+                <p><strong>Purpose:</strong> Identify major airports for travel time calculations</p>
             </div>
             
-            <h3>Complete NAICS Revenue per Employee Coefficients</h3>
+            <h3 id="data-harmonization">2.4 Data Harmonization & Missing Data Treatment</h3>
+            
+            <h4>ZIP Code vs ZCTA Boundaries</h4>
+            <p>
+                This analysis uses <strong>ZIP Code Tabulation Areas (ZCTAs)</strong> from the U.S. Census Bureau TIGER/Line shapefiles. 
+                ZCTAs are statistical approximations of ZIP code delivery areas created by the Census Bureau. 
+                Important notes:
+            </p>
+            <ul>
+                <li><strong>ZCTAs approximate but do not exactly match</strong> USPS ZIP code delivery areas</li>
+                <li>Some ZIP codes may not have corresponding ZCTAs (e.g., PO boxes, military addresses)</li>
+                <li>ZCTAs are updated every 10 years with the decennial census (current analysis uses 2020 ZCTAs)</li>
+                <li>IRS SOI data uses actual ZIP codes, while Census ACS uses ZCTAs - matching is done by ZIP code string</li>
+            </ul>
+            
+            <h4>Census Bureau Data Suppression</h4>
+            <p>
+                The Census Bureau suppresses detailed employment data by industry for privacy protection when there are too few establishments 
+                or when disclosure would reveal individual business information. Our treatment:
+            </p>
+            <ul>
+                <li><strong>Suppressed Employment:</strong> We estimate employment by industry proportionally: 
+                    <code>Emp_industry = Emp_total × (Estab_industry / Estab_total)</code></li>
+                <li><strong>Assumption:</strong> This assumes establishments within an industry are similar in size, 
+                    which may not hold for ZIPs with very large or very small businesses</li>
+                <li><strong>Total Employment:</strong> Available for NAICS code '00' (all industries combined) and is 100% real data</li>
+            </ul>
+            
+            <h4>Missing ZIP Codes</h4>
+            <p>
+                ZIP codes may be excluded from analysis for several reasons:
+            </p>
+            <ul>
+                <li>No tax return data in IRS SOI (e.g., PO boxes, military addresses)</li>
+                <li>No Census ACS demographic data available</li>
+                <li>No business establishments in Census CBP</li>
+                <li>ZIP code not in the 7-metro geographic boundaries</li>
+            </ul>
+            <p>
+                <strong>Coverage:</strong> The analysis includes 2,716 ZIPs for household analysis and 3,598 ZIPs for corporate analysis 
+                within the 7 metropolitan areas. ZIPs outside these metros or with missing critical data are excluded.
+            </p>
+            
+            <h4>Google Distance Matrix API Configuration</h4>
+            <p>
+                Travel time calculations use the following configuration:
+            </p>
+            <ul>
+                <li><strong>Departure Time:</strong> "now" - Uses real-time traffic conditions at the moment of API call</li>
+                <li><strong>Origin:</strong> ZIP code centroid (geographic center) from TIGER/Line shapefiles</li>
+                <li><strong>Destination:</strong> Major airport coordinates for each metro area</li>
+                <li><strong>Mode:</strong> Driving (automobile)</li>
+                <li><strong>Batch Processing:</strong> 25 origins per API request (API limit)</li>
+                <li><strong>Caching:</strong> Results cached in JSON files to avoid redundant API calls</li>
+            </ul>
+            <div class="warning">
+                <strong>Note:</strong> Travel times reflect conditions at the time of API call and may vary significantly by time of day, 
+                day of week, and season. Results represent a snapshot, not an average over time.
+            </div>
+        </section>
+        
+        <section id="household-analysis" class="section">
+            <h2>3. Household Wealth Analysis</h2>
+            
+            <h3>3.1 Data Processing</h3>
+            <p>
+                Household data is processed in three main steps:
+            </p>
+            <ol>
+                <li><strong>Data Merging:</strong> IRS tax return data is merged with Census ACS demographic data by ZIP code</li>
+                <li><strong>Geographic Integration:</strong> ZIP code boundaries and centroids are added from TIGER/Line shapefiles</li>
+                <li><strong>Travel Time Calculation:</strong> Real-time travel times from ZIP centroids to major airports are fetched via Google Distance Matrix API</li>
+            </ol>
+            
+            <h3>3.2 Key Variables</h3>
             <table>
                 <tr>
-                    <th>NAICS</th>
-                    <th>Industry Sector</th>
-                    <th>Rev/Employee</th>
+                    <th>Variable</th>
+                    <th>Source</th>
+                    <th>Description</th>
+                    <th>Units</th>
                 </tr>
-                <tr><td>42</td><td>Wholesale Trade</td><td><strong>$780,000</strong></td></tr>
-                <tr><td>22</td><td>Utilities</td><td><strong>$750,000</strong></td></tr>
-                <tr><td>21</td><td>Mining, Quarrying, Oil/Gas</td><td><strong>$650,000</strong></td></tr>
-                <tr><td>51</td><td>Information/Technology/Media</td><td><strong>$520,000</strong></td></tr>
-                <tr><td>52</td><td>Finance and Insurance</td><td><strong>$480,000</strong></td></tr>
-                <tr><td>32</td><td>Manufacturing - Wood/Paper/Chemical</td><td><strong>$420,000</strong></td></tr>
-                <tr><td>55</td><td>Management of Companies</td><td><strong>$420,000</strong></td></tr>
-                <tr><td>31</td><td>Manufacturing - Food/Textile</td><td><strong>$380,000</strong></td></tr>
-                <tr><td>33</td><td>Manufacturing - Metal/Machinery/Electronics</td><td><strong>$350,000</strong></td></tr>
-                <tr><td>53</td><td>Real Estate and Rental</td><td><strong>$320,000</strong></td></tr>
-                <tr><td>11</td><td>Agriculture, Forestry, Fishing</td><td><strong>$280,000</strong></td></tr>
-                <tr><td>48</td><td>Transportation</td><td><strong>$280,000</strong></td></tr>
-                <tr><td>23</td><td>Construction</td><td><strong>$240,000</strong></td></tr>
-                <tr><td>44</td><td>Retail Trade - Motor/Furniture/Electronics</td><td><strong>$220,000</strong></td></tr>
-                <tr><td>49</td><td>Warehousing</td><td><strong>$200,000</strong></td></tr>
-                <tr><td>54</td><td>Professional, Scientific, Technical Services</td><td><strong>$185,000</strong></td></tr>
-                <tr><td>45</td><td>Retail Trade - General/Misc</td><td><strong>$180,000</strong></td></tr>
-                <tr><td>71</td><td>Arts, Entertainment, Recreation</td><td><strong>$140,000</strong></td></tr>
-                <tr><td>62</td><td>Health Care and Social Assistance</td><td><strong>$130,000</strong></td></tr>
-                <tr><td>81</td><td>Other Services</td><td><strong>$110,000</strong></td></tr>
-                <tr><td>56</td><td>Administrative and Waste Services</td><td><strong>$95,000</strong></td></tr>
-                <tr><td>61</td><td>Educational Services</td><td><strong>$85,000</strong></td></tr>
-                <tr><td>72</td><td>Accommodation and Food Services</td><td><strong>$55,000</strong></td></tr>
+                <tr>
+                    <td>AGI_per_return</td>
+                    <td>IRS SOI 2022</td>
+                    <td>Adjusted Gross Income per tax return</td>
+                    <td>Dollars</td>
+                </tr>
+                <tr>
+                    <td>Households_200k</td>
+                    <td>Census ACS 2022</td>
+                    <td>Number of households with income ≥ $200,000</td>
+                    <td>Count</td>
+                </tr>
+                <tr>
+                    <td>Population</td>
+                    <td>Census ACS 2022</td>
+                    <td>Total population</td>
+                    <td>Count</td>
+                </tr>
+                <tr>
+                    <td>Travel_Time_Min</td>
+                    <td>Google Distance Matrix API</td>
+                    <td>Driving time to nearest major airport</td>
+                    <td>Minutes</td>
+                </tr>
+                <tr>
+                    <td>Area_km2</td>
+                    <td>Census TIGER/Line</td>
+                    <td>Land area of ZIP code</td>
+                    <td>Square kilometers</td>
+                </tr>
             </table>
             
-            <h3>Power Industries Definition</h3>
-            <div class="important">
-                <strong>Power Industries</strong> are high-value sectors that typically indicate economic sophistication:
-                <ul>
-                    <li><strong>NAICS 51:</strong> Information/Technology/Media ($520k/emp)</li>
-                    <li><strong>NAICS 52:</strong> Finance and Insurance ($480k/emp)</li>
-                    <li><strong>NAICS 53:</strong> Real Estate and Rental ($320k/emp)</li>
-                    <li><strong>NAICS 54:</strong> Professional, Scientific, Technical Services ($185k/emp)</li>
-                    <li><strong>NAICS 55:</strong> Management of Companies ($420k/emp)</li>
-                    <li><strong>NAICS 71:</strong> Arts, Entertainment, Recreation ($140k/emp)</li>
-                </ul>
-                <strong>Weighted Average (Power Industries):</strong> $344,000/employee<br>
-                <strong>Weighted Average (Other Industries):</strong> $155,000/employee
-            </div>
-        </div>
-        
-        <!-- INTERSECTION -->
-        <div class="section" id="intersection">
-            <h2>7. Intersection Analysis</h2>
-            
-            <p>The intersection identifies ZIP codes that appear in BOTH:</p>
+            <h3>3.3 Derived Variables</h3>
             <ul>
-                <li>Top 10% Household Wealth</li>
-                <li>Top 10% Corporate Power</li>
+                <li><strong>IRS_Wealth_Raw:</strong> Normalized AGI per return (0-1 scale)</li>
+                <li><strong>HH200k_per_km2:</strong> Density of high-income households (households $200k+ / area)</li>
+                <li><strong>Density_Norm:</strong> Normalized household density (0-1 scale)</li>
+                <li><strong>Pop200k_Norm:</strong> Normalized count of households $200k+ (0-1 scale)</li>
+                <li><strong>Time_Norm:</strong> Normalized travel time (0-1 scale)</li>
             </ul>
-            
-            <div class="formula">
-                <strong>Intersection Percentage:</strong><br><br>
-                % of City = (Intersection ZIPs / Total City ZIPs) × 100
-            </div>
-            
-            <h3>Interpretation</h3>
-            <ul>
-                <li><strong>High % of City:</strong> The city has strong overlap between wealthy residents and corporate power</li>
-                <li><strong>High % of HH Top 10%:</strong> Wealthy households tend to be in corporate-heavy areas</li>
-                <li><strong>High % of Corp Top 10%:</strong> Corporate centers tend to be in wealthy residential areas</li>
-            </ul>
-            
-            <div class="important">
-                <strong>Key Finding:</strong> Houston and Dallas show the highest % of Household Top 10% intersected (67-71%), indicating wealthy households are strongly concentrated near corporate centers. San Francisco shows the lowest (22%), suggesting more geographic separation between residential wealth and corporate activity.
-            </div>
-        </div>
+        </section>
         
-        <!-- GEOGRAPHIC -->
-        <div class="section" id="geographic">
-            <h2>8. Geographic Analysis</h2>
+        <section id="corporate-analysis" class="section">
+            <h2>4. Corporate Power Analysis</h2>
             
-            <h3>Distance Calculation</h3>
-            <div class="formula">
-                <strong>Haversine Formula (Geodesic Distance):</strong><br><br>
-                d = 2R × arcsin(√[sin²(Δlat/2) + cos(lat₁) × cos(lat₂) × sin²(Δlon/2)])
-                <br><br>
-                Where R = 6,371 km (Earth's radius)
-            </div>
+            <h3>4.1 Data Processing</h3>
+            <p>
+                Corporate data processing involves several steps due to Census Bureau privacy protections:
+            </p>
+            <ol>
+                <li><strong>Data Fetching:</strong> Parallel API calls to Census CBP endpoint for all ZIP codes</li>
+                <li><strong>Employment Estimation:</strong> Since Census suppresses employment by industry, we estimate it proportionally:
+                    <div class="formula">
+                        Employment_industry = Employment_total × (Establishments_industry / Establishments_total)
+                    </div>
+                </li>
+                <li><strong>Revenue Estimation:</strong> Revenue is estimated using industry-specific revenue-per-employee ratios from BLS/Census benchmarks. 
+                    The implementation uses a simplified two-tier model:
+                    <div class="formula">
+                        Revenue_Total = Employment_total × $200,000 (average)<br>
+                        Revenue_Power = Power_Employment × $350,000 (power industries average)
+                    </div>
+                    <p>
+                        However, the codebase includes detailed NAICS-specific coefficients (shown in table below) that could be used for more granular estimation.
+                    </p>
+                </li>
+                <li><strong>Industry Classification:</strong> Industries are classified using NAICS 2-digit codes</li>
+            </ol>
             
-            <h3>Major Airports Used</h3>
+            <h3>4.1.1 Revenue per Employee Coefficients by NAICS</h3>
+            <p>
+                The following table shows revenue-per-employee coefficients (in thousands of dollars) used in the detailed industry analysis. 
+                Note: The current implementation uses simplified averages ($200K general, $350K power industries), but these sector-specific 
+                coefficients are available for more granular analysis:
+            </p>
             <table>
                 <tr>
-                    <th>City</th>
-                    <th>Airport</th>
-                    <th>Code</th>
-                    <th>Coordinates</th>
+                    <th>NAICS Code</th>
+                    <th>Industry</th>
+                    <th>Revenue/Employee ($K)</th>
                 </tr>
-                <tr><td>Los Angeles</td><td>Los Angeles International</td><td>LAX</td><td>33.94°N, 118.41°W</td></tr>
-                <tr><td>New York</td><td>John F. Kennedy International</td><td>JFK</td><td>40.64°N, 73.78°W</td></tr>
-                <tr><td>Chicago</td><td>O'Hare International</td><td>ORD</td><td>41.97°N, 87.91°W</td></tr>
-                <tr><td>Dallas</td><td>Dallas/Fort Worth International</td><td>DFW</td><td>32.90°N, 97.04°W</td></tr>
-                <tr><td>Houston</td><td>George Bush Intercontinental</td><td>IAH</td><td>29.99°N, 95.34°W</td></tr>
-                <tr><td>Miami</td><td>Miami International</td><td>MIA</td><td>25.80°N, 80.29°W</td></tr>
-                <tr><td>San Francisco</td><td>San Francisco International</td><td>SFO</td><td>37.62°N, 122.38°W</td></tr>
+                <tr>
+                    <td>11</td>
+                    <td>Agriculture/Forestry</td>
+                    <td>150</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>Mining/Oil/Gas</td>
+                    <td>800</td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>Utilities</td>
+                    <td>600</td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>Construction</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>31-33</td>
+                    <td>Manufacturing</td>
+                    <td>350</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>Wholesale Trade</td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>44-45</td>
+                    <td>Retail Trade</td>
+                    <td>250</td>
+                </tr>
+                <tr>
+                    <td>48-49</td>
+                    <td>Transportation/Warehousing</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>51</td>
+                    <td>Information/Media</td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>52</td>
+                    <td>Finance/Insurance</td>
+                    <td>600</td>
+                </tr>
+                <tr>
+                    <td>53</td>
+                    <td>Real Estate</td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td>54</td>
+                    <td>Professional Services</td>
+                    <td>180</td>
+                </tr>
+                <tr>
+                    <td>55</td>
+                    <td>Management</td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>56</td>
+                    <td>Admin Services</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>61</td>
+                    <td>Education</td>
+                    <td>80</td>
+                </tr>
+                <tr>
+                    <td>62</td>
+                    <td>Healthcare</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>71</td>
+                    <td>Entertainment/Arts</td>
+                    <td>150</td>
+                </tr>
+                <tr>
+                    <td>72</td>
+                    <td>Accommodation/Food</td>
+                    <td>50</td>
+                </tr>
+                <tr>
+                    <td>81</td>
+                    <td>Other Services</td>
+                    <td>80</td>
+                </tr>
             </table>
             
-            <h3>Why Distance Squared?</h3>
-            <p>The distance is squared in both scores to emphasize geographic exclusivity:</p>
-            <ul>
-                <li>For <strong>Households</strong>: Longer travel times indicate more exclusive, harder-to-reach locations</li>
-                <li>For <strong>Corporate</strong>: Greater distances indicate business activity spread across the metro area, not just near airports</li>
-            </ul>
-        </div>
-        
-        <!-- COMBINED CITY RANKING -->
-        <div class="section" id="combined-ranking">
-            <h2>9. Combined City Ranking Methodology</h2>
-            
-            <p>To identify the best markets for combined Corporate + Household potential, we create a weighted Combined Score:</p>
-            
-            <div class="formula">
-                <strong>Combined Score Formula:</strong><br><br>
-                Combined = 25% × HH_Score + 25% × Corp_Score + 25% × Payroll/Emp + 25% × Intersection%
+            <div class="warning">
+                <strong>Simplified Model:</strong> The current implementation uses a simplified two-coefficient model ($200K general, $350K power industries) 
+                rather than applying these detailed NAICS-specific coefficients. This is a computational simplification. 
+                Actual revenue varies significantly within sectors (e.g., NAICS 51 ranges from tech giants to small media companies), 
+                and these coefficients represent national averages that may not reflect local market conditions.
             </div>
             
-            <h3>Component Weights and Rationale</h3>
+            <h3>4.2 Power Industries</h3>
+            <p>
+                "Power Industries" are defined as high-value-added sectors identified by NAICS codes:
+            </p>
+            <table>
+                <tr>
+                    <th>NAICS Code</th>
+                    <th>Industry</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>51</td>
+                    <td>Information/Media</td>
+                    <td>Technology, telecommunications, media, publishing</td>
+                </tr>
+                <tr>
+                    <td>52</td>
+                    <td>Finance</td>
+                    <td>Banking, investment, insurance, financial services</td>
+                </tr>
+                <tr>
+                    <td>53</td>
+                    <td>Real Estate</td>
+                    <td>Real estate, property development, leasing</td>
+                </tr>
+                <tr>
+                    <td>54</td>
+                    <td>Professional Services</td>
+                    <td>Legal, consulting, accounting, professional services</td>
+                </tr>
+                <tr>
+                    <td>55</td>
+                    <td>Management</td>
+                    <td>Management companies, holding companies</td>
+                </tr>
+                <tr>
+                    <td>71</td>
+                    <td>Entertainment/Arts</td>
+                    <td>Entertainment, arts, sports, recreation</td>
+                </tr>
+            </table>
+            
+            <h3>4.3 Key Variables</h3>
+            <table>
+                <tr>
+                    <th>Variable</th>
+                    <th>Source</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>total_establishments</td>
+                    <td>Census CBP 2021</td>
+                    <td>Total number of business establishments</td>
+                    <td>100% REAL</td>
+                </tr>
+                <tr>
+                    <td>total_employment</td>
+                    <td>Census CBP 2021</td>
+                    <td>Total employment (NAICS '00')</td>
+                    <td>100% REAL</td>
+                </tr>
+                <tr>
+                    <td>total_payroll_K</td>
+                    <td>Census CBP 2021</td>
+                    <td>Total annual payroll (thousands $)</td>
+                    <td>100% REAL</td>
+                </tr>
+                <tr>
+                    <td>power_employment</td>
+                    <td>Estimated</td>
+                    <td>Employment in power industries</td>
+                    <td>Estimated (proportional)</td>
+                </tr>
+                <tr>
+                    <td>estimated_revenue_M</td>
+                    <td>Estimated</td>
+                    <td>Estimated revenue (millions $)</td>
+                    <td>Estimated (BLS ratios)</td>
+                </tr>
+                <tr>
+                    <td>power_emp_pct</td>
+                    <td>Calculated</td>
+                    <td>Power industries % of total employment</td>
+                    <td>Calculated</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section id="geometric-score" class="section">
+            <h2>5. Geometric Score Calculation (Households)</h2>
+            
+            <p>
+                The Geometric Score is a composite metric that combines multiple dimensions of household wealth using a weighted geometric mean.
+                This approach ensures that all components contribute meaningfully and prevents any single dimension from dominating the score.
+            </p>
+            
+            <h3>5.1 Normalization</h3>
+            <p>
+                Each variable is first normalized to a [0,1] scale using global bounds (across all cities) to ensure comparability:
+            </p>
+            <div class="formula">
+                Normalized_Value = (Value - Min_Global) / (Max_Global - Min_Global)
+            </div>
+            <p>
+                After normalization, each variable is raised to the power of its weight in the geometric mean calculation.
+            </p>
+            
+            <h3>5.2 Component Variables</h3>
             <table>
                 <tr>
                     <th>Component</th>
                     <th>Weight</th>
-                    <th>Rationale</th>
+                    <th>Description</th>
                 </tr>
                 <tr>
-                    <td><strong>Household Score</strong></td>
-                    <td>25%</td>
-                    <td>Average Geometric Score of Top 10% HH ZIPs - indicates household wealth quality</td>
+                    <td>IRS_Norm</td>
+                    <td>50%</td>
+                    <td>Normalized AGI per return (proxy for individual wealth)</td>
                 </tr>
                 <tr>
-                    <td><strong>Corporate Score</strong></td>
-                    <td>25%</td>
-                    <td>Average Corporate Score of Top 10% ZIPs - indicates corporate power quality</td>
-                </tr>
-                <tr>
-                    <td><strong>Intersection %</strong></td>
+                    <td>Time_Squared</td>
                     <td>20%</td>
-                    <td>% of city ZIPs in both Top 10% - indicates wealth-corporate overlap</td>
-                </tr>
-                <tr>
-                    <td><strong>HH Density</strong></td>
-                    <td>15%</td>
-                    <td>Total HH $200k+ in Top 10% - indicates market size</td>
-                </tr>
-                <tr>
-                    <td><strong>Payroll/Employee</strong></td>
-                    <td>25%</td>
-                    <td>Average revenue per employee - indicates corporate productivity</td>
+                    <td>Normalized travel time to airport, squared (exclusivity indicator)</td>
                 </tr>
             </table>
             
-            <div class="important">
-                <strong>Normalization:</strong> All components are normalized to 0-100 scale across cities before applying weights. This ensures fair comparison regardless of absolute values.
+            <div class="warning">
+                <strong>Model Design Choice - Distance/Time Component:</strong> This methodology uses a <strong>normative model assumption</strong> 
+                that values exclusive, secluded enclaves away from high-traffic airport areas. ZIP codes with longer travel times to airports 
+                receive higher scores in this component. This is a <strong>design decision</strong>, not an empirical finding. 
+                ZIP codes that are wealthy but located near airports may be undervalued by this component. 
+                Alternative models could value accessibility instead, or use a U-shaped function that penalizes both very close and very far distances.
+            </div>
+                <tr>
+                    <td>Pop200k_Norm</td>
+                    <td>20%</td>
+                    <td>Normalized count of households earning $200k+ (concentration)</td>
+                </tr>
+                <tr>
+                    <td>Density_Norm</td>
+                    <td>10%</td>
+                    <td>Normalized density of high-income households (spatial concentration)</td>
+                </tr>
+            </table>
+            
+            <h3>5.3 Geometric Mean Formula</h3>
+            <p>
+                The Geometric Score is calculated as a weighted geometric mean. To prevent zeros from eliminating scores entirely, 
+                a small epsilon (ε = 1e-10) is added to each normalized component before exponentiation:
+            </p>
+            <div class="formula">
+                Geometric_Score = ((IRS_Norm + ε)^0.50) × ((Time_Squared + ε)^0.20) × ((Pop200k_Norm + ε)^0.20) × ((Density_Norm + ε)^0.10)
             </div>
             
-            <h3>Ranking Results</h3>
+            <p>
+                Where:
+            </p>
+            <ul>
+                <li><code>Time_Squared = (Time_Norm)²</code> - The normalized travel time is squared before being raised to the 0.20 power, 
+                    amplifying the effect of distance/exclusivity</li>
+                <li><code>ε = 1e-10</code> - A very small constant added to prevent zero values from making the entire product zero</li>
+            </ul>
+            
+            <div class="important">
+                <strong>Why Geometric Mean?</strong> The geometric mean ensures that all components must be present for a high score. 
+                A ZIP code with extremely high AGI but zero high-income households would score low, reflecting the multi-dimensional nature of wealth.
+            </div>
+            
+            <div class="warning">
+                <strong>Zero Handling:</strong> ZIP codes with values equal to the global minimum in any component will have normalized values near zero, 
+                resulting in very low scores (but not exactly zero due to epsilon). This is intentional: the model requires all dimensions 
+                to be present for a high score. ZIPs with minimum values in critical components are effectively excluded from top rankings.
+            </div>
+            
+            <p>
+                <strong>Note on Pop200k vs Density:</strong> While these variables are correlated, they capture different aspects: 
+                <code>Pop200k_Norm</code> measures absolute count (total high-income households), while <code>Density_Norm</code> measures 
+                spatial concentration (households per square kilometer). Together they capture both scale and intensity of wealth concentration.
+            </p>
+            
+            <h3>5.4 Top 10% Selection</h3>
+            <p>
+                The top 10% richest ZIP codes are identified using the 90th percentile threshold:
+            </p>
+            <div class="formula">
+                Threshold_90 = Quantile(Geometric_Score, 0.90)
+            </div>
+            <p>
+                All ZIP codes with <code>Geometric_Score ≥ Threshold_90</code> are included in the top 10% analysis.
+            </p>
+        </section>
+        
+        <section id="corporate-score" class="section">
+            <h2>6. Corporate Score Calculation</h2>
+            
+            <p>
+                The Corporate Score is designed to be comparable to the Household Geometric Score, using a similar weighted geometric mean approach.
+                It integrates revenue, employment, power industry concentration, and geographic accessibility.
+            </p>
+            
+            <h3>6.1 Component Variables</h3>
             <table>
                 <tr>
-                    <th>Rank</th>
-                    <th>City</th>
-                    <th>Combined Score</th>
-                    <th>Key Strength</th>
+                    <th>Component</th>
+                    <th>Weight</th>
+                    <th>Description</th>
                 </tr>
-                <tr><td>🥇 #1</td><td><strong>New York</strong></td><td>75.5</td><td>Largest market, highest intersection</td></tr>
-                <tr><td>🥈 #2</td><td><strong>Los Angeles</strong></td><td>52.0</td><td>Strong balance across all metrics</td></tr>
-                <tr><td>🥉 #3</td><td><strong>San Francisco</strong></td><td>47.1</td><td>Highest Corp Score & Payroll/Emp</td></tr>
-                <tr><td>#4</td><td>Chicago</td><td>45.0</td><td>High HH Score, good intersection</td></tr>
-                <tr><td>#5</td><td>Houston</td><td>43.1</td><td>Strong intersection relative to size</td></tr>
-                <tr><td>#6</td><td>Dallas</td><td>39.2</td><td>High Corp Score</td></tr>
-                <tr><td>#7</td><td>Miami</td><td>18.4</td><td>Low intersection limits potential</td></tr>
+                <tr>
+                    <td>Revenue_Norm</td>
+                    <td>35%</td>
+                    <td>Normalized estimated revenue (millions $)</td>
+                </tr>
+                <tr>
+                    <td>Employment_Norm</td>
+                    <td>30%</td>
+                    <td>Normalized total employment</td>
+                </tr>
+                <tr>
+                    <td>PowerShare_Norm</td>
+                    <td>15%</td>
+                    <td>Normalized power industries employment percentage</td>
+                </tr>
+                <tr>
+                    <td>Distance_Squared</td>
+                    <td>20%</td>
+                    <td>Normalized distance to airport, squared (exclusivity indicator)</td>
+                </tr>
             </table>
-        </div>
-        
-        <!-- FOOTER -->
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd; color: #666;">
-            <h3>Data Quality Statement</h3>
-            <div class="important">
-                <strong>100% Real Data:</strong> All base data (establishments, employment, payroll, households, population) comes from official U.S. government sources (IRS, Census Bureau). Revenue estimates use BLS-based industry coefficients applied to real employment data.
+            
+            <div class="warning">
+                <strong>Model Design Choice - Distance Component:</strong> Similar to the household analysis, this methodology uses a 
+                <strong>normative assumption</strong> that values corporate activity spread across the metro area, not just concentrated 
+                near airports. ZIP codes with greater distances to airports receive higher scores. This reflects a design choice to identify 
+                "spread" rather than "concentration" patterns. Note that corporate power often concentrates near airports and CBDs; 
+                this model intentionally favors a different pattern. Sensitivity analysis could test alternative weightings or functional forms.
             </div>
             
-            <p><strong>Last Updated:</strong> December 2024</p>
-            <p><strong>Contact:</strong> GeoEco Analytics Division</p>
+            <h3>6.2 Corporate Score Formula</h3>
+            <div class="formula">
+                Corporate_Score = (Revenue_Norm^0.35) × (Employment_Norm^0.30) × (PowerShare_Norm^0.15) × (Distance_Squared^0.20)
+            </div>
             
-            <a href="dashboard_integrated.html" class="back-link">← Back to Dashboard</a>
-        </div>
+            <p>
+                Where <code>Distance_Squared = (Distance_Norm)²</code>, similar to the household analysis.
+            </p>
+            
+            <div class="important">
+                <strong>Note on Corporate_Power_Index:</strong> A separate metric called <strong>Corporate_Power_Index</strong> is also calculated 
+                for statistical analysis. It uses an arithmetic weighted average (40% Revenue + 30% Employment + 30% Power Share) 
+                <strong>without the distance component</strong>. This index is used in intersection analysis and statistical comparisons, 
+                but <strong>not</strong> for Top 10% selection (which uses Corporate_Score with geometric mean).
+            </div>
+            
+            <h3>6.3 Distance Calculation</h3>
+            <p>
+                Distance to airport is calculated using:
+            </p>
+            <ol>
+                <li><strong>Primary Method:</strong> Travel time from Google Distance Matrix API, converted to distance assuming 40 km/h average speed</li>
+                <li><strong>Fallback Method:</strong> Haversine formula (geodesic distance) if travel time is unavailable</li>
+            </ol>
+            
+            <div class="formula">
+                Distance_km = (Travel_Time_Min / 60) × 40
+            </div>
+            <p>Or, if travel time unavailable:</p>
+            <div class="formula">
+                Distance_km = Haversine(ZIP_centroid, Airport_coordinates)
+            </div>
+        </section>
+        
+        <section id="top10-selection" class="section">
+            <h2>7. Top 10% Selection Methodology</h2>
+            
+            <h3>7.1 Household Top 10%</h3>
+            <p>
+                <strong>Selection Criterion:</strong> Geometric Score ≥ 90th percentile threshold
+            </p>
+            <p>
+                <strong>Result:</strong> 272 ZIP codes out of 2,720 total ZIP codes analyzed (10.0%)
+            </p>
+            <p>
+                <strong>Distribution:</strong>
+            </p>
+            <ul>
+                <li>New York: 132 ZIPs (largest concentration)</li>
+                <li>Los Angeles: 46 ZIPs</li>
+                <li>Houston: 28 ZIPs</li>
+                <li>San Francisco: 23 ZIPs</li>
+                <li>Chicago: 20 ZIPs</li>
+                <li>Dallas: 17 ZIPs</li>
+                <li>Miami: 6 ZIPs</li>
+            </ul>
+            
+            <h3>7.2 Corporate Top 10%</h3>
+            <p>
+                <strong>Selection Criterion:</strong> Corporate Score ≥ 90th percentile threshold
+            </p>
+            <p>
+                <strong>Result:</strong> 360 ZIP codes out of 3,598 total ZIP codes analyzed (10.0%)
+            </p>
+            <p>
+                <strong>Distribution:</strong>
+            </p>
+            <ul>
+                <li>Los Angeles: 105 ZIPs (largest concentration)</li>
+                <li>Miami: 81 ZIPs</li>
+                <li>New York: 74 ZIPs</li>
+                <li>San Francisco: 30 ZIPs</li>
+                <li>Chicago: 27 ZIPs</li>
+                <li>Dallas: 22 ZIPs</li>
+                <li>Houston: 21 ZIPs</li>
+            </ul>
+            
+            <div class="important">
+                <strong>Note:</strong> The top 10% selections are independent for households and corporations. 
+                A ZIP code can be in the top 10% for households, corporations, both, or neither.
+            </div>
+        </section>
+        
+        <section id="geographic-analysis" class="section">
+            <h2>8. Geographic Analysis</h2>
+            
+            <h3>8.1 Travel Time Calculation</h3>
+            <p>
+                Travel times are calculated using Google Distance Matrix API. See Section 2.4 for detailed configuration. 
+                Key parameters:
+            </p>
+            <ul>
+                <li><strong>Mode:</strong> Driving (automobile)</li>
+                <li><strong>Departure Time:</strong> "now" (real-time traffic conditions at API call time)</li>
+                <li><strong>Origins:</strong> ZIP code centroids (geographic center from TIGER/Line shapefiles)</li>
+                <li><strong>Destinations:</strong> Major airport coordinates for each city</li>
+                <li><strong>Batch Size:</strong> 25 origins per API request (API limit)</li>
+                <li><strong>Parallel Processing:</strong> 30 workers for corporate data, sequential for household data</li>
+                <li><strong>Caching:</strong> Results cached to ensure reproducibility and reduce API costs</li>
+            </ul>
+            <p>
+                <strong>Important:</strong> Travel times represent a snapshot of conditions at the time of API call, 
+                not an average over time. Results may vary by time of day, day of week, and season.
+            </p>
+            
+            <h3>8.2 Geodesic Distance</h3>
+            <p>
+                Geodesic (great-circle) distance is calculated using the Haversine formula:
+            </p>
+            <div class="formula">
+                a = sin²(Δlat/2) + cos(lat1) × cos(lat2) × sin²(Δlon/2)<br>
+                c = 2 × atan2(√a, √(1-a))<br>
+                Distance = R × c
+            </div>
+            <p>Where R = 6,371 km (Earth's radius)</p>
+            
+            <h3>8.3 Weighted Distance Analysis</h3>
+            <p>
+                For each city, we calculate several distance metrics:
+            </p>
+            <ul>
+                <li><strong>Weighted Distance:</strong> Distance weighted by travel time (longer travel = more weight)</li>
+                <li><strong>Mean/Median Distance:</strong> Simple statistics of distances</li>
+                <li><strong>Region Spread:</strong> Maximum distance between any two top 10% ZIP codes</li>
+                <li><strong>Bounding Radius:</strong> Approximate radius of the region containing all top 10% ZIPs</li>
+                <li><strong>Centroid Distance:</strong> Distance from airport to the centroid of all top 10% ZIPs</li>
+            </ul>
+            
+            <h3>8.4 Speed Calculation</h3>
+            <p>
+                Average speed to airport is calculated as:
+            </p>
+            <div class="formula">
+                Speed_kmh = Distance_km / (Travel_Time_Min / 60)
+            </div>
+            <p>
+                This metric helps identify areas with good highway access vs. congested urban routes.
+            </p>
+        </section>
+        
+        <section id="statistical-analyses" class="section">
+            <h2>9. Statistical Analyses</h2>
+            
+            <h3>9.1 Weighted Averages</h3>
+            <p>
+                Weighted averages are calculated to give more importance to ZIP codes with higher economic activity:
+            </p>
+            
+            <h4>Household Weighted Averages</h4>
+            <ul>
+                <li><strong>Speed Weighted by Wealth:</strong>
+                    <div class="formula">
+                        Weighted_Speed = Σ(HH200k × AGI × Speed) / Σ(HH200k × AGI)
+                    </div>
+                </li>
+                <li><strong>AGI Weighted by HH200k+:</strong>
+                    <div class="formula">
+                        Weighted_AGI = Σ(HH200k × AGI) / Σ(HH200k)
+                    </div>
+                </li>
+            </ul>
+            
+            <h4>Corporate Weighted Averages</h4>
+            <ul>
+                <li><strong>Power Index Weighted by Employment:</strong>
+                    <div class="formula">
+                        Weighted_Power = Σ(Power_Index × Employment) / Σ(Employment)
+                    </div>
+                </li>
+                <li><strong>Revenue Weighted by Employment:</strong>
+                    <div class="formula">
+                        Weighted_Revenue = Σ(Revenue × Employment) / Σ(Employment)
+                    </div>
+                </li>
+            </ul>
+            
+            <h3>9.2 Time Weighted by Wealth</h3>
+            <p>
+                For corporate analysis, travel time is weighted by corporate wealth (revenue × employment), 
+                similar to how household analysis weights by (HH200k × AGI):
+            </p>
+            <div class="formula">
+                Weighted_Time = Σ(Time × Corporate_Wealth) / Σ(Corporate_Wealth)
+            </div>
+            <p>
+                Where <code>Corporate_Wealth = Revenue × Employment</code>
+            </p>
+            
+            <h3>9.3 Power Industries Analysis</h3>
+            <p>
+                Power industries are analyzed by:
+            </p>
+            <ul>
+                <li><strong>Employment Share:</strong> Percentage of total employment in power industries</li>
+                <li><strong>Revenue Share:</strong> Percentage of total revenue from power industries</li>
+                <li><strong>Establishment Count:</strong> Number of power industry establishments</li>
+            </ul>
+            
+            <h3>9.4 Comparative Statistics</h3>
+            <p>
+                Various scatter plots and correlations are calculated:
+            </p>
+            <ul>
+                <li>Revenue vs. Employment (correlation analysis)</li>
+                <li>Power Index vs. Power Share (industry concentration)</li>
+                <li>Employment vs. Establishments (business density)</li>
+                <li>Revenue per Employee (productivity metric)</li>
+            </ul>
+        </section>
+        
+        <section id="maps" class="section">
+            <h2>10. Map Generation</h2>
+            
+            <h3>10.1 Technology</h3>
+            <p>
+                Maps are generated using <strong>Folium</strong>, a Python library that creates interactive Leaflet.js maps.
+            </p>
+            
+            <h3>10.2 Map Types</h3>
+            <ul>
+                <li><strong>All ZIPs Maps:</strong> Show all ZIP codes with corporate/household data</li>
+                <li><strong>Top 10% Maps:</strong> Highlight only the top 10% ZIP codes</li>
+                <li><strong>Overlay Maps:</strong> Show intersection of household and corporate top 10%</li>
+            </ul>
+            
+            <h3>10.3 Color Schemes</h3>
+            <ul>
+                <li><strong>Household Maps:</strong> Color gradient based on Geometric Score (blue scale)</li>
+                <li><strong>Corporate Maps:</strong> Color gradient based on Corporate Score (red scale)</li>
+                <li><strong>Overlay Maps:</strong>
+                    <ul>
+                        <li>Purple: Intersection (in both top 10%)</li>
+                        <li>Red: Household top 10% only</li>
+                        <li>Blue: Corporate top 10% only</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>10.4 Map Features</h3>
+            <ul>
+                <li><strong>ZIP Code Polygons:</strong> Colored by score value</li>
+                <li><strong>Airport Markers:</strong> Major airports marked with plane icons</li>
+                <li><strong>Tooltips:</strong> Hover to see ZIP code and score</li>
+                <li><strong>Popups:</strong> Click to see detailed statistics</li>
+                <li><strong>Layer Controls:</strong> Toggle between different data layers</li>
+            </ul>
+        </section>
+        
+        <section id="intersection" class="section">
+            <h2>11. Intersection Analysis</h2>
+            
+            <p>
+                Intersection analysis identifies ZIP codes that appear in both the top 10% household and top 10% corporate rankings.
+            </p>
+            
+            <h3>11.1 Intersection Calculation</h3>
+            <p>
+                The intersection is defined as the set of ZIP codes that appear in both top 10% rankings:
+            </p>
+            <div class="formula">
+                Intersection = {ZIP codes where Geometric_Score ≥ Threshold_HH AND Corporate_Score ≥ Threshold_Corp}
+            </div>
+            
+            <h3>11.2 Intersection Metrics - Explicit Formulas</h3>
+            <p>
+                Three key metrics are calculated to measure the overlap between household and corporate top 10%:
+            </p>
+            <div class="formula">
+                % of City = |A ∩ B| / |Total City ZIPs| × 100<br><br>
+                % of HH Top 10% = |A ∩ B| / |A| × 100<br><br>
+                % of Corp Top 10% = |A ∩ B| / |B| × 100
+            </div>
+            <p>
+                Where:
+            </p>
+            <ul>
+                <li><strong>A</strong> = Set of ZIP codes in Household Top 10%</li>
+                <li><strong>B</strong> = Set of ZIP codes in Corporate Top 10%</li>
+                <li><strong>A ∩ B</strong> = Intersection (ZIPs in both sets)</li>
+            </ul>
+            
+            <div class="important">
+                <strong>Statistical Context:</strong> Under random independence, if 10% of ZIPs are in Household Top 10% 
+                and 10% are in Corporate Top 10%, the expected intersection would be approximately 1% (10% × 10%). 
+                Observed intersections significantly higher than 1% indicate positive correlation between household wealth 
+                and corporate power locations.
+            </div>
+            
+            <h3>11.3 Combined Score (for Intersection ZIPs)</h3>
+            <p>
+                For ZIP codes in the intersection, a Combined Score is calculated as a simple weighted average:
+            </p>
+            <div class="formula">
+                Combined_Score = 0.5 × Geometric_Score + 0.5 × (Corporate_Power_Index / 100)
+            </div>
+            <p>
+                Where:
+            </p>
+            <ul>
+                <li><strong>Geometric_Score:</strong> Household wealth score (geometric mean, see Section 5)</li>
+                <li><strong>Corporate_Power_Index:</strong> Corporate power metric (arithmetic weighted average, see note below)</li>
+            </ul>
+            
+            <div class="important">
+                <strong>Important Distinction:</strong> 
+                <ul>
+                    <li><strong>Corporate_Score</strong> (used for Top 10% selection): Geometric mean with 4 components including distance (Section 6)</li>
+                    <li><strong>Corporate_Power_Index</strong> (used for statistical analysis and Combined_Score): Arithmetic weighted average with 3 components (40% Revenue + 30% Employment + 30% Power Share), <strong>without distance component</strong></li>
+                </ul>
+                The Combined_Score uses Corporate_Power_Index (not Corporate_Score) to combine with Geometric_Score.
+            </div>
+            
+            <h3>11.4 Additional Metrics</h3>
+            <ul>
+                <li><strong>Jaccard Index:</strong> <code>J = |A ∩ B| / |A ∪ B|</code> - Measures similarity between the two sets</li>
+                <li><strong>Correlation:</strong> Pearson correlation coefficient between Geometric Score and Corporate Score</li>
+            </ul>
+            
+            <h3>11.3 Results</h3>
+            <p>
+                <strong>Current Statistics:</strong>
+            </p>
+            <ul>
+                <li>Household Top 10%: 272 ZIPs</li>
+                <li>Corporate Top 10%: 360 ZIPs</li>
+                <li>Intersection: 197 ZIPs (72.4% of household top 10%)</li>
+                <li>Correlation: 0.261 (positive but moderate correlation)</li>
+            </ul>
+            
+            <div class="important">
+                <strong>Interpretation:</strong> A 72.4% overlap suggests that wealthy households and powerful corporations 
+                tend to co-locate, but not perfectly. The moderate correlation (0.261) indicates that while there is a 
+                relationship, other factors also play important roles.
+            </div>
+        </section>
+        
+        <section id="estimates" class="section">
+            <h2>12. Data Estimates & Limitations</h2>
+            
+            <h3>12.1 What is Direct from Government Sources?</h3>
+            <div class="important">
+                <strong>Direct Government Data (100% Real Counts):</strong>
+                <ul>
+                    <li>All establishment counts (Census CBP)</li>
+                    <li>Total employment per ZIP code (Census CBP, NAICS '00')</li>
+                    <li>Total annual payroll (Census CBP)</li>
+                    <li>Household income data (IRS SOI)</li>
+                    <li>Population and demographics (Census ACS)</li>
+                    <li>Travel times (Google Distance Matrix API)</li>
+                    <li>Geographic boundaries (Census TIGER/Line)</li>
+                </ul>
+                <p>
+                    <strong>All base counts</strong> (employment, payroll, households, population) are directly from official government APIs. 
+                    No synthetic or randomly generated data is used.
+                </p>
+            </div>
+            
+            <h3>12.2 What is Estimated?</h3>
+            <div class="warning">
+                <strong>Statistical Estimates (Based on Real Data):</strong>
+                <ul>
+                    <li><strong>Employment by Industry:</strong> Census Bureau suppresses detailed employment for privacy. 
+                        We estimate proportionally: <code>Emp_industry = Emp_total × (Estab_industry / Estab_total)</code></li>
+                    <li><strong>Revenue:</strong> Not available from Census. Estimated using BLS revenue-per-employee ratios:
+                        <code>Revenue = Employment × Revenue_per_Employee (BLS)</code></li>
+                    <li><strong>Corporate Score:</strong> Calculated metric combining real and estimated data</li>
+                    <li><strong>Geometric Score:</strong> Calculated metric from real data</li>
+                </ul>
+            </div>
+            
+            <h3>12.3 Limitations</h3>
+            <ul>
+                <li><strong>Revenue Estimates:</strong> Based on national industry averages from BLS/Census benchmarks. 
+                    The simplified model uses $200K/employee for general industries and $350K/employee for power industries. 
+                    Actual revenue varies significantly within sectors and by geographic location. 
+                    Local variations (cost of living, sector mix nuances, business size distribution) are not captured. 
+                    A ZIP code with many small businesses may have lower actual revenue than estimated, while one with large 
+                    corporate headquarters may have higher revenue.</li>
+                <li><strong>Employment by Industry:</strong> Proportional estimation assumes establishments are similar in size</li>
+                <li><strong>Travel Times:</strong> Reflect conditions at time of API call, may vary by time of day</li>
+                <li><strong>ZIP Code Boundaries:</strong> ZCTAs may not perfectly match actual ZIP code delivery areas</li>
+                <li><strong>Geographic Coverage:</strong> Analysis limited to 7 major metropolitan areas</li>
+                <li><strong>Distance/Time Component:</strong> The assumption that "farther from airport = better" is a normative model choice. 
+                    Sensitivity analysis could test alternative weightings (e.g., reducing from 20% to 10%) or functional forms 
+                    (e.g., U-shaped function favoring moderate distances). Results may be robust to these variations, but this has not been tested.</li>
+            </ul>
+            
+            <h3>12.4 Data Quality Assurance</h3>
+            <ul>
+                <li>All data sources are official U.S. government agencies</li>
+                <li>No synthetic or randomly generated data is used</li>
+                <li>All estimates are based on established statistical methodologies</li>
+                <li>Data is cached to ensure reproducibility</li>
+                <li>Validation checks are performed to identify outliers and errors</li>
+            </ul>
+        </section>
+        
+        <section class="section">
+            <h2>13. Technical Implementation</h2>
+            
+            <h3>13.1 Software & Libraries</h3>
+            <ul>
+                <li><strong>Python 3.x:</strong> Primary programming language</li>
+                <li><strong>Pandas:</strong> Data manipulation and analysis</li>
+                <li><strong>GeoPandas:</strong> Geographic data processing</li>
+                <li><strong>Folium:</strong> Interactive map generation</li>
+                <li><strong>Matplotlib:</strong> Statistical visualizations</li>
+                <li><strong>NumPy:</strong> Numerical computations</li>
+                <li><strong>Requests:</strong> API calls</li>
+                <li><strong>Multiprocessing:</strong> Parallel data fetching</li>
+            </ul>
+            
+            <h3>13.2 Processing Pipeline</h3>
+            <ol>
+                <li>Data fetching (parallel API calls)</li>
+                <li>Data cleaning and validation</li>
+                <li>Geographic integration</li>
+                <li>Score calculation</li>
+                <li>Top 10% filtering</li>
+                <li>Statistical analysis</li>
+                <li>Map generation</li>
+                <li>Dashboard compilation</li>
+            </ol>
+            
+            <h3>13.3 Performance Optimizations</h3>
+            <ul>
+                <li>Parallel processing (20-30 workers for API calls)</li>
+                <li>Data caching (JSON/CSV files)</li>
+                <li>Batch API requests (25 origins per request)</li>
+                <li>Efficient data structures (Pandas DataFrames)</li>
+            </ul>
+        </section>
+        
+        <section class="section">
+            <h2>14. References & Data Sources</h2>
+            
+            <h3>14.1 Official Data Sources</h3>
+            <ul>
+                <li><strong>IRS SOI:</strong> <a href="https://www.irs.gov/statistics/soi-tax-stats" target="_blank">https://www.irs.gov/statistics/soi-tax-stats</a></li>
+                <li><strong>Census ACS:</strong> <a href="https://www.census.gov/data/developers/data-sets/acs-5year.html" target="_blank">https://www.census.gov/data/developers/data-sets/acs-5year.html</a></li>
+                <li><strong>Census CBP:</strong> <a href="https://www.census.gov/data/developers/data-sets/cbp-nonemp.html" target="_blank">https://www.census.gov/data/developers/data-sets/cbp-nonemp.html</a></li>
+                <li><strong>Google Distance Matrix:</strong> <a href="https://developers.google.com/maps/documentation/distance-matrix" target="_blank">https://developers.google.com/maps/documentation/distance-matrix</a></li>
+            </ul>
+            
+            <h3>14.2 Methodology References</h3>
+            <ul>
+                <li>Geometric Mean: Standard statistical measure for multiplicative relationships</li>
+                <li>Haversine Formula: Standard geodesic distance calculation</li>
+                <li>NAICS Classification: <a href="https://www.census.gov/naics/" target="_blank">North American Industry Classification System</a></li>
+                <li>ZIP Code Tabulation Areas: <a href="https://www.census.gov/programs-surveys/geography/guidance/geo-areas/zctas.html" target="_blank">Census ZCTA Documentation</a></li>
+            </ul>
+        </section>
+        
+        <section class="section">
+            <h2>15. Contact & Updates</h2>
+            <p>
+                This methodology document is maintained as part of the GeoEco Dashboard project.
+                For questions or updates, please refer to the project documentation.
+            </p>
+            <p>
+                <strong>Data Version:</strong> 2021-2022 (Census/IRS data)<br>
+                <strong>Analysis Date:</strong> November 2025<br>
+                <strong>Last Updated:</strong> November 30, 2025
+            </p>
+        </section>
+        
+        <a href="dashboard_integrated.html" class="back-link">← Back to Dashboard</a>
     </div>
 </body>
 </html>
-
-
-
-
-
-
 
