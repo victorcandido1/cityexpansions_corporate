@@ -20,6 +20,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import os
+import json
 from datetime import datetime
 from scipy import stats
 
@@ -33,6 +34,7 @@ DATA_DIR = os.path.join(BASE_DIR, '..', 'new_folder')
 CORPORATE_ALL_FILE = os.path.join(BASE_DIR, 'corporate_all_zips.csv')
 CORPORATE_TOP10_FILE = os.path.join(BASE_DIR, 'top10_corporate_data.csv')
 GEOMETRY_FILE = os.path.join(DATA_DIR, 'cache_geometry.gpkg')
+TRAVEL_TIMES_FILE = os.path.join(BASE_DIR, 'cache_corporate_travel_times.json')
 
 # City configurations
 CITIES = {
@@ -116,7 +118,22 @@ def load_data():
     # Top 10% corporate - filter only 7 metros (exclude 'other')
     df_top10 = pd.read_csv(CORPORATE_TOP10_FILE, dtype={'zipcode': str})
     df_top10 = df_top10[df_top10['city_key'] != 'other'].copy()  # Only 7 metros
+    
+    # Calculate Corporate Power Index for top 10% if not already present
+    if 'Corporate_Power_Index' not in df_top10.columns:
+        df_top10 = calculate_power_index(df_top10)
+    
     print(f"  Top 10% Corporate ZIPs (7 metros): {len(df_top10):,}")
+    
+    # Load travel times
+    travel_times = {}
+    if os.path.exists(TRAVEL_TIMES_FILE):
+        with open(TRAVEL_TIMES_FILE, 'r') as f:
+            travel_times = json.load(f)
+        # Add travel times to dataframes
+        df_all['Travel_Time_Min'] = df_all['zipcode'].astype(str).map(travel_times)
+        df_top10['Travel_Time_Min'] = df_top10['zipcode'].astype(str).map(travel_times)
+        print(f"  Travel times loaded: {len(travel_times)} ZIP codes")
     
     # Calculate threshold
     threshold_90 = df_top10['Corporate_Power_Index'].min() if len(df_top10) > 0 else 0
@@ -127,16 +144,49 @@ def load_data():
     return df_all, df_top10, threshold_90
 
 # =============================================================================
+# HELPER FUNCTION: ADD TRAVEL TIME SUBPLOT
+# =============================================================================
+def add_travel_time_subplot(fig, ax_main, df_data, title_suffix=""):
+    """Add travel time subplot to existing figure"""
+    # Check if travel time data exists
+    if 'Travel_Time_Min' not in df_data.columns or df_data['Travel_Time_Min'].notna().sum() == 0:
+        return ax_main
+    
+    # Create subplot for travel time
+    # Get position of main axis
+    pos = ax_main.get_position()
+    
+    # Create new axis for travel time (smaller, on the right side)
+    ax_travel = fig.add_axes([pos.x1 + 0.02, pos.y0, 0.15, pos.height])
+    
+    # Filter valid travel times
+    travel_data = df_data['Travel_Time_Min'].dropna()
+    travel_data = travel_data[travel_data > 0]
+    
+    if len(travel_data) > 0:
+        ax_travel.hist(travel_data.values, bins=20, color='#2ca02c', alpha=0.7, edgecolor='white', orientation='horizontal')
+        ax_travel.axhline(travel_data.median(), color='red', linestyle='--', linewidth=2,
+                         label=f'Median: {travel_data.median():.1f} min')
+        ax_travel.set_xlabel('Count', fontsize=9)
+        ax_travel.set_ylabel('Travel Time (min)', fontsize=9)
+        ax_travel.set_title(f'Travel Time{title_suffix}', fontsize=10, fontweight='bold')
+        ax_travel.legend(fontsize=8)
+        ax_travel.grid(axis='x', alpha=0.3)
+        ax_travel.tick_params(labelsize=8)
+    
+    return ax_main
+
+# =============================================================================
 # CREATE HISTOGRAMS
 # =============================================================================
 def create_histograms(df_top10, df_all, threshold_90):
-    """Create histogram visualizations"""
+    """Create histogram visualizations with travel time information"""
     print("\n" + "="*80)
     print("CREATING HISTOGRAMS")
     print("="*80)
     
     # Figure 1: Corporate Power Index Distribution (Top 10%)
-    fig1, ax1 = plt.subplots(figsize=(12, 7))
+    fig1, ax1 = plt.subplots(figsize=(14, 7))
     
     for city_key in df_top10['city_key'].unique():
         if city_key == 'other':
@@ -155,16 +205,21 @@ def create_histograms(df_top10, df_all, threshold_90):
     ax1.set_ylabel('Number of Zip Codes', fontsize=12)
     ax1.set_title('Corporate Power Index Distribution - TOP 10% Corporate ZIP Codes', 
                   fontsize=14, fontweight='bold')
-    ax1.legend(loc='upper right')
+    ax1.legend(loc='upper left', bbox_to_anchor=(1.02, 1), fontsize=9)
     ax1.grid(axis='y', alpha=0.3)
     
-    plt.tight_layout()
+    # Add travel time subplot
+    add_travel_time_subplot(fig1, ax1, df_top10, " - Top 10%")
+    
+    plt.tight_layout(rect=[0, 0, 0.92, 1])
     fig1.savefig('corporate_histogram_top10_power_index.png', dpi=150, bbox_inches='tight')
     print("  [OK] corporate_histogram_top10_power_index.png")
     plt.close(fig1)
     
     # Figure 2: Comparison All vs Top 10%
-    fig2, (ax2a, ax2b) = plt.subplots(1, 2, figsize=(14, 6))
+    fig2, axes = plt.subplots(2, 2, figsize=(16, 10))
+    ax2a, ax2b = axes[0, 0], axes[0, 1]
+    ax2c, ax2d = axes[1, 0], axes[1, 1]
     
     # All ZIPs
     all_data = df_all['Corporate_Power_Index'].dropna()
@@ -192,14 +247,45 @@ def create_histograms(df_top10, df_all, threshold_90):
         ax2b.legend(fontsize=9)
         ax2b.grid(axis='y', alpha=0.3)
     
-    fig2.suptitle('Corporate Power Index: All vs Top 10%', fontsize=14, fontweight='bold')
+    # Add travel time subplots
+    if 'Travel_Time_Min' in df_all.columns:
+        travel_all = df_all['Travel_Time_Min'].dropna()
+        travel_all = travel_all[travel_all > 0]
+        if len(travel_all) > 0:
+            ax2c.hist(travel_all.values, bins=30, color='#0066cc', alpha=0.7, edgecolor='white')
+            ax2c.axvline(travel_all.median(), color='red', linestyle='--', linewidth=2,
+                        label=f'Median: {travel_all.median():.1f} min')
+            ax2c.set_xlabel('Travel Time (min)', fontsize=11)
+            ax2c.set_ylabel('Zip Codes', fontsize=11)
+            ax2c.set_title(f'Travel Time - All Corporate ZIPs (n={len(travel_all):,})', 
+                          fontsize=12, fontweight='bold')
+            ax2c.legend(fontsize=9)
+            ax2c.grid(axis='y', alpha=0.3)
+    
+    if 'Travel_Time_Min' in df_top10.columns:
+        travel_top10 = df_top10['Travel_Time_Min'].dropna()
+        travel_top10 = travel_top10[travel_top10 > 0]
+        if len(travel_top10) > 0:
+            ax2d.hist(travel_top10.values, bins=30, color='#0066cc', alpha=0.7, edgecolor='white')
+            ax2d.axvline(travel_top10.median(), color='red', linestyle='--', linewidth=2,
+                        label=f'Median: {travel_top10.median():.1f} min')
+            ax2d.set_xlabel('Travel Time (min)', fontsize=11)
+            ax2d.set_ylabel('Zip Codes', fontsize=11)
+            ax2d.set_title(f'Travel Time - Top 10% Corporate (n={len(travel_top10):,})', 
+                          fontsize=12, fontweight='bold')
+            ax2d.legend(fontsize=9)
+            ax2d.grid(axis='y', alpha=0.3)
+    
+    fig2.suptitle('Corporate Power Index & Travel Time: All vs Top 10%', fontsize=14, fontweight='bold')
     plt.tight_layout()
     fig2.savefig('corporate_histogram_all_vs_top10.png', dpi=150, bbox_inches='tight')
     print("  [OK] corporate_histogram_all_vs_top10.png")
     plt.close(fig2)
     
     # Figure 3: Box Plot by City
-    fig3, ax3 = plt.subplots(figsize=(12, 7))
+    fig3, axes3 = plt.subplots(1, 2, figsize=(16, 7))
+    ax3 = axes3[0]
+    ax3_travel = axes3[1]
     
     city_data = []
     city_labels = []
@@ -231,13 +317,42 @@ def create_histograms(df_top10, df_all, threshold_90):
         ax3.grid(axis='y', alpha=0.3)
         plt.xticks(rotation=45, ha='right')
         
+        # Add travel time box plot by city
+        if 'Travel_Time_Min' in df_top10.columns:
+            travel_city_data = []
+            travel_city_labels = []
+            travel_city_colors = []
+            
+            for city_key in sorted_cities.index:
+                if city_key == 'other':
+                    continue
+                travel_data = df_top10[df_top10['city_key'] == city_key]['Travel_Time_Min'].dropna()
+                travel_data = travel_data[travel_data > 0]
+                city_name = CITIES.get(city_key, {}).get('name', city_key)
+                if len(travel_data) > 0 and city_name != city_key:
+                    travel_city_data.append(travel_data.values)
+                    travel_city_labels.append(city_name)
+                    travel_city_colors.append(CITY_COLORS.get(city_key, 'gray'))
+            
+            if travel_city_data:
+                bp_travel = ax3_travel.boxplot(travel_city_data, tick_labels=travel_city_labels, patch_artist=True)
+                for idx, box in enumerate(bp_travel['boxes']):
+                    box.set_facecolor(travel_city_colors[idx])
+                    box.set_alpha(0.7)
+                
+                ax3_travel.set_ylabel('Travel Time (min)', fontsize=12)
+                ax3_travel.set_title('Travel Time to Airport by City\n(Top 10% Corporate)', 
+                                   fontsize=14, fontweight='bold')
+                ax3_travel.grid(axis='y', alpha=0.3)
+                plt.setp(ax3_travel.xaxis.get_majorticklabels(), rotation=45, ha='right')
+        
         plt.tight_layout()
         fig3.savefig('corporate_histogram_top10_boxplot.png', dpi=150, bbox_inches='tight')
         print("  [OK] corporate_histogram_top10_boxplot.png")
         plt.close(fig3)
     
     # Figure 4: Revenue Distribution
-    fig4, ax4 = plt.subplots(figsize=(12, 7))
+    fig4, ax4 = plt.subplots(figsize=(14, 7))
     
     for city_key in df_top10['city_key'].unique():
         if city_key == 'other':
@@ -257,16 +372,19 @@ def create_histograms(df_top10, df_all, threshold_90):
     ax4.set_ylabel('Number of Zip Codes', fontsize=12)
     ax4.set_title('Revenue Distribution - Top 10% Corporate ZIP Codes', 
                   fontsize=14, fontweight='bold')
-    ax4.legend(loc='upper right')
+    ax4.legend(loc='upper left', bbox_to_anchor=(1.02, 1), fontsize=9)
     ax4.grid(axis='y', alpha=0.3)
     
-    plt.tight_layout()
+    # Add travel time subplot
+    add_travel_time_subplot(fig4, ax4, df_top10, " - Top 10%")
+    
+    plt.tight_layout(rect=[0, 0, 0.92, 1])
     fig4.savefig('corporate_histogram_top10_revenue.png', dpi=150, bbox_inches='tight')
     print("  [OK] corporate_histogram_top10_revenue.png")
     plt.close(fig4)
     
     # Figure 5: Employment Distribution
-    fig5, ax5 = plt.subplots(figsize=(12, 7))
+    fig5, ax5 = plt.subplots(figsize=(14, 7))
     
     for city_key in df_top10['city_key'].unique():
         if city_key == 'other':
@@ -286,10 +404,13 @@ def create_histograms(df_top10, df_all, threshold_90):
     ax5.set_ylabel('Number of Zip Codes', fontsize=12)
     ax5.set_title('Employment Distribution - Top 10% Corporate ZIP Codes', 
                   fontsize=14, fontweight='bold')
-    ax5.legend(loc='upper right')
+    ax5.legend(loc='upper left', bbox_to_anchor=(1.02, 1), fontsize=9)
     ax5.grid(axis='y', alpha=0.3)
     
-    plt.tight_layout()
+    # Add travel time subplot
+    add_travel_time_subplot(fig5, ax5, df_top10, " - Top 10%")
+    
+    plt.tight_layout(rect=[0, 0, 0.92, 1])
     fig5.savefig('corporate_histogram_top10_employment.png', dpi=150, bbox_inches='tight')
     print("  [OK] corporate_histogram_top10_employment.png")
     plt.close(fig5)
@@ -321,7 +442,7 @@ def create_histograms(df_top10, df_all, threshold_90):
     plt.close(fig6)
     
     # Figure 7: Power Industries Percentage
-    fig7, ax7 = plt.subplots(figsize=(12, 7))
+    fig7, ax7 = plt.subplots(figsize=(14, 7))
     
     for city_key in df_top10['city_key'].unique():
         if city_key == 'other':
@@ -341,10 +462,13 @@ def create_histograms(df_top10, df_all, threshold_90):
     ax7.set_ylabel('Number of Zip Codes', fontsize=12)
     ax7.set_title('Power Industries Share - Top 10% Corporate ZIP Codes', 
                   fontsize=14, fontweight='bold')
-    ax7.legend(loc='upper right')
+    ax7.legend(loc='upper left', bbox_to_anchor=(1.02, 1), fontsize=9)
     ax7.grid(axis='y', alpha=0.3)
     
-    plt.tight_layout()
+    # Add travel time subplot
+    add_travel_time_subplot(fig7, ax7, df_top10, " - Top 10%")
+    
+    plt.tight_layout(rect=[0, 0, 0.92, 1])
     fig7.savefig('corporate_histogram_top10_power_share.png', dpi=150, bbox_inches='tight')
     print("  [OK] corporate_histogram_top10_power_share.png")
     plt.close(fig7)
@@ -503,7 +627,7 @@ def create_geographic_analysis(df_top10):
                     ax3.set_ylabel('Corporate Power Index', fontsize=11)
                     ax3.set_title('Corporate Power vs Travel Time', 
                                  fontsize=12, fontweight='bold')
-                    ax3.legend(fontsize=9)
+                    ax3.legend(loc='lower right', fontsize=9, framealpha=0.9)
                     ax3.grid(alpha=0.3)
                     
                     # 4. Speed (Distance/Time)
