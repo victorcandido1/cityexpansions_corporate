@@ -562,11 +562,106 @@
             <div class="warning">
                 <strong>Simplified Model:</strong> The current implementation uses a simplified two-coefficient model ($200K general, $350K power industries) 
                 rather than applying these detailed NAICS-specific coefficients. This is a computational simplification. 
-                Actual revenue varies significantly within sectors (e.g., NAICS 51 ranges from tech giants to small media companies), 
-                and these coefficients represent national averages that may not reflect local market conditions.
+                Actual revenue varies significantly within sectors (e.g., NAICS 51 ranges from tech giants to small media companies).
             </div>
             
-            <h3>4.2 Power Industries</h3>
+            <h3>4.2 MSA Revenue Adjustments (Metropolitan-Specific Multipliers)</h3>
+            
+            <div class="important">
+                <strong>New in December 2025:</strong> Revenue estimates are now adjusted by Metropolitan Statistical Area (MSA) multipliers 
+                derived from actual payroll data to reflect regional economic differences.
+            </div>
+            
+            <p>
+                Rather than using a uniform national average, we calculate MSA-specific multipliers based on real payroll per employee data 
+                from the U.S. Census Bureau's County Business Patterns (CBP) dataset. This approach recognizes that businesses in 
+                San Francisco generate fundamentally different revenue per employee than businesses in Miami.
+            </p>
+            
+            <h4>Methodology:</h4>
+            <ol>
+                <li><strong>Calculate Payroll per Employee by MSA:</strong>
+                    <div class="formula">
+                        Payroll_per_Emp_MSA = Total_Payroll_MSA / Total_Employment_MSA
+                    </div>
+                </li>
+                <li><strong>Calculate National Baseline:</strong>
+                    <div class="formula">
+                        National_Baseline = Σ(Payroll_per_Emp_MSA × Employment_MSA) / Σ(Employment_MSA)
+                    </div>
+                    <p>National Baseline (across 7 metros): <strong>$109,431 per employee</strong></p>
+                </li>
+                <li><strong>Calculate MSA Multiplier:</strong>
+                    <div class="formula">
+                        MSA_Multiplier = Payroll_per_Emp_MSA / National_Baseline
+                    </div>
+                </li>
+                <li><strong>Apply to Revenue Estimates:</strong>
+                    <div class="formula">
+                        Adjusted_Revenue = Base_Revenue × MSA_Multiplier
+                    </div>
+                </li>
+            </ol>
+            
+            <h4>MSA Multipliers (Based on Real Census Payroll Data):</h4>
+            <table>
+                <tr>
+                    <th>Metropolitan Area</th>
+                    <th>Payroll/Employee</th>
+                    <th>MSA Multiplier</th>
+                    <th>Impact on Revenue</th>
+                </tr>
+                <tr>
+                    <td>San Francisco</td>
+                    <td>$184,501</td>
+                    <td>1.686x</td>
+                    <td>+68.6%</td>
+                </tr>
+                <tr>
+                    <td>New York</td>
+                    <td>$121,225</td>
+                    <td>1.108x</td>
+                    <td>+10.8%</td>
+                </tr>
+                <tr>
+                    <td>Chicago</td>
+                    <td>$98,489</td>
+                    <td>0.900x</td>
+                    <td>-10.0%</td>
+                </tr>
+                <tr>
+                    <td>Houston</td>
+                    <td>$87,934</td>
+                    <td>0.804x</td>
+                    <td>-19.6%</td>
+                </tr>
+                <tr>
+                    <td>Los Angeles</td>
+                    <td>$87,079</td>
+                    <td>0.796x</td>
+                    <td>-20.4%</td>
+                </tr>
+                <tr>
+                    <td>Dallas</td>
+                    <td>$80,966</td>
+                    <td>0.740x</td>
+                    <td>-26.0%</td>
+                </tr>
+                <tr>
+                    <td>Miami</td>
+                    <td>$73,545</td>
+                    <td>0.672x</td>
+                    <td>-32.8%</td>
+                </tr>
+            </table>
+            
+            <div class="important">
+                <strong>Why This Matters:</strong> These multipliers reflect real economic differences between metropolitan areas. 
+                San Francisco's tech-dominated economy produces 2.5x the payroll per employee compared to Miami's service-oriented economy. 
+                This adjustment makes revenue estimates far more accurate than using a single national average.
+            </div>
+            
+            <h3>4.3 Power Industries</h3>
             <p>
                 "Power Industries" are defined as high-value-added sectors identified by NAICS codes:
             </p>
@@ -608,7 +703,7 @@
                 </tr>
             </table>
             
-            <h3>4.3 Key Variables</h3>
+            <h3>4.4 Key Variables</h3>
             <table>
                 <tr>
                     <th>Variable</th>
@@ -641,10 +736,16 @@
                     <td>Estimated (proportional)</td>
                 </tr>
                 <tr>
+                    <td>msa_multiplier</td>
+                    <td>Calculated from CBP 2021</td>
+                    <td>MSA-specific revenue adjustment multiplier</td>
+                    <td>100% REAL (from payroll data)</td>
+                </tr>
+                <tr>
                     <td>estimated_revenue_M</td>
                     <td>Estimated</td>
-                    <td>Estimated revenue (millions $)</td>
-                    <td>Estimated (BLS ratios)</td>
+                    <td>Estimated revenue (millions $), MSA-adjusted</td>
+                    <td>Estimated (BLS ratios × MSA multiplier)</td>
                 </tr>
                 <tr>
                     <td>power_emp_pct</td>
@@ -1176,12 +1277,14 @@
             
             <h3>12.3 Limitations</h3>
             <ul>
-                <li><strong>Revenue Estimates:</strong> Based on national industry averages from BLS/Census benchmarks. 
-                    The simplified model uses $200K/employee for general industries and $350K/employee for power industries. 
-                    Actual revenue varies significantly within sectors and by geographic location. 
-                    Local variations (cost of living, sector mix nuances, business size distribution) are not captured. 
+                <li><strong>Revenue Estimates:</strong> Based on industry averages from BLS/Census benchmarks, adjusted by MSA-specific multipliers. 
+                    The simplified model uses $200K/employee for general industries and $350K/employee for power industries, 
+                    then applies metropolitan-specific multipliers (ranging from 0.672x for Miami to 1.686x for San Francisco) 
+                    derived from real payroll data. While this MSA adjustment captures major regional economic differences, 
+                    local variations within each metro (sector mix nuances, business size distribution, cost of living variations) are not fully captured. 
                     A ZIP code with many small businesses may have lower actual revenue than estimated, while one with large 
-                    corporate headquarters may have higher revenue.</li>
+                    corporate headquarters may have higher revenue. However, the MSA adjustment significantly improves accuracy compared 
+                    to using a uniform national average.</li>
                 <li><strong>Employment by Industry:</strong> Proportional estimation assumes establishments are similar in size</li>
                 <li><strong>Travel Times:</strong> Reflect conditions at time of API call, may vary by time of day</li>
                 <li><strong>ZIP Code Boundaries:</strong> ZCTAs may not perfectly match actual ZIP code delivery areas</li>
