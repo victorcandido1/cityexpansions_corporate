@@ -1,4 +1,5 @@
-# Python
+# Python - Exclude all Python files (may contain API keys)
+*.py
 __pycache__/
 *.py[cod]
 *$py.class
@@ -6,6 +7,7 @@ __pycache__/
 .Python
 env/
 venv/
+.venv
 ENV/
 *.egg-info/
 dist/
@@ -14,21 +16,41 @@ build/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Data files
-*.csv
-*.xlsx
-*.xls
+# Data files (large) - but keep 10percent data
+# Exclude from root only
+/*.csv
+/*.xlsx
+/*.xls
+/*.gpkg
+/*.json
+/*.geojson
+
+# Keep data in 10percent folder (except large files)
+!10percent/*.csv
+
+# Exclude large CSV files (>50MB) that exceed GitHub limits
+10percent/zbp_real_data.csv
+10percent/industry_by_zip_all.csv
+10percent/cache_zbp_data.csv
 
 # Backup folders
 BACKUP_*/
 
-# Large output files
-*.png
-*.jpg
-*.jpeg
+# Cache files
+cache_*.json
+cache_*.csv
+cache_*.gpkg
 
-# HTML maps (too large)
-*.html
+# Output files (generated) - but keep 10percent images
+# Exclude images from root only, keep 10percent folder images
+/*.png
+/*.jpg
+/*.jpeg
+
+# Keep important HTML files
+!METHODOLOGY.html
+!dashboard_integrated.html
+!index.html
 
 # IDE
 .vscode/
@@ -44,6 +66,9 @@ Thumbs.db
 # Logs
 *.log
 
-# JSON data files (but keep config files)
-msa_multipliers.json
+# Keep important documentation
+!README.md
+!*.md
 
+# MSA multipliers data
+!msa_multipliers.json
