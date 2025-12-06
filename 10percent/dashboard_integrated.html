@@ -658,6 +658,289 @@
             </p>
         </div>
         
+        <!-- Cluster Analysis: Airport Infrastructure -->
+        <div class="section">
+            <h2>✈️ Cluster Analysis: Intersection ZIPs × Airport Infrastructure</h2>
+            <p style="background: #d1ecf1; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <strong>Analysis Focus:</strong> Clustering of 197 "Golden Intersection" ZIPs (Top 10% in BOTH households and corporate) by proximity to airports and heliports<br>
+                <strong>Data Sources:</strong> FAA Airport Database 2024, Intersection Analysis CSV<br>
+                <strong>Methods:</strong> K-Means, DBSCAN, Hierarchical Clustering + Distance/Accessibility Metrics<br>
+                <strong>📚 <a href="CLUSTER_ANALYSIS_README.md" style="color: #17a2b8; font-weight: bold;">Complete Documentation & Methodology</a></strong>
+            </p>
+            
+            <div class="stats-grid">
+                <div class="stat-card intersection">
+                    <div class="number">197</div>
+                    <div class="label">Intersection ZIPs Analyzed</div>
+                </div>
+                <div class="stat-card intersection">
+                    <div class="number">7</div>
+                    <div class="label">Metropolitan Areas</div>
+                </div>
+                <div class="stat-card intersection">
+                    <div class="number">19,768</div>
+                    <div class="label">Aviation Facilities (Airports + Heliports)</div>
+                </div>
+                <div class="stat-card intersection">
+                    <div class="number">3</div>
+                    <div class="label">Clustering Algorithms</div>
+                </div>
+            </div>
+            
+            <h3>Interactive Cluster Maps</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                Explore clusters of premium ZIPs around airport/heliport infrastructure. Maps show ZIP polygons colored by cluster, 
+                with airports (red markers) and heliports (blue markers), plus radius circles and connection lines.
+            </p>
+            <p>
+                <a href="map_cluster_airports_los_angeles.html" target="_blank" class="map-link intersection">🗺️ Los Angeles Clusters</a>
+                <a href="map_cluster_airports_new_york.html" target="_blank" class="map-link intersection">🗺️ New York Clusters</a>
+                <a href="map_cluster_airports_chicago.html" target="_blank" class="map-link intersection">🗺️ Chicago Clusters</a>
+                <a href="map_cluster_airports_dallas.html" target="_blank" class="map-link intersection">🗺️ Dallas Clusters</a>
+                <a href="map_cluster_airports_houston.html" target="_blank" class="map-link intersection">🗺️ Houston Clusters</a>
+                <a href="map_cluster_airports_miami.html" target="_blank" class="map-link intersection">🗺️ Miami Clusters</a>
+                <a href="map_cluster_airports_san_francisco.html" target="_blank" class="map-link intersection">🗺️ San Francisco Clusters</a>
+                <a href="map_cluster_airports_national.html" target="_blank" class="map-link intersection" style="font-weight: bold;">🌎 National Overview</a>
+            </p>
+            
+            <h3>Network Graphs: ZIP-Airport Connections</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                Network visualizations showing how intersection ZIPs connect to airport/heliport infrastructure. 
+                Node size reflects importance (score, employment), edge thickness shows proximity.
+            </p>
+            
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Los Angeles</h4>
+                    <img src="network_graph_los_angeles.png" class="chart-img" alt="LA Network">
+                    <img src="network_graph_bipartite_los_angeles.png" class="chart-img" alt="LA Bipartite">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">New York</h4>
+                    <img src="network_graph_new_york.png" class="chart-img" alt="NYC Network">
+                    <img src="network_graph_bipartite_new_york.png" class="chart-img" alt="NYC Bipartite">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Chicago</h4>
+                    <img src="network_graph_chicago.png" class="chart-img" alt="Chicago Network">
+                    <img src="network_graph_bipartite_chicago.png" class="chart-img" alt="Chicago Bipartite">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Dallas</h4>
+                    <img src="network_graph_dallas.png" class="chart-img" alt="Dallas Network">
+                    <img src="network_graph_bipartite_dallas.png" class="chart-img" alt="Dallas Bipartite">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Houston</h4>
+                    <img src="network_graph_houston.png" class="chart-img" alt="Houston Network">
+                    <img src="network_graph_bipartite_houston.png" class="chart-img" alt="Houston Bipartite">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Miami</h4>
+                    <img src="network_graph_miami.png" class="chart-img" alt="Miami Network">
+                    <img src="network_graph_bipartite_miami.png" class="chart-img" alt="Miami Bipartite">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">San Francisco</h4>
+                    <img src="network_graph_san_francisco.png" class="chart-img" alt="SF Network">
+                    <img src="network_graph_bipartite_san_francisco.png" class="chart-img" alt="SF Bipartite">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">National Overview</h4>
+                    <img src="network_graph_national.png" class="chart-img" alt="National Network">
+                </div>
+            </div>
+            
+            <h3>Statistical Analysis: Distance vs Combined Score</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                Correlation analysis between airport proximity and premium ZIP scores. 
+                Points colored by cluster, sized by employment. Shows whether closer airport access correlates with higher value areas.
+            </p>
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Los Angeles</h4>
+                    <img src="scatter_distance_score_los_angeles.png" class="chart-img" alt="LA Scatter">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">New York</h4>
+                    <img src="scatter_distance_score_new_york.png" class="chart-img" alt="NYC Scatter">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Chicago</h4>
+                    <img src="scatter_distance_score_chicago.png" class="chart-img" alt="Chicago Scatter">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Dallas</h4>
+                    <img src="scatter_distance_score_dallas.png" class="chart-img" alt="Dallas Scatter">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Houston</h4>
+                    <img src="scatter_distance_score_houston.png" class="chart-img" alt="Houston Scatter">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Miami</h4>
+                    <img src="scatter_distance_score_miami.png" class="chart-img" alt="Miami Scatter">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">San Francisco</h4>
+                    <img src="scatter_distance_score_san_francisco.png" class="chart-img" alt="SF Scatter">
+                </div>
+            </div>
+            
+            <h3>Hierarchical Clustering Dendrograms</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                Hierarchical tree structure showing how ZIPs group together based on location and airport distance. 
+                Reveals nested relationships and natural groupings.
+            </p>
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Los Angeles</h4>
+                    <img src="dendrogram_los_angeles.png" class="chart-img" alt="LA Dendrogram">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">New York</h4>
+                    <img src="dendrogram_new_york.png" class="chart-img" alt="NYC Dendrogram">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Chicago</h4>
+                    <img src="dendrogram_chicago.png" class="chart-img" alt="Chicago Dendrogram">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Dallas</h4>
+                    <img src="dendrogram_dallas.png" class="chart-img" alt="Dallas Dendrogram">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Houston</h4>
+                    <img src="dendrogram_houston.png" class="chart-img" alt="Houston Dendrogram">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Miami</h4>
+                    <img src="dendrogram_miami.png" class="chart-img" alt="Miami Dendrogram">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">San Francisco</h4>
+                    <img src="dendrogram_san_francisco.png" class="chart-img" alt="SF Dendrogram">
+                </div>
+            </div>
+            
+            <h3>Distance Heatmaps: ZIPs × Airports</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                Matrix showing distances (km) between sample ZIPs and airports. Darker red = farther, green = closer. 
+                Helps identify which ZIPs have access to which airports.
+            </p>
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Los Angeles</h4>
+                    <img src="heatmap_distances_los_angeles.png" class="chart-img" alt="LA Heatmap">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">New York</h4>
+                    <img src="heatmap_distances_new_york.png" class="chart-img" alt="NYC Heatmap">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Chicago</h4>
+                    <img src="heatmap_distances_chicago.png" class="chart-img" alt="Chicago Heatmap">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Dallas</h4>
+                    <img src="heatmap_distances_dallas.png" class="chart-img" alt="Dallas Heatmap">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Houston</h4>
+                    <img src="heatmap_distances_houston.png" class="chart-img" alt="Houston Heatmap">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Miami</h4>
+                    <img src="heatmap_distances_miami.png" class="chart-img" alt="Miami Heatmap">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">San Francisco</h4>
+                    <img src="heatmap_distances_san_francisco.png" class="chart-img" alt="SF Heatmap">
+                </div>
+            </div>
+            
+            <h3>Cluster Metrics Comparison (Box Plots)</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                Compare distribution of key metrics across clusters: airport distance, combined score, employment, and revenue. 
+                Identifies which clusters are "airport hubs" vs "suburban elite" vs "executive corridors".
+            </p>
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Los Angeles</h4>
+                    <img src="boxplot_clusters_los_angeles.png" class="chart-img" alt="LA Boxplot">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">New York</h4>
+                    <img src="boxplot_clusters_new_york.png" class="chart-img" alt="NYC Boxplot">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Chicago</h4>
+                    <img src="boxplot_clusters_chicago.png" class="chart-img" alt="Chicago Boxplot">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Dallas</h4>
+                    <img src="boxplot_clusters_dallas.png" class="chart-img" alt="Dallas Boxplot">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Houston</h4>
+                    <img src="boxplot_clusters_houston.png" class="chart-img" alt="Houston Boxplot">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Miami</h4>
+                    <img src="boxplot_clusters_miami.png" class="chart-img" alt="Miami Boxplot">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">San Francisco</h4>
+                    <img src="boxplot_clusters_san_francisco.png" class="chart-img" alt="SF Boxplot">
+                </div>
+            </div>
+            
+            <h3>Accessibility Analysis (By Distance Range)</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                Bar charts showing how many ZIPs fall into each distance range (0-10km, 10-20km, etc.) for nearest airport (red) 
+                and nearest heliport (blue). Identifies which metros have best infrastructure accessibility.
+            </p>
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Los Angeles</h4>
+                    <img src="bar_accessibility_los_angeles.png" class="chart-img" alt="LA Accessibility">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">New York</h4>
+                    <img src="bar_accessibility_new_york.png" class="chart-img" alt="NYC Accessibility">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Chicago</h4>
+                    <img src="bar_accessibility_chicago.png" class="chart-img" alt="Chicago Accessibility">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Dallas</h4>
+                    <img src="bar_accessibility_dallas.png" class="chart-img" alt="Dallas Accessibility">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Houston</h4>
+                    <img src="bar_accessibility_houston.png" class="chart-img" alt="Houston Accessibility">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">Miami</h4>
+                    <img src="bar_accessibility_miami.png" class="chart-img" alt="Miami Accessibility">
+                </div>
+                <div class="comparison-box">
+                    <h4 style="color: #17a2b8;">San Francisco</h4>
+                    <img src="bar_accessibility_san_francisco.png" class="chart-img" alt="SF Accessibility">
+                </div>
+            </div>
+            
+            <h3>Cluster Analysis Data Files</h3>
+            <p>
+                <a href="cluster_results_by_city.csv" class="map-link intersection">📊 Cluster Results by City (CSV)</a>
+                <a href="cluster_metrics_by_city.csv" class="map-link intersection">📈 Cluster Metrics Summary (CSV)</a>
+                <a href="cluster_results_national.csv" class="map-link intersection">🌎 National Clustering Results (CSV)</a>
+                <a href="airport_accessibility_metrics.csv" class="map-link intersection">✈️ Accessibility Metrics (CSV)</a>
+                <a href="CLUSTER_ANALYSIS_README.md" class="map-link intersection" style="font-weight: bold;">📚 Complete Documentation & Methodology</a>
+            </p>
+        </div>
+        
         <!-- Data Downloads -->
         <div class="section">
             <h2>📥 Data Downloads</h2>
