@@ -1,0 +1,8 @@
+city_name,airports_within_10km,heliports_within_10km,total_facilities_within_10km,airports_within_20km,heliports_within_20km,total_facilities_within_20km,airports_within_30km,heliports_within_30km,total_facilities_within_30km
+Chicago,0.26,4.21,4.47,1.95,10.53,12.58,4.32,21.89,26.37
+Dallas,1.47,7.13,8.6,5.13,18.93,24.2,14.47,35.87,50.67
+Houston,0.43,14.57,15.0,2.05,26.43,28.52,9.14,42.52,51.76
+Los Angeles,0.59,7.5,8.09,2.43,28.5,30.93,4.73,49.3,54.02
+Miami,0.67,4.5,5.5,2.67,11.17,14.67,4.5,21.5,27.0
+New York,0.41,7.61,8.83,2.39,19.21,24.31,4.83,33.06,41.49
+San Francisco,0.41,1.23,1.77,1.86,3.91,6.0,4.55,7.95,12.82

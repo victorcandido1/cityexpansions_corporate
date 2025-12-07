@@ -1,0 +1,19 @@
+CORPORATE ANALYSIS SUMMARY
+==================================================
+
+Score Formula (Geometric Mean):
+  40% Revenue (normalized)
+  20% Employment (normalized)
+  20% Revenue per Employee (normalized)
+  20% Distance to Airport squared (normalized)
+
+Total ZIPs Analyzed: 30917
+Top 10% ZIPs: 3092
+Top 10% Threshold: 8.8311
+Total Employment (Top 10%): 67,493,890
+Total Revenue (Top 10%): $14,601,412M
+Avg Rev/Emp (All): $179,023
+Avg Rev/Emp (Top 10%): $212,546
+Median Rev/Emp (Top 10%): $207,470
+Avg Corporate Score (Top 10%): 13.25
+Median Corporate Score (Top 10%): 11.89
