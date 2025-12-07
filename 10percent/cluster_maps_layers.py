@@ -195,8 +195,8 @@ def create_layered_cluster_map(df_city, gdf, df_airports, df_heliports, city_nam
                               f"🚗 {speed:.0f} km/h"
                     ).add_to(cluster_group)
         
-        # Find heliports used by this cluster (top 2)
-        heliport_codes = cluster_data['fastest_heliport_code'].dropna().value_counts().head(2)
+        # Find heliports used by this cluster (top 5 to ensure coverage)
+        heliport_codes = cluster_data['fastest_heliport_code'].dropna().value_counts().head(5)
         
         for heliport_code in heliport_codes.index:
             heliport = df_heliports[df_heliports['code'] == heliport_code]
@@ -246,6 +246,45 @@ def create_layered_cluster_map(df_city, gdf, df_airports, df_heliports, city_nam
         
         # Add this cluster group to map
         cluster_group.add_to(m)
+    
+    # =============================================================================
+    # ADD ALL KEY HELIPORTS LAYER
+    # =============================================================================
+    # Create a separate layer for ALL key heliports in the city area
+    heliports_layer = folium.FeatureGroup(name='🚁 All Heliports', show=False)
+    
+    # Filter heliports roughly within the city bounds
+    min_lat, max_lat = df_city['centroid_lat'].min() - 0.1, df_city['centroid_lat'].max() + 0.1
+    min_lon, max_lon = df_city['centroid_lon'].min() - 0.1, df_city['centroid_lon'].max() + 0.1
+    
+    city_heliports = df_heliports[
+        (df_heliports['lat'].between(min_lat, max_lat)) &
+        (df_heliports['lon'].between(min_lon, max_lon))
+    ]
+    
+    for _, heliport in city_heliports.iterrows():
+        # Determine heliport type/color
+        if heliport.get('is_hospital', False):
+            h_color = 'lightblue'
+            h_icon = 'plus'
+            h_type = 'Hospital'
+        elif heliport.get('use') == 'PU':
+            h_color = 'green'
+            h_icon = 'helicopter'
+            h_type = 'Public'
+        else:
+            h_color = 'purple'
+            h_icon = 'helicopter'
+            h_type = 'Private'
+            
+        folium.Marker(
+            location=[heliport['lat'], heliport['lon']],
+            popup=f"<b>🚁 {h_type}</b><br>{heliport['code']}<br>{heliport['name']}<br>Use: {heliport['use']}",
+            tooltip=f"🚁 {heliport['name']} ({heliport['code']})",
+            icon=folium.Icon(color=h_color, icon=h_icon, prefix='fa')
+        ).add_to(heliports_layer)
+        
+    heliports_layer.add_to(m)
     
     # Add layer control
     folium.LayerControl(

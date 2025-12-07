@@ -1241,8 +1241,71 @@
             </div>
         </section>
         
+        <section id="cluster-analysis" class="section">
+            <h2>12. Cluster Analysis (Connectivity)</h2>
+            
+            <p>
+                Cluster analysis groups ZIP codes that share similar characteristics regarding their connectivity to airport infrastructure.
+                This helps identify "pockets of opportunity" where wealthy residential or corporate areas face similar travel challenges.
+            </p>
+            
+            <h3>12.1 Clustering Algorithm</h3>
+            <p>
+                We use <strong>K-Means Clustering</strong> algorithm, which partitions ZIP codes into <em>k</em> clusters where each ZIP belongs 
+                to the cluster with the nearest mean.
+            </p>
+            
+            <h3>12.2 Variables Used (Feature Vector)</h3>
+            <p>
+                The clustering is <strong>multidimensional</strong>, combining both geographic location and accessibility metrics. 
+                Each ZIP code is represented by a standardized feature vector containing:
+            </p>
+            <table>
+                <tr>
+                    <th>Variable</th>
+                    <th>Weight/Role</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><strong>Latitude & Longitude</strong></td>
+                    <td>Geographic</td>
+                    <td>Ensures clusters are spatially coherent (neighboring areas stay together)</td>
+                </tr>
+                <tr>
+                    <td><strong>Travel Time to Airport</strong></td>
+                    <td>Accessibility</td>
+                    <td>Minutes to the nearest major airport (driving)</td>
+                </tr>
+                <tr>
+                    <td><strong>Average Speed</strong></td>
+                    <td>Congestion</td>
+                    <td>Speed in km/h (Distance / Time). Proxies for traffic congestion vs. highway access.</td>
+                </tr>
+            </table>
+            
+            <div class="important">
+                <strong>Why this combination?</strong> Pure geographic clustering would just group neighbors. By adding Time and Speed, 
+                we group areas that <em>behave similarly</em>. For example, a cluster might represent "Northern Suburbs with Fast Highway Access," 
+                while another represents "Downtown Core with High Congestion."
+            </div>
+            
+            <h3>12.3 Process</h3>
+            <ol>
+                <li><strong>Standardization:</strong> All variables are scaled (Z-score normalization) so that latitude/longitude do not dominate travel time variables.</li>
+                <li><strong>Dynamic K Selection:</strong> The number of clusters (<em>k</em>) is determined dynamically based on the number of ZIP codes in the city 
+                    (approximately 1 cluster per 5 ZIPs, with a minimum of 2).</li>
+                <li><strong>Heliport Assignment:</strong> For visualization, each cluster is analyzed to find the most efficient heliport infrastructure serving it.</li>
+            </ol>
+            
+            <h3>12.4 Output</h3>
+            <p>
+                The result is a set of clusters that are both geographically contiguous and functionally similar in their airport accessibility profile.
+                These are visualized in the "Cluster Layer Maps" where connections to optimal infrastructure are drawn.
+            </p>
+        </section>
+
         <section id="estimates" class="section">
-            <h2>12. Data Estimates & Limitations</h2>
+            <h2>13. Data Estimates & Limitations</h2>
             
             <h3>12.1 What is Direct from Government Sources?</h3>
             <div class="important">
@@ -1305,7 +1368,7 @@
         </section>
         
         <section class="section">
-            <h2>13. Technical Implementation</h2>
+            <h2>14. Technical Implementation</h2>
             
             <h3>13.1 Software & Libraries</h3>
             <ul>
@@ -1341,7 +1404,7 @@
         </section>
         
         <section class="section">
-            <h2>14. References & Data Sources</h2>
+            <h2>15. References & Data Sources</h2>
             
             <h3>14.1 Official Data Sources</h3>
             <ul>
@@ -1361,7 +1424,7 @@
         </section>
         
         <section class="section">
-            <h2>15. Contact & Updates</h2>
+            <h2>16. Contact & Updates</h2>
             <p>
                 This methodology document is maintained as part of the GeoEco Dashboard project.
                 For questions or updates, please refer to the project documentation.
