@@ -72812,5 +72812,20 @@ let layer_control_2151ba261ce41109506f33da8e06e150 = L.control.layers(
     
     
 
-</script>
+
+    
+    // World Cup 2026 Stadium Marker
+    var stadium_icon_new_york = L.AwesomeMarkers.icon({
+        icon: 'futbol-o',
+        prefix: 'fa',
+        markerColor: 'darkgreen',
+        iconColor: 'white'
+    });
+    
+    L.marker([40.8128, -74.0742], {icon: stadium_icon_new_york})
+        .bindPopup("<b>⚽ MetLife Stadium</b><br><b>World Cup 2026 Venue</b>")
+        .bindTooltip("⚽ MetLife Stadium (World Cup 2026)", {permanent: false, direction: 'top'})
+        .addTo(map_8405b2fb9bc65e5dd85825c82a8f5ed1);
+    
+        </script>
 </html>

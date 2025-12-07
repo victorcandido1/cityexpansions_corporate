@@ -4855,5 +4855,20 @@ let layer_control_6f67bcb88fb15fac674a5758f78945f5 = L.control.layers(
     
     
 
-</script>
+
+    
+    // World Cup 2026 Stadium Marker
+    var stadium_icon_miami = L.AwesomeMarkers.icon({
+        icon: 'futbol-o',
+        prefix: 'fa',
+        markerColor: 'darkgreen',
+        iconColor: 'white'
+    });
+    
+    L.marker([25.958, -80.2389], {icon: stadium_icon_miami})
+        .bindPopup("<b>⚽ Hard Rock Stadium</b><br><b>World Cup 2026 Venue</b>")
+        .bindTooltip("⚽ Hard Rock Stadium (World Cup 2026)", {permanent: false, direction: 'top'})
+        .addTo(map_043acec6df2fab68baed0fdd6f913d29);
+    
+        </script>
 </html>

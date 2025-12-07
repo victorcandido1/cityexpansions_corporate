@@ -19298,5 +19298,20 @@ let layer_control_17906f5d481df32fb3615b9217eaa367 = L.control.layers(
     
     
 
-</script>
+
+    
+    // World Cup 2026 Stadium Marker
+    var stadium_icon_dallas = L.AwesomeMarkers.icon({
+        icon: 'futbol-o',
+        prefix: 'fa',
+        markerColor: 'darkgreen',
+        iconColor: 'white'
+    });
+    
+    L.marker([32.7473, -97.0945], {icon: stadium_icon_dallas})
+        .bindPopup("<b>⚽ AT&T Stadium</b><br><b>World Cup 2026 Venue</b>")
+        .bindTooltip("⚽ AT&T Stadium (World Cup 2026)", {permanent: false, direction: 'top'})
+        .addTo(map_a07839765645bc6e70bc61c0327daee3);
+    
+        </script>
 </html>

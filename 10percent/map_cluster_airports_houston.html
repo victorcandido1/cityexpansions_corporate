@@ -26435,5 +26435,20 @@ let layer_control_04d163dfa49abafd654c5bc58a319dfa = L.control.layers(
     
     
 
-</script>
+
+    
+    // World Cup 2026 Stadium Marker
+    var stadium_icon_houston = L.AwesomeMarkers.icon({
+        icon: 'futbol-o',
+        prefix: 'fa',
+        markerColor: 'darkgreen',
+        iconColor: 'white'
+    });
+    
+    L.marker([29.6847, -95.4107], {icon: stadium_icon_houston})
+        .bindPopup("<b>⚽ NRG Stadium</b><br><b>World Cup 2026 Venue</b>")
+        .bindTooltip("⚽ NRG Stadium (World Cup 2026)", {permanent: false, direction: 'top'})
+        .addTo(map_6540561e7aab32a4349b212f21fa0f8a);
+    
+        </script>
 </html>

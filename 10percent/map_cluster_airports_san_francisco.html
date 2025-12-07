@@ -15209,5 +15209,20 @@ let layer_control_290b591df334cfa017a8c10ccb5a44d2 = L.control.layers(
     
     
 
-</script>
+
+    
+    // World Cup 2026 Stadium Marker
+    var stadium_icon_san_francisco = L.AwesomeMarkers.icon({
+        icon: 'futbol-o',
+        prefix: 'fa',
+        markerColor: 'darkgreen',
+        iconColor: 'white'
+    });
+    
+    L.marker([37.4032, -121.9698], {icon: stadium_icon_san_francisco})
+        .bindPopup("<b>⚽ Levi's Stadium</b><br><b>World Cup 2026 Venue</b>")
+        .bindTooltip("⚽ Levi's Stadium (World Cup 2026)", {permanent: false, direction: 'top'})
+        .addTo(map_24766298cfada6ec42256648b71e7b90);
+    
+        </script>
 </html>

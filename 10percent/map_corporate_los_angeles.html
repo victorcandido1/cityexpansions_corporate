@@ -12336,5 +12336,20 @@ let layer_control_26d21cc0c23d77fa2062e44305ef1a7b = L.control.layers(
     
     
 
-</script>
+
+    
+    // World Cup 2026 Stadium Marker
+    var stadium_icon_los_angeles = L.AwesomeMarkers.icon({
+        icon: 'futbol-o',
+        prefix: 'fa',
+        markerColor: 'darkgreen',
+        iconColor: 'white'
+    });
+    
+    L.marker([33.9535, -118.3392], {icon: stadium_icon_los_angeles})
+        .bindPopup("<b>⚽ SoFi Stadium</b><br><b>World Cup 2026 Venue</b>")
+        .bindTooltip("⚽ SoFi Stadium (World Cup 2026)", {permanent: false, direction: 'top'})
+        .addTo(map_f712369c929318dced7380ed09303be5);
+    
+        </script>
 </html>
