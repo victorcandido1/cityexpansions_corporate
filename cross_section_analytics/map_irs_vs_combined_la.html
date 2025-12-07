@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LA Wealth: IRS vs Combined Score</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; }
+        .header {
+            background: linear-gradient(135deg, #0c2c84, #1d91c0);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 { font-size: 22px; font-weight: 500; }
+        .stats {
+            display: flex;
+            gap: 25px;
+            font-size: 13px;
+        }
+        .stat { text-align: center; }
+        .stat-value { font-size: 18px; font-weight: bold; }
+        .container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+        .map-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #0c2c84;
+        }
+        .map-panel:last-child { border-right: none; }
+        .map-title {
+            background: #16213e;
+            color: white;
+            padding: 10px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            text-align: center;
+        }
+        .map-subtitle {
+            font-size: 11px;
+            color: #7fcdbb;
+            margin-top: 3px;
+        }
+        iframe {
+            flex: 1;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Los Angeles Wealth Analysis (463 Zip Codes)</h1>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">0.846</div>
+                <div>Correlation</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">103.3</div>
+                <div>Median HH$200k+/km2</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">463</div>
+                <div>Zip Codes</div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="map-panel">
+            <div class="map-title">
+                IRS Wealth Proxy (Normalized)
+                <div class="map-subtitle">AGI 20% | Capital Gains 20% | Dividends 15% | Interest 10% | Business 10% | RE Tax 10% | Charity 10%</div>
+            </div>
+            <iframe src="map_irs_wealth_only.html"></iframe>
+        </div>
+        <div class="map-panel">
+            <div class="map-title">
+                Combined Wealth Score
+                <div class="map-subtitle">IRS Wealth Proxy (60%) + HH$200k+ Density per km2 (40%)</div>
+            </div>
+            <iframe src="map_combined_wealth.html"></iframe>
+        </div>
+    </div>
+</body>
+</html>

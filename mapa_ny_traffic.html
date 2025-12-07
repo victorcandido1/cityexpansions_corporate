@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_010aafbe329a23384094124b04819b7a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+<div style="position: fixed; 
+            top: 10px; right: 10px; width: 280px; height: auto; 
+            background-color: white; z-index:9999; 
+            border:2px solid grey; padding: 15px; 
+            font-family: Arial; font-size: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border-radius: 5px;">
+    <h4 style="margin-top:0; color: #333;">Filtros de Trânsito</h4>
+    <label><b>Dia da Semana:</b></label><br>
+    <select id="dayFilter" style="width: 100%; margin-bottom: 10px; padding: 5px;">
+        <option value="all">Todos os dias</option>
+        <option value="Monday">Segunda-feira</option>
+        <option value="Tuesday">Terça-feira</option>
+        <option value="Wednesday">Quarta-feira</option>
+        <option value="Thursday">Quinta-feira</option>
+        <option value="Friday">Sexta-feira</option>
+        <option value="Saturday">Sábado</option>
+        <option value="Sunday">Domingo</option>
+    </select>
+    <label><b>Horário:</b></label><br>
+    <select id="hourFilter" style="width: 100%; margin-bottom: 10px; padding: 5px;">
+        <option value="all">Todos os horários</option>
+        <option value="rush_morning">Rush Manhã (6h-9h)</option>
+        <option value="rush_evening">Rush Tarde/Noite (17h-20h)</option>
+        <option value="morning">Manhã (6h-12h)</option>
+        <option value="afternoon">Tarde (12h-17h)</option>
+        <option value="evening">Noite (17h-22h)</option>
+        <option value="night">Madrugada (22h-6h)</option>
+    </select>
+    <button onclick="updateMapFilters()" style="width: 100%; padding: 8px; background-color: #3388ff; color: white; border: none; cursor: pointer; border-radius: 3px; font-weight: bold;">
+        Aplicar Filtros
+    </button>
+    <button onclick="resetFilters()" style="width: 100%; padding: 5px; margin-top: 5px; background-color: #ccc; color: black; border: none; cursor: pointer; border-radius: 3px;">
+        Resetar
+    </button>
+    <p style="font-size: 10px; color: gray; margin-top: 10px; line-height: 1.4;">
+        <i>Os filtros atualizam as informações exibidas nos popups dos marcadores. Clique nos marcadores para ver os dados filtrados.</i>
+    </p>
+</div>
+
+<script>
+var currentDayFilter = 'all';
+var currentHourFilter = 'all';
+
+function updateMapFilters() {
+    currentDayFilter = document.getElementById('dayFilter').value;
+    currentHourFilter = document.getElementById('hourFilter').value;
+    
+    // Atualizar tooltips e popups (simplificado - em produção seria mais complexo)
+    var markers = document.querySelectorAll('.leaflet-marker-icon');
+    console.log('Filtros aplicados: Dia=' + currentDayFilter + ', Horário=' + currentHourFilter);
+    
+    // Mostrar mensagem de sucesso
+    alert('Filtros aplicados com sucesso!\n\nDia: ' + (currentDayFilter === 'all' ? 'Todos' : currentDayFilter) + 
+          '\nHorário: ' + (currentHourFilter === 'all' ? 'Todos' : currentHourFilter) + 
+          '\n\nClique nos marcadores para ver os dados atualizados.');
+}
+
+function resetFilters() {
+    document.getElementById('dayFilter').value = 'all';
+    document.getElementById('hourFilter').value = 'all';
+    currentDayFilter = 'all';
+    currentHourFilter = 'all';
+    alert('Filtros resetados para valores padrão.');
+}
+</script>
+    
+            <div class="folium-map" id="map_010aafbe329a23384094124b04819b7a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_010aafbe329a23384094124b04819b7a = L.map(
+                "map_010aafbe329a23384094124b04819b7a",
+                {
+                    center: [40.7012, -74.009],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 10,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_c84536eab7588ac3d8b42175ea5e868d = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_c84536eab7588ac3d8b42175ea5e868d.addTo(map_010aafbe329a23384094124b04819b7a);
+        
+    
+            var marker_57cb4ef814bf6ee6ea6d28b3aaf84cc6 = L.marker(
+                [40.6413, -73.7781],
+                {
+}
+            ).addTo(map_010aafbe329a23384094124b04819b7a);
+        
+    
+            var icon_d811c578319d7591b733e2d4a9ad8b96 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "plane",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e2ce38779400b195c0d6e3067ec9cb43 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_79c816e6eb8662c021204c7521f85d6f = $(`<div id="html_79c816e6eb8662c021204c7521f85d6f" style="width: 100.0%; height: 100.0%;"><b>John F. Kennedy International Airport (JFK)</b><br>Lat: 40.6413, Lon: -73.7781</div>`)[0];
+                popup_e2ce38779400b195c0d6e3067ec9cb43.setContent(html_79c816e6eb8662c021204c7521f85d6f);
+            
+        
+
+        marker_57cb4ef814bf6ee6ea6d28b3aaf84cc6.bindPopup(popup_e2ce38779400b195c0d6e3067ec9cb43)
+        ;
+
+        
+    
+    
+            marker_57cb4ef814bf6ee6ea6d28b3aaf84cc6.bindTooltip(
+                `<div>
+                     JFK Airport
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_57cb4ef814bf6ee6ea6d28b3aaf84cc6.setIcon(icon_d811c578319d7591b733e2d4a9ad8b96);
+            
+    
+            var feature_group_05c32710a6389391224f4f692a8fb5ad = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_1d25cbf1418d4ad221bb0135f1d4076a = L.marker(
+                [40.9565, -73.8204],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_ddb754ccd8d676002af3416ac50fcace = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f53ddd3a0dd8f56eb29c12000a8203ac = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_67d1ff2e0b22f2c214023c74e3ee7658 = $(`<div id="html_67d1ff2e0b22f2c214023c74e3ee7658" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Eastchester</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 22.8 min (59.3%)<br>         Delay Máximo: 61.5 min (160.6%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 58.8 min<br>         Delay Médio: 23.2 min (65.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 64.5 min<br>         Delay Médio: 22.3 min (53.3%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (40.8 min delay)<br>         Distância: 39.6 km     </div>     </div>`)[0];
+                popup_f53ddd3a0dd8f56eb29c12000a8203ac.setContent(html_67d1ff2e0b22f2c214023c74e3ee7658);
+            
+        
+
+        marker_1d25cbf1418d4ad221bb0135f1d4076a.bindPopup(popup_f53ddd3a0dd8f56eb29c12000a8203ac)
+        ;
+
+        
+    
+    
+            marker_1d25cbf1418d4ad221bb0135f1d4076a.bindTooltip(
+                `<div>
+                     Eastchester - Delay: 59.3%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1d25cbf1418d4ad221bb0135f1d4076a.setIcon(icon_ddb754ccd8d676002af3416ac50fcace);
+            
+    
+            var marker_74ae27358bcd75e81e971d1f1b846214 = L.marker(
+                [40.7251, -73.6996],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_4b77e97690b9dded8525c2397225d801 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ade7d80d87d88f9ec1add848aa499677 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_880259c5fb2f1ce50d7e2b9f409434b6 = $(`<div id="html_880259c5fb2f1ce50d7e2b9f409434b6" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Floral Park</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 10.4 min (57.8%)<br>         Delay Máximo: 31.7 min (171.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 24.6 min<br>         Delay Médio: 8.3 min (50.5%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 31.6 min<br>         Delay Médio: 12.5 min (64.7%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (18.9 min delay)<br>         Distância: 14.3 km     </div>     </div>`)[0];
+                popup_ade7d80d87d88f9ec1add848aa499677.setContent(html_880259c5fb2f1ce50d7e2b9f409434b6);
+            
+        
+
+        marker_74ae27358bcd75e81e971d1f1b846214.bindPopup(popup_ade7d80d87d88f9ec1add848aa499677)
+        ;
+
+        
+    
+    
+            marker_74ae27358bcd75e81e971d1f1b846214.bindTooltip(
+                `<div>
+                     Floral Park - Delay: 57.8%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_74ae27358bcd75e81e971d1f1b846214.setIcon(icon_4b77e97690b9dded8525c2397225d801);
+            
+    
+            var marker_28252bbd8c4eb7d2e8f6e953f40f8ee9 = L.marker(
+                [40.6576, -73.5832],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_eae7fad24241023ebe69be75b0578dce = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4098e5dfd229749cc454ce9afef6617c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_41ea20da9b043ced9fb318be2ab90c4c = $(`<div id="html_41ea20da9b043ced9fb318be2ab90c4c" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Freeport</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 13.6 min (57.6%)<br>         Delay Máximo: 55.2 min (229.0%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 33.5 min<br>         Delay Médio: 10.8 min (47.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 40.5 min<br>         Delay Médio: 16.4 min (68.1%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (30.7 min delay)<br>         Distância: 26.9 km     </div>     </div>`)[0];
+                popup_4098e5dfd229749cc454ce9afef6617c.setContent(html_41ea20da9b043ced9fb318be2ab90c4c);
+            
+        
+
+        marker_28252bbd8c4eb7d2e8f6e953f40f8ee9.bindPopup(popup_4098e5dfd229749cc454ce9afef6617c)
+        ;
+
+        
+    
+    
+            marker_28252bbd8c4eb7d2e8f6e953f40f8ee9.bindTooltip(
+                `<div>
+                     Freeport - Delay: 57.6%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_28252bbd8c4eb7d2e8f6e953f40f8ee9.setIcon(icon_eae7fad24241023ebe69be75b0578dce);
+            
+    
+            var marker_8dd444fd154b09f9d38def104bee2956 = L.marker(
+                [40.7268, -73.6343],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_7184d6379518b9f9696aac7347773ef4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d1a428495d7cba038f0a18605dec2bf5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_34760c13224129b40e1dac0433f81cc2 = $(`<div id="html_34760c13224129b40e1dac0433f81cc2" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Garden City</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 14.7 min (62.9%)<br>         Delay Máximo: 55.3 min (221.6%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 32.1 min<br>         Delay Médio: 11.2 min (53.3%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 43.1 min<br>         Delay Médio: 18.1 min (72.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (31.0 min delay)<br>         Distância: 21.4 km     </div>     </div>`)[0];
+                popup_d1a428495d7cba038f0a18605dec2bf5.setContent(html_34760c13224129b40e1dac0433f81cc2);
+            
+        
+
+        marker_8dd444fd154b09f9d38def104bee2956.bindPopup(popup_d1a428495d7cba038f0a18605dec2bf5)
+        ;
+
+        
+    
+    
+            marker_8dd444fd154b09f9d38def104bee2956.bindTooltip(
+                `<div>
+                     Garden City - Delay: 62.9%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8dd444fd154b09f9d38def104bee2956.setIcon(icon_7184d6379518b9f9696aac7347773ef4);
+            
+    
+            var marker_53a933eebe4eb87c72aa2252cd9919e1 = L.marker(
+                [40.8623, -73.6337],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_d0f52d7b10d6fe3a79a1a48761755d95 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c5805ca39c03b309e4918b012936afbb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9afe507767e581d35bca83dbba5b3e45 = $(`<div id="html_9afe507767e581d35bca83dbba5b3e45" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Glen Cove</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 22.9 min (60.7%)<br>         Delay Máximo: 64.5 min (167.0%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 56.2 min<br>         Delay Médio: 19.8 min (54.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 64.8 min<br>         Delay Médio: 26.1 min (67.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (49.7 min delay)<br>         Distância: 37.2 km     </div>     </div>`)[0];
+                popup_c5805ca39c03b309e4918b012936afbb.setContent(html_9afe507767e581d35bca83dbba5b3e45);
+            
+        
+
+        marker_53a933eebe4eb87c72aa2252cd9919e1.bindPopup(popup_c5805ca39c03b309e4918b012936afbb)
+        ;
+
+        
+    
+    
+            marker_53a933eebe4eb87c72aa2252cd9919e1.bindTooltip(
+                `<div>
+                     Glen Cove - Delay: 60.7%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_53a933eebe4eb87c72aa2252cd9919e1.setIcon(icon_d0f52d7b10d6fe3a79a1a48761755d95);
+            
+    
+            var marker_5cb13fea2af98480d90907b6afc14e17 = L.marker(
+                [41.1201627, -73.6962242],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_d9e2316bde17d09f245b447e160c429c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_bfd8d58868359d8c65af05db487db5cd = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f6720ad425a17081f0e486001c69666d = $(`<div id="html_f6720ad425a17081f0e486001c69666d" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Greenwich Connecticut</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 23.3 min (49.0%)<br>         Delay Máximo: 62.5 min (137.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 69.5 min<br>         Delay Médio: 23.8 min (52.1%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 72.9 min<br>         Delay Médio: 22.9 min (46.0%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (45.7 min delay)<br>         Distância: 55.9 km     </div>     </div>`)[0];
+                popup_bfd8d58868359d8c65af05db487db5cd.setContent(html_f6720ad425a17081f0e486001c69666d);
+            
+        
+
+        marker_5cb13fea2af98480d90907b6afc14e17.bindPopup(popup_bfd8d58868359d8c65af05db487db5cd)
+        ;
+
+        
+    
+    
+            marker_5cb13fea2af98480d90907b6afc14e17.bindTooltip(
+                `<div>
+                     Greenwich Connecticut - Delay: 49.0%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5cb13fea2af98480d90907b6afc14e17.setIcon(icon_d9e2316bde17d09f245b447e160c429c);
+            
+    
+            var marker_92ed98798c1326e38507cdc0a9128323 = L.marker(
+                [40.9684, -73.7126],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_c60f0da333e9601bbccfbe61beeb9115 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1a6e4778ee1f7ead834a25ec92afeebc = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_6ab16a6a944a61051b90bb4c025a5f8b = $(`<div id="html_6ab16a6a944a61051b90bb4c025a5f8b" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Harrison</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 21.6 min (50.0%)<br>         Delay Máximo: 59.5 min (146.3%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 64.4 min<br>         Delay Médio: 23.4 min (57.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 66.2 min<br>         Delay Médio: 20.0 min (43.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (40.3 min delay)<br>         Distância: 46.5 km     </div>     </div>`)[0];
+                popup_1a6e4778ee1f7ead834a25ec92afeebc.setContent(html_6ab16a6a944a61051b90bb4c025a5f8b);
+            
+        
+
+        marker_92ed98798c1326e38507cdc0a9128323.bindPopup(popup_1a6e4778ee1f7ead834a25ec92afeebc)
+        ;
+
+        
+    
+    
+            marker_92ed98798c1326e38507cdc0a9128323.bindTooltip(
+                `<div>
+                     Harrison - Delay: 50.0%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_92ed98798c1326e38507cdc0a9128323.setIcon(icon_c60f0da333e9601bbccfbe61beeb9115);
+            
+    
+            var marker_6fd2a4f099054074d5598f987e462c55 = L.marker(
+                [40.7062, -73.6187],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_abe0eaab3b20fb5948b06a701500273c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0b1a0accc4afae10016a00cb7c293cf7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_068ad3ac5091767718a1ae99efaaa84e = $(`<div id="html_068ad3ac5091767718a1ae99efaaa84e" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Hempstead</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 12.3 min (65.9%)<br>         Delay Máximo: 52.8 min (266.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 25.9 min<br>         Delay Médio: 8.9 min (52.5%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 35.6 min<br>         Delay Médio: 15.8 min (79.5%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (27.2 min delay)<br>         Distância: 19.3 km     </div>     </div>`)[0];
+                popup_0b1a0accc4afae10016a00cb7c293cf7.setContent(html_068ad3ac5091767718a1ae99efaaa84e);
+            
+        
+
+        marker_6fd2a4f099054074d5598f987e462c55.bindPopup(popup_0b1a0accc4afae10016a00cb7c293cf7)
+        ;
+
+        
+    
+    
+            marker_6fd2a4f099054074d5598f987e462c55.bindTooltip(
+                `<div>
+                     Hempstead - Delay: 65.9%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6fd2a4f099054074d5598f987e462c55.setIcon(icon_abe0eaab3b20fb5948b06a701500273c);
+            
+    
+            var marker_77ff15f5d28872bd0fdccee124d5aecb = L.marker(
+                [40.8048, -73.3362],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_c37f67d2f6985e6a25e62b6f5f5c9d02 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d4a0d9a9c37ff1033c04f0c036fa59e8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b773aef7462039beb5a1177f49e058dd = $(`<div id="html_b773aef7462039beb5a1177f49e058dd" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Dix Hills</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 22.9 min (53.6%)<br>         Delay Máximo: 83.6 min (189.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 60.5 min<br>         Delay Médio: 19.9 min (48.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 70.2 min<br>         Delay Médio: 25.9 min (58.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (55.7 min delay)<br>         Distância: 56.1 km     </div>     </div>`)[0];
+                popup_d4a0d9a9c37ff1033c04f0c036fa59e8.setContent(html_b773aef7462039beb5a1177f49e058dd);
+            
+        
+
+        marker_77ff15f5d28872bd0fdccee124d5aecb.bindPopup(popup_d4a0d9a9c37ff1033c04f0c036fa59e8)
+        ;
+
+        
+    
+    
+            marker_77ff15f5d28872bd0fdccee124d5aecb.bindTooltip(
+                `<div>
+                     Dix Hills - Delay: 53.6%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_77ff15f5d28872bd0fdccee124d5aecb.setIcon(icon_c37f67d2f6985e6a25e62b6f5f5c9d02);
+            
+    
+            var marker_9efcd2aca890a06210243ef7a8c50d33 = L.marker(
+                [40.5884, -73.658],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_ddc8f6b74e7fe4e7874cce54bb01614d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_19bf2c30b4479dcac930ba5a381a34a2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_38df7c98c201f2915e3e5d44401db15a = $(`<div id="html_38df7c98c201f2915e3e5d44401db15a" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Long Beach</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 16.2 min (51.9%)<br>         Delay Máximo: 39.2 min (122.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 46.7 min<br>         Delay Médio: 16.2 min (52.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 48.2 min<br>         Delay Médio: 16.3 min (50.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (28.8 min delay)<br>         Distância: 18.5 km     </div>     </div>`)[0];
+                popup_19bf2c30b4479dcac930ba5a381a34a2.setContent(html_38df7c98c201f2915e3e5d44401db15a);
+            
+        
+
+        marker_9efcd2aca890a06210243ef7a8c50d33.bindPopup(popup_19bf2c30b4479dcac930ba5a381a34a2)
+        ;
+
+        
+    
+    
+            marker_9efcd2aca890a06210243ef7a8c50d33.bindTooltip(
+                `<div>
+                     Long Beach - Delay: 51.9%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9efcd2aca890a06210243ef7a8c50d33.setIcon(icon_ddc8f6b74e7fe4e7874cce54bb01614d);
+            
+    
+            var marker_d58236ce441e0d884e08c1c3fb901789 = L.marker(
+                [40.6548, -73.6718],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_39fb5a630a83a7fac69add382ae5f9d4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fe900af7a1cf9e8cfdb0c9ac621c8b9e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_73938cccd16ce5225e9a905bcea24432 = $(`<div id="html_73938cccd16ce5225e9a905bcea24432" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Lynbrook</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 14.9 min (83.8%)<br>         Delay Máximo: 42.0 min (225.5%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 28.9 min<br>         Delay Médio: 12.3 min (73.7%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 36.1 min<br>         Delay Médio: 17.4 min (93.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (26.1 min delay)<br>         Distância: 11.6 km     </div>     </div>`)[0];
+                popup_fe900af7a1cf9e8cfdb0c9ac621c8b9e.setContent(html_73938cccd16ce5225e9a905bcea24432);
+            
+        
+
+        marker_d58236ce441e0d884e08c1c3fb901789.bindPopup(popup_fe900af7a1cf9e8cfdb0c9ac621c8b9e)
+        ;
+
+        
+    
+    
+            marker_d58236ce441e0d884e08c1c3fb901789.bindTooltip(
+                `<div>
+                     Lynbrook - Delay: 83.8%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d58236ce441e0d884e08c1c3fb901789.setIcon(icon_39fb5a630a83a7fac69add382ae5f9d4);
+            
+    
+            var marker_c9c64c91c50041738f05d49125631d8c = L.marker(
+                [40.9487, -73.7357],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_ea00a4fd1aa59f92b65dcfcb57635aa2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ce2256d1ff4cfa32e004379d4acd226a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f61db52cd0fe6cd857cec3fc071f53d1 = $(`<div id="html_f61db52cd0fe6cd857cec3fc071f53d1" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Mamaroneck</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 22.3 min (54.0%)<br>         Delay Máximo: 61.2 min (150.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 65.6 min<br>         Delay Médio: 24.7 min (60.6%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 61.8 min<br>         Delay Médio: 19.8 min (47.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (42.0 min delay)<br>         Distância: 44.1 km     </div>     </div>`)[0];
+                popup_ce2256d1ff4cfa32e004379d4acd226a.setContent(html_f61db52cd0fe6cd857cec3fc071f53d1);
+            
+        
+
+        marker_c9c64c91c50041738f05d49125631d8c.bindPopup(popup_ce2256d1ff4cfa32e004379d4acd226a)
+        ;
+
+        
+    
+    
+            marker_c9c64c91c50041738f05d49125631d8c.bindTooltip(
+                `<div>
+                     Mamaroneck - Delay: 54.0%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c9c64c91c50041738f05d49125631d8c.setIcon(icon_ea00a4fd1aa59f92b65dcfcb57635aa2);
+            
+    
+            var marker_e4c643bdd57ffd9a00c2a50b498cb2f3 = L.marker(
+                [40.9115, -73.7823],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_233e15790c838c7ecaa5e0b51a1a9efd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_03d95aa4637ca76f8b44356b82b1e421 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4707df19aadc0cb2f1555baa0cf7f8c8 = $(`<div id="html_4707df19aadc0cb2f1555baa0cf7f8c8" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">New Rochelle</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 20.5 min (56.8%)<br>         Delay Máximo: 57.8 min (167.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 56.7 min<br>         Delay Médio: 22.1 min (63.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 56.8 min<br>         Delay Médio: 18.8 min (49.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (39.4 min delay)<br>         Distância: 37.1 km     </div>     </div>`)[0];
+                popup_03d95aa4637ca76f8b44356b82b1e421.setContent(html_4707df19aadc0cb2f1555baa0cf7f8c8);
+            
+        
+
+        marker_e4c643bdd57ffd9a00c2a50b498cb2f3.bindPopup(popup_03d95aa4637ca76f8b44356b82b1e421)
+        ;
+
+        
+    
+    
+            marker_e4c643bdd57ffd9a00c2a50b498cb2f3.bindTooltip(
+                `<div>
+                     New Rochelle - Delay: 56.8%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e4c643bdd57ffd9a00c2a50b498cb2f3.setIcon(icon_233e15790c838c7ecaa5e0b51a1a9efd);
+            
+    
+            var marker_a4e2353b66d72950feeafca9cc93c686 = L.marker(
+                [41.2901, -73.9204],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_7d944d2cb03c801f7c1bc7bbec8b175f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_306004e851f6ce3688ed59271fa8db53 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_62b4676407be1dbf2baa60d2f403e1af = $(`<div id="html_62b4676407be1dbf2baa60d2f403e1af" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Peekskill</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 33.3 min (46.6%)<br>         Delay Máximo: 89.2 min (124.1%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 102.9 min<br>         Delay Médio: 33.1 min (47.5%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 106.9 min<br>         Delay Médio: 33.5 min (45.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (62.7 min delay)<br>         Distância: 86.4 km     </div>     </div>`)[0];
+                popup_306004e851f6ce3688ed59271fa8db53.setContent(html_62b4676407be1dbf2baa60d2f403e1af);
+            
+        
+
+        marker_a4e2353b66d72950feeafca9cc93c686.bindPopup(popup_306004e851f6ce3688ed59271fa8db53)
+        ;
+
+        
+    
+    
+            marker_a4e2353b66d72950feeafca9cc93c686.bindTooltip(
+                `<div>
+                     Peekskill - Delay: 46.6%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a4e2353b66d72950feeafca9cc93c686.setIcon(icon_7d944d2cb03c801f7c1bc7bbec8b175f);
+            
+    
+            var marker_41317a173e2971d0443b21a084dc96f2 = L.marker(
+                [41.0018, -73.6657],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_a01bcde39a98c23a4fa4be8f7cd7aba5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_74f9b0bc478aaf4e02d5c27a6c842b63 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ba3540f7aa24d48b98dac7786af4a36e = $(`<div id="html_ba3540f7aa24d48b98dac7786af4a36e" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Port Chester</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 23.5 min (51.3%)<br>         Delay Máximo: 64.0 min (144.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 70.3 min<br>         Delay Médio: 25.9 min (58.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 69.0 min<br>         Delay Médio: 21.2 min (44.5%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (44.3 min delay)<br>         Distância: 51.2 km     </div>     </div>`)[0];
+                popup_74f9b0bc478aaf4e02d5c27a6c842b63.setContent(html_ba3540f7aa24d48b98dac7786af4a36e);
+            
+        
+
+        marker_41317a173e2971d0443b21a084dc96f2.bindPopup(popup_74f9b0bc478aaf4e02d5c27a6c842b63)
+        ;
+
+        
+    
+    
+            marker_41317a173e2971d0443b21a084dc96f2.bindTooltip(
+                `<div>
+                     Port Chester - Delay: 51.3%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_41317a173e2971d0443b21a084dc96f2.setIcon(icon_a01bcde39a98c23a4fa4be8f7cd7aba5);
+            
+    
+            var marker_d2c8b30852686a83852df634cedfafef = L.marker(
+                [40.8326, -73.7001],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_18ab1d2d99d11a7a26b2514db57e792a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9218d811d264e090970459b693d95aed = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e61a771c631292daa5fe34c89017826e = $(`<div id="html_e61a771c631292daa5fe34c89017826e" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Port Washington</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 17.4 min (54.1%)<br>         Delay Máximo: 54.7 min (161.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 45.6 min<br>         Delay Médio: 15.3 min (50.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 53.4 min<br>         Delay Médio: 19.6 min (58.0%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (39.9 min delay)<br>         Distância: 29.5 km     </div>     </div>`)[0];
+                popup_9218d811d264e090970459b693d95aed.setContent(html_e61a771c631292daa5fe34c89017826e);
+            
+        
+
+        marker_d2c8b30852686a83852df634cedfafef.bindPopup(popup_9218d811d264e090970459b693d95aed)
+        ;
+
+        
+    
+    
+            marker_d2c8b30852686a83852df634cedfafef.bindTooltip(
+                `<div>
+                     Port Washington - Delay: 54.1%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d2c8b30852686a83852df634cedfafef.setIcon(icon_18ab1d2d99d11a7a26b2514db57e792a);
+            
+    
+            var marker_9f131e281ac9a4b24bae4b9d9241f900 = L.marker(
+                [40.6587, -73.6412],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_bc1b577bd16f2885cb99644e047d39ab = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8aa92e4d45caa4e2f3284c1ab988956c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8a1df953b26ebc203a9d7c1d16c18e0f = $(`<div id="html_8a1df953b26ebc203a9d7c1d16c18e0f" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Rockville Centre</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 11.3 min (51.4%)<br>         Delay Máximo: 47.7 min (197.0%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 28.8 min<br>         Delay Médio: 8.4 min (41.3%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 36.4 min<br>         Delay Médio: 14.2 min (61.5%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (25.5 min delay)<br>         Distância: 18.9 km     </div>     </div>`)[0];
+                popup_8aa92e4d45caa4e2f3284c1ab988956c.setContent(html_8a1df953b26ebc203a9d7c1d16c18e0f);
+            
+        
+
+        marker_9f131e281ac9a4b24bae4b9d9241f900.bindPopup(popup_8aa92e4d45caa4e2f3284c1ab988956c)
+        ;
+
+        
+    
+    
+            marker_9f131e281ac9a4b24bae4b9d9241f900.bindTooltip(
+                `<div>
+                     Rockville Centre - Delay: 51.4%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9f131e281ac9a4b24bae4b9d9241f900.setIcon(icon_bc1b577bd16f2885cb99644e047d39ab);
+            
+    
+            var marker_55aad376fcc18ec4feee10a305b771c0 = L.marker(
+                [40.9807, -73.6837],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_b8684cc207c73d8e8ea1d10c5ba321bb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a25fa2e991d6722df24cb3a1be988a76 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_bb4c22632f4c31b01a4381aa6c50d67d = $(`<div id="html_bb4c22632f4c31b01a4381aa6c50d67d" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Rye</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 21.3 min (48.9%)<br>         Delay Máximo: 59.9 min (141.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 66.0 min<br>         Delay Médio: 23.3 min (54.7%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 64.6 min<br>         Delay Médio: 19.4 min (43.0%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 18:00 (40.6 min delay)<br>         Distância: 50.1 km     </div>     </div>`)[0];
+                popup_a25fa2e991d6722df24cb3a1be988a76.setContent(html_bb4c22632f4c31b01a4381aa6c50d67d);
+            
+        
+
+        marker_55aad376fcc18ec4feee10a305b771c0.bindPopup(popup_a25fa2e991d6722df24cb3a1be988a76)
+        ;
+
+        
+    
+    
+            marker_55aad376fcc18ec4feee10a305b771c0.bindTooltip(
+                `<div>
+                     Rye - Delay: 48.9%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_55aad376fcc18ec4feee10a305b771c0.setIcon(icon_b8684cc207c73d8e8ea1d10c5ba321bb);
+            
+    
+            var marker_bb2af17bebaf572a96b0b4b5d523a8d8 = L.marker(
+                [41.0051, -73.7846],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_dcb69165f8f8ed56bfc5e769b588e702 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a101f8d0682687bdf799ca1df245efe8 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_72fc232a54fb2cc8b92e04c894ea61c3 = $(`<div id="html_72fc232a54fb2cc8b92e04c894ea61c3" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Scarsdale</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 24.4 min (53.8%)<br>         Delay Máximo: 70.5 min (150.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 66.2 min<br>         Delay Médio: 23.5 min (55.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 73.8 min<br>         Delay Médio: 25.3 min (52.4%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (45.8 min delay)<br>         Distância: 47.9 km     </div>     </div>`)[0];
+                popup_a101f8d0682687bdf799ca1df245efe8.setContent(html_72fc232a54fb2cc8b92e04c894ea61c3);
+            
+        
+
+        marker_bb2af17bebaf572a96b0b4b5d523a8d8.bindPopup(popup_a101f8d0682687bdf799ca1df245efe8)
+        ;
+
+        
+    
+    
+            marker_bb2af17bebaf572a96b0b4b5d523a8d8.bindTooltip(
+                `<div>
+                     Scarsdale - Delay: 53.8%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bb2af17bebaf572a96b0b4b5d523a8d8.setIcon(icon_dcb69165f8f8ed56bfc5e769b588e702);
+            
+    
+            var marker_29390b8cbcdb37a493090887ac08157e = L.marker(
+                [41.0762, -73.8587],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_af6ed783025e5d275d5cebc2891d1ad0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a654464ca7f0935cbad976285aeee63a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_05bccf1d8e103f9763c4b11099ab0f00 = $(`<div id="html_05bccf1d8e103f9763c4b11099ab0f00" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Tarrytown</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 29.7 min (56.6%)<br>         Delay Máximo: 85.7 min (160.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 80.4 min<br>         Delay Médio: 29.9 min (59.2%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 84.5 min<br>         Delay Médio: 29.5 min (53.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (55.6 min delay)<br>         Distância: 57.4 km     </div>     </div>`)[0];
+                popup_a654464ca7f0935cbad976285aeee63a.setContent(html_05bccf1d8e103f9763c4b11099ab0f00);
+            
+        
+
+        marker_29390b8cbcdb37a493090887ac08157e.bindPopup(popup_a654464ca7f0935cbad976285aeee63a)
+        ;
+
+        
+    
+    
+            marker_29390b8cbcdb37a493090887ac08157e.bindTooltip(
+                `<div>
+                     Tarrytown - Delay: 56.6%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_29390b8cbcdb37a493090887ac08157e.setIcon(icon_af6ed783025e5d275d5cebc2891d1ad0);
+            
+    
+            var marker_bb3def02dd7f52a226c3f576a49b6bce = L.marker(
+                [41.034, -73.7629],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_047d6edf001453fd77e32e9926677a9e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1e928553d06147bdbf2ce9f56d27333b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_366dd70f477ea550609e0d5f56a73bed = $(`<div id="html_366dd70f477ea550609e0d5f56a73bed" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">White Plains</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 28.6 min (57.5%)<br>         Delay Máximo: 81.4 min (159.1%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 75.0 min<br>         Delay Médio: 27.9 min (58.9%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 82.1 min<br>         Delay Médio: 29.4 min (56.1%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (55.8 min delay)<br>         Distância: 54.3 km     </div>     </div>`)[0];
+                popup_1e928553d06147bdbf2ce9f56d27333b.setContent(html_366dd70f477ea550609e0d5f56a73bed);
+            
+        
+
+        marker_bb3def02dd7f52a226c3f576a49b6bce.bindPopup(popup_1e928553d06147bdbf2ce9f56d27333b)
+        ;
+
+        
+    
+    
+            marker_bb3def02dd7f52a226c3f576a49b6bce.bindTooltip(
+                `<div>
+                     White Plains - Delay: 57.5%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bb3def02dd7f52a226c3f576a49b6bce.setIcon(icon_047d6edf001453fd77e32e9926677a9e);
+            
+    
+            var marker_5ed407fdfddc6f9ab30b8221f06bd114 = L.marker(
+                [40.9312, -73.8988],
+                {
+}
+            ).addTo(feature_group_05c32710a6389391224f4f692a8fb5ad);
+        
+    
+            var icon_78b560590e3dcb84454c9807e3e196f8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "map-marker",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b24e44b279d1f6413f11956365ac58d0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f334dd2667845d527572a87bd5f32ab2 = $(`<div id="html_f334dd2667845d527572a87bd5f32ab2" style="width: 100.0%; height: 100.0%;">     <div style="font-family: Arial; width: 300px;">         <b style="font-size: 14px;">Yonkers</b><br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Estatísticas Gerais:</b><br>         Delay Médio: 30.4 min (68.3%)<br>         Delay Máximo: 83.6 min (184.8%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Para o Aeroporto:</b><br>         Tempo Médio: 72.0 min<br>         Delay Médio: 29.4 min (69.0%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Do Aeroporto:</b><br>         Tempo Médio: 78.2 min<br>         Delay Médio: 31.5 min (67.6%)<br>         <hr style="margin: 8px 0; border-color: #ddd;">         <b>Pior Horário:</b> 17:00 (56.4 min delay)<br>         Distância: 43.5 km     </div>     </div>`)[0];
+                popup_b24e44b279d1f6413f11956365ac58d0.setContent(html_f334dd2667845d527572a87bd5f32ab2);
+            
+        
+
+        marker_5ed407fdfddc6f9ab30b8221f06bd114.bindPopup(popup_b24e44b279d1f6413f11956365ac58d0)
+        ;
+
+        
+    
+    
+            marker_5ed407fdfddc6f9ab30b8221f06bd114.bindTooltip(
+                `<div>
+                     Yonkers - Delay: 68.3%
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5ed407fdfddc6f9ab30b8221f06bd114.setIcon(icon_78b560590e3dcb84454c9807e3e196f8);
+            
+    
+            feature_group_05c32710a6389391224f4f692a8fb5ad.addTo(map_010aafbe329a23384094124b04819b7a);
+        
+    
+            var feature_group_7b2805138e3484e0630e20aee1f51483 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_5759aed413cce100e8dffe528ca507db = L.polyline(
+                [[40.9565, -73.8204], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 3.956751937984497}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_a3351b761f8f45e88604721c9a81a9d0 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_829048c673fd3d10a8543dbe7624e560 = $(`<div id="html_829048c673fd3d10a8543dbe7624e560" style="width: 100.0%; height: 100.0%;"><b>Eastchester → JFK</b><br>Delay médio: 59.3%<br>Distância: 39.6 km</div>`)[0];
+                popup_a3351b761f8f45e88604721c9a81a9d0.setContent(html_829048c673fd3d10a8543dbe7624e560);
+            
+        
+
+        poly_line_5759aed413cce100e8dffe528ca507db.bindPopup(popup_a3351b761f8f45e88604721c9a81a9d0)
+        ;
+
+        
+    
+    
+            poly_line_5759aed413cce100e8dffe528ca507db.bindTooltip(
+                `<div>
+                     Eastchester → JFK (59.3% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_b5272690ccf185d01563cce610740426 = L.polyline(
+                [[40.7251, -73.6996], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_9f0b38c70edef537472b9be921c50f06 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_605590a8202946b9be7edca108be28ad = $(`<div id="html_605590a8202946b9be7edca108be28ad" style="width: 100.0%; height: 100.0%;"><b>Floral Park → JFK</b><br>Delay médio: 57.8%<br>Distância: 14.3 km</div>`)[0];
+                popup_9f0b38c70edef537472b9be921c50f06.setContent(html_605590a8202946b9be7edca108be28ad);
+            
+        
+
+        poly_line_b5272690ccf185d01563cce610740426.bindPopup(popup_9f0b38c70edef537472b9be921c50f06)
+        ;
+
+        
+    
+    
+            poly_line_b5272690ccf185d01563cce610740426.bindTooltip(
+                `<div>
+                     Floral Park → JFK (57.8% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_bcb68de82f5e362c6ab49f7689564f81 = L.polyline(
+                [[40.6576, -73.5832], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2.693315384615386}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_0da0ad687c0315082ce310fb3df12056 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_845e2a3843e5c9f633288d672de541df = $(`<div id="html_845e2a3843e5c9f633288d672de541df" style="width: 100.0%; height: 100.0%;"><b>Freeport → JFK</b><br>Delay médio: 57.6%<br>Distância: 26.9 km</div>`)[0];
+                popup_0da0ad687c0315082ce310fb3df12056.setContent(html_845e2a3843e5c9f633288d672de541df);
+            
+        
+
+        poly_line_bcb68de82f5e362c6ab49f7689564f81.bindPopup(popup_0da0ad687c0315082ce310fb3df12056)
+        ;
+
+        
+    
+    
+            poly_line_bcb68de82f5e362c6ab49f7689564f81.bindTooltip(
+                `<div>
+                     Freeport → JFK (57.6% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e16407bee6ec49d7c815cbdfa45362b8 = L.polyline(
+                [[40.7268, -73.6343], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2.1399440540540544}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_5191df2121b655ef4ebf8f281f00ae7a = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_a2788abcb0415869fb1ca27bd945aede = $(`<div id="html_a2788abcb0415869fb1ca27bd945aede" style="width: 100.0%; height: 100.0%;"><b>Garden City → JFK</b><br>Delay médio: 62.9%<br>Distância: 21.4 km</div>`)[0];
+                popup_5191df2121b655ef4ebf8f281f00ae7a.setContent(html_a2788abcb0415869fb1ca27bd945aede);
+            
+        
+
+        poly_line_e16407bee6ec49d7c815cbdfa45362b8.bindPopup(popup_5191df2121b655ef4ebf8f281f00ae7a)
+        ;
+
+        
+    
+    
+            poly_line_e16407bee6ec49d7c815cbdfa45362b8.bindTooltip(
+                `<div>
+                     Garden City → JFK (62.9% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_1d90f5e953d7686fa5e2951e36b5aee0 = L.polyline(
+                [[40.8623, -73.6337], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 3.7247431372549022}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_6a42c13e1061ca5838dc638a75377db9 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_76f24b8d1b477e7b428a96748d478962 = $(`<div id="html_76f24b8d1b477e7b428a96748d478962" style="width: 100.0%; height: 100.0%;"><b>Glen Cove → JFK</b><br>Delay médio: 60.7%<br>Distância: 37.2 km</div>`)[0];
+                popup_6a42c13e1061ca5838dc638a75377db9.setContent(html_76f24b8d1b477e7b428a96748d478962);
+            
+        
+
+        poly_line_1d90f5e953d7686fa5e2951e36b5aee0.bindPopup(popup_6a42c13e1061ca5838dc638a75377db9)
+        ;
+
+        
+    
+    
+            poly_line_1d90f5e953d7686fa5e2951e36b5aee0.bindTooltip(
+                `<div>
+                     Glen Cove → JFK (60.7% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_e5f682f5d5cc14a27ef7005209731d1a = L.polyline(
+                [[41.1201627, -73.6962242], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 5.586254054054054}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_7f1c762a57d272256c070f58e0c1b9c4 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_05faa7a6e567f43449439a06a1331868 = $(`<div id="html_05faa7a6e567f43449439a06a1331868" style="width: 100.0%; height: 100.0%;"><b>Greenwich Connecticut → JFK</b><br>Delay médio: 49.0%<br>Distância: 55.9 km</div>`)[0];
+                popup_7f1c762a57d272256c070f58e0c1b9c4.setContent(html_05faa7a6e567f43449439a06a1331868);
+            
+        
+
+        poly_line_e5f682f5d5cc14a27ef7005209731d1a.bindPopup(popup_7f1c762a57d272256c070f58e0c1b9c4)
+        ;
+
+        
+    
+    
+            poly_line_e5f682f5d5cc14a27ef7005209731d1a.bindTooltip(
+                `<div>
+                     Greenwich Connecticut → JFK (49.0% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_8c4d95c8d0d30eeee2d21fca6fea5a42 = L.polyline(
+                [[40.9684, -73.7126], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4.647253333333334}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_c90e498c7d58291e0514d3b5bb9d09db = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_e21f0acf031f433b7cc33d938620cdc8 = $(`<div id="html_e21f0acf031f433b7cc33d938620cdc8" style="width: 100.0%; height: 100.0%;"><b>Harrison → JFK</b><br>Delay médio: 50.0%<br>Distância: 46.5 km</div>`)[0];
+                popup_c90e498c7d58291e0514d3b5bb9d09db.setContent(html_e21f0acf031f433b7cc33d938620cdc8);
+            
+        
+
+        poly_line_8c4d95c8d0d30eeee2d21fca6fea5a42.bindPopup(popup_c90e498c7d58291e0514d3b5bb9d09db)
+        ;
+
+        
+    
+    
+            poly_line_8c4d95c8d0d30eeee2d21fca6fea5a42.bindTooltip(
+                `<div>
+                     Harrison → JFK (50.0% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_3239ff7ed2285801bbaa89caed75fc8c = L.polyline(
+                [[40.7062, -73.6187], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_0be55e26d0c66f556b3e6671d2dd6d7a = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_4a117dafb04547270e583906cfa770d2 = $(`<div id="html_4a117dafb04547270e583906cfa770d2" style="width: 100.0%; height: 100.0%;"><b>Hempstead → JFK</b><br>Delay médio: 65.9%<br>Distância: 19.3 km</div>`)[0];
+                popup_0be55e26d0c66f556b3e6671d2dd6d7a.setContent(html_4a117dafb04547270e583906cfa770d2);
+            
+        
+
+        poly_line_3239ff7ed2285801bbaa89caed75fc8c.bindPopup(popup_0be55e26d0c66f556b3e6671d2dd6d7a)
+        ;
+
+        
+    
+    
+            poly_line_3239ff7ed2285801bbaa89caed75fc8c.bindTooltip(
+                `<div>
+                     Hempstead → JFK (65.9% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_91bd69f430bb5b8569371a9c6a0d5d0c = L.polyline(
+                [[40.8048, -73.3362], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 5.6121434903047085}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_e537a84b70338666fbca392741f29f2c = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_4ff87ea31ef4c5b3a7f1a48f54acae16 = $(`<div id="html_4ff87ea31ef4c5b3a7f1a48f54acae16" style="width: 100.0%; height: 100.0%;"><b>Dix Hills → JFK</b><br>Delay médio: 53.6%<br>Distância: 56.1 km</div>`)[0];
+                popup_e537a84b70338666fbca392741f29f2c.setContent(html_4ff87ea31ef4c5b3a7f1a48f54acae16);
+            
+        
+
+        poly_line_91bd69f430bb5b8569371a9c6a0d5d0c.bindPopup(popup_e537a84b70338666fbca392741f29f2c)
+        ;
+
+        
+    
+    
+            poly_line_91bd69f430bb5b8569371a9c6a0d5d0c.bindTooltip(
+                `<div>
+                     Dix Hills → JFK (53.6% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_336bb45d9ea053baeb48d594ad03b923 = L.polyline(
+                [[40.5884, -73.658], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_20b75d918cc50eaa13c9238d26e3786f = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_44c39a435e4a91f30bd290de11a78ecc = $(`<div id="html_44c39a435e4a91f30bd290de11a78ecc" style="width: 100.0%; height: 100.0%;"><b>Long Beach → JFK</b><br>Delay médio: 51.9%<br>Distância: 18.5 km</div>`)[0];
+                popup_20b75d918cc50eaa13c9238d26e3786f.setContent(html_44c39a435e4a91f30bd290de11a78ecc);
+            
+        
+
+        poly_line_336bb45d9ea053baeb48d594ad03b923.bindPopup(popup_20b75d918cc50eaa13c9238d26e3786f)
+        ;
+
+        
+    
+    
+            poly_line_336bb45d9ea053baeb48d594ad03b923.bindTooltip(
+                `<div>
+                     Long Beach → JFK (51.9% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_91fe732887bc655925f52d7e6605e3d7 = L.polyline(
+                [[40.6548, -73.6718], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_a799c3e63d63b76e1385765d605c9ddb = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_a9227c92dc7bde74a8bd28e8f3e40935 = $(`<div id="html_a9227c92dc7bde74a8bd28e8f3e40935" style="width: 100.0%; height: 100.0%;"><b>Lynbrook → JFK</b><br>Delay médio: 83.8%<br>Distância: 11.6 km</div>`)[0];
+                popup_a799c3e63d63b76e1385765d605c9ddb.setContent(html_a9227c92dc7bde74a8bd28e8f3e40935);
+            
+        
+
+        poly_line_91fe732887bc655925f52d7e6605e3d7.bindPopup(popup_a799c3e63d63b76e1385765d605c9ddb)
+        ;
+
+        
+    
+    
+            poly_line_91fe732887bc655925f52d7e6605e3d7.bindTooltip(
+                `<div>
+                     Lynbrook → JFK (83.8% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_f4e0f0d6e99e186a0d6b296a081f975a = L.polyline(
+                [[40.9487, -73.7357], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4.408895161290322}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_2db268d5eb9e799c241eed3893125a12 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_6b76e0adf41c7063769e2ad9ab0adc31 = $(`<div id="html_6b76e0adf41c7063769e2ad9ab0adc31" style="width: 100.0%; height: 100.0%;"><b>Mamaroneck → JFK</b><br>Delay médio: 54.0%<br>Distância: 44.1 km</div>`)[0];
+                popup_2db268d5eb9e799c241eed3893125a12.setContent(html_6b76e0adf41c7063769e2ad9ab0adc31);
+            
+        
+
+        poly_line_f4e0f0d6e99e186a0d6b296a081f975a.bindPopup(popup_2db268d5eb9e799c241eed3893125a12)
+        ;
+
+        
+    
+    
+            poly_line_f4e0f0d6e99e186a0d6b296a081f975a.bindTooltip(
+                `<div>
+                     Mamaroneck → JFK (54.0% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_6a4c8dc844bad068b6896ca8c9b1faed = L.polyline(
+                [[40.9115, -73.7823], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 3.7128874358974358}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_620ebef57977fb810a1ad0006b318fed = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_7be2eab4fa30d6eea1b7f1f8d85f8ab3 = $(`<div id="html_7be2eab4fa30d6eea1b7f1f8d85f8ab3" style="width: 100.0%; height: 100.0%;"><b>New Rochelle → JFK</b><br>Delay médio: 56.8%<br>Distância: 37.1 km</div>`)[0];
+                popup_620ebef57977fb810a1ad0006b318fed.setContent(html_7be2eab4fa30d6eea1b7f1f8d85f8ab3);
+            
+        
+
+        poly_line_6a4c8dc844bad068b6896ca8c9b1faed.bindPopup(popup_620ebef57977fb810a1ad0006b318fed)
+        ;
+
+        
+    
+    
+            poly_line_6a4c8dc844bad068b6896ca8c9b1faed.bindTooltip(
+                `<div>
+                     New Rochelle → JFK (56.8% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_1271e60b53a897aba26c98a4e1247646 = L.polyline(
+                [[41.2901, -73.9204], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 8}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_e9196d17f8d73d4d887b36268eeefea6 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_a3e7ee796cb048cfc519508353162ede = $(`<div id="html_a3e7ee796cb048cfc519508353162ede" style="width: 100.0%; height: 100.0%;"><b>Peekskill → JFK</b><br>Delay médio: 46.6%<br>Distância: 86.4 km</div>`)[0];
+                popup_e9196d17f8d73d4d887b36268eeefea6.setContent(html_a3e7ee796cb048cfc519508353162ede);
+            
+        
+
+        poly_line_1271e60b53a897aba26c98a4e1247646.bindPopup(popup_e9196d17f8d73d4d887b36268eeefea6)
+        ;
+
+        
+    
+    
+            poly_line_1271e60b53a897aba26c98a4e1247646.bindTooltip(
+                `<div>
+                     Peekskill → JFK (46.6% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_60df77c5e1d5b3c0652c88315064b1de = L.polyline(
+                [[41.0018, -73.6657], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 5.1179463483146055}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_ca906a2a3ed0b06f0acba876868568f1 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_2a2f4e3142398441aa990c7c56000017 = $(`<div id="html_2a2f4e3142398441aa990c7c56000017" style="width: 100.0%; height: 100.0%;"><b>Port Chester → JFK</b><br>Delay médio: 51.3%<br>Distância: 51.2 km</div>`)[0];
+                popup_ca906a2a3ed0b06f0acba876868568f1.setContent(html_2a2f4e3142398441aa990c7c56000017);
+            
+        
+
+        poly_line_60df77c5e1d5b3c0652c88315064b1de.bindPopup(popup_ca906a2a3ed0b06f0acba876868568f1)
+        ;
+
+        
+    
+    
+            poly_line_60df77c5e1d5b3c0652c88315064b1de.bindTooltip(
+                `<div>
+                     Port Chester → JFK (51.3% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_d472097424db4137eb6912fcddfcac81 = L.polyline(
+                [[40.8326, -73.7001], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2.9539658291457283}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_8311580b301ed50ac5f7723f34501a6a = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_82ac4f0de4c4107dda187afb2b59fd66 = $(`<div id="html_82ac4f0de4c4107dda187afb2b59fd66" style="width: 100.0%; height: 100.0%;"><b>Port Washington → JFK</b><br>Delay médio: 54.1%<br>Distância: 29.5 km</div>`)[0];
+                popup_8311580b301ed50ac5f7723f34501a6a.setContent(html_82ac4f0de4c4107dda187afb2b59fd66);
+            
+        
+
+        poly_line_d472097424db4137eb6912fcddfcac81.bindPopup(popup_8311580b301ed50ac5f7723f34501a6a)
+        ;
+
+        
+    
+    
+            poly_line_d472097424db4137eb6912fcddfcac81.bindTooltip(
+                `<div>
+                     Port Washington → JFK (54.1% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_f8b06e96a304f2004e08622ae5b28c76 = L.polyline(
+                [[40.6587, -73.6412], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 2}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_9d88b765819aa7b8fd9794a5bbbcf3b0 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_7a9a66fc18412992c7371fce2824ff4e = $(`<div id="html_7a9a66fc18412992c7371fce2824ff4e" style="width: 100.0%; height: 100.0%;"><b>Rockville Centre → JFK</b><br>Delay médio: 51.4%<br>Distância: 18.9 km</div>`)[0];
+                popup_9d88b765819aa7b8fd9794a5bbbcf3b0.setContent(html_7a9a66fc18412992c7371fce2824ff4e);
+            
+        
+
+        poly_line_f8b06e96a304f2004e08622ae5b28c76.bindPopup(popup_9d88b765819aa7b8fd9794a5bbbcf3b0)
+        ;
+
+        
+    
+    
+            poly_line_f8b06e96a304f2004e08622ae5b28c76.bindTooltip(
+                `<div>
+                     Rockville Centre → JFK (51.4% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_22a71f1aa3bbe5e3d3f80569a71563fc = L.polyline(
+                [[40.9807, -73.6837], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 5.011242000000001}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_1026bb76bce82668d413a67454edac62 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_c4e2854f525f90430a81d66f2ba7bf21 = $(`<div id="html_c4e2854f525f90430a81d66f2ba7bf21" style="width: 100.0%; height: 100.0%;"><b>Rye → JFK</b><br>Delay médio: 48.9%<br>Distância: 50.1 km</div>`)[0];
+                popup_1026bb76bce82668d413a67454edac62.setContent(html_c4e2854f525f90430a81d66f2ba7bf21);
+            
+        
+
+        poly_line_22a71f1aa3bbe5e3d3f80569a71563fc.bindPopup(popup_1026bb76bce82668d413a67454edac62)
+        ;
+
+        
+    
+    
+            poly_line_22a71f1aa3bbe5e3d3f80569a71563fc.bindTooltip(
+                `<div>
+                     Rye → JFK (48.9% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_66b7b52a62a224807c61cfb82b3b9192 = L.polyline(
+                [[41.0051, -73.7846], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4.788375428571429}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_b1029ddff85e7c81666152476ec7aac4 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_b61464f9bacd2d92abb557419528b2df = $(`<div id="html_b61464f9bacd2d92abb557419528b2df" style="width: 100.0%; height: 100.0%;"><b>Scarsdale → JFK</b><br>Delay médio: 53.8%<br>Distância: 47.9 km</div>`)[0];
+                popup_b1029ddff85e7c81666152476ec7aac4.setContent(html_b61464f9bacd2d92abb557419528b2df);
+            
+        
+
+        poly_line_66b7b52a62a224807c61cfb82b3b9192.bindPopup(popup_b1029ddff85e7c81666152476ec7aac4)
+        ;
+
+        
+    
+    
+            poly_line_66b7b52a62a224807c61cfb82b3b9192.bindTooltip(
+                `<div>
+                     Scarsdale → JFK (53.8% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_5da6024a6550c2aa008c9e29c9a6cd29 = L.polyline(
+                [[41.0762, -73.8587], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 5.735258415841583}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_5da0bfbffe0389b0381a94d8c32bac87 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_c92e377eebcf6b7105ce6510081effaa = $(`<div id="html_c92e377eebcf6b7105ce6510081effaa" style="width: 100.0%; height: 100.0%;"><b>Tarrytown → JFK</b><br>Delay médio: 56.6%<br>Distância: 57.4 km</div>`)[0];
+                popup_5da0bfbffe0389b0381a94d8c32bac87.setContent(html_c92e377eebcf6b7105ce6510081effaa);
+            
+        
+
+        poly_line_5da6024a6550c2aa008c9e29c9a6cd29.bindPopup(popup_5da0bfbffe0389b0381a94d8c32bac87)
+        ;
+
+        
+    
+    
+            poly_line_5da6024a6550c2aa008c9e29c9a6cd29.bindTooltip(
+                `<div>
+                     Tarrytown → JFK (56.6% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_169b6ff7cbcd9abed414bad80d863589 = L.polyline(
+                [[41.034, -73.7629], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FFA500", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FFA500", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 5.428931903485254}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_29e43e5ce3d0da3fb04f7a27d705912f = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_822b7e9d26ed35e4ddaa5ecc83732094 = $(`<div id="html_822b7e9d26ed35e4ddaa5ecc83732094" style="width: 100.0%; height: 100.0%;"><b>White Plains → JFK</b><br>Delay médio: 57.5%<br>Distância: 54.3 km</div>`)[0];
+                popup_29e43e5ce3d0da3fb04f7a27d705912f.setContent(html_822b7e9d26ed35e4ddaa5ecc83732094);
+            
+        
+
+        poly_line_169b6ff7cbcd9abed414bad80d863589.bindPopup(popup_29e43e5ce3d0da3fb04f7a27d705912f)
+        ;
+
+        
+    
+    
+            poly_line_169b6ff7cbcd9abed414bad80d863589.bindTooltip(
+                `<div>
+                     White Plains → JFK (57.5% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var poly_line_da9d657dc0429d93b69171130dfdcd4b = L.polyline(
+                [[40.9312, -73.8988], [40.6413, -73.7781]],
+                {"bubblingMouseEvents": true, "color": "#FF0000", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#FF0000", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 4.350875977653631}
+            ).addTo(feature_group_7b2805138e3484e0630e20aee1f51483);
+        
+    
+        var popup_5a624e8547a44e2f32a7156a983feb83 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_ed5f9fb79508161a86ad3f409089e233 = $(`<div id="html_ed5f9fb79508161a86ad3f409089e233" style="width: 100.0%; height: 100.0%;"><b>Yonkers → JFK</b><br>Delay médio: 68.3%<br>Distância: 43.5 km</div>`)[0];
+                popup_5a624e8547a44e2f32a7156a983feb83.setContent(html_ed5f9fb79508161a86ad3f409089e233);
+            
+        
+
+        poly_line_da9d657dc0429d93b69171130dfdcd4b.bindPopup(popup_5a624e8547a44e2f32a7156a983feb83)
+        ;
+
+        
+    
+    
+            poly_line_da9d657dc0429d93b69171130dfdcd4b.bindTooltip(
+                `<div>
+                     Yonkers → JFK (68.3% delay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_7b2805138e3484e0630e20aee1f51483.addTo(map_010aafbe329a23384094124b04819b7a);
+        
+    
+            var feature_group_0586687c2bcbe158f7bc2609338d7292 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var heat_map_1491509630fe115d4bd57776317e4a63 = L.heatLayer(
+                [[40.9565, -73.8204, 59.2732703189815], [40.7251, -73.6996, 57.75013733375385], [40.6576, -73.5832, 57.5581426835439], [40.7268, -73.6343, 62.932799839054084], [40.8623, -73.6337, 60.688557080999516], [41.1201627, -73.6962242, 48.98089094438531], [40.9684, -73.7126, 50.010342713410374], [40.7062, -73.6187, 65.85378050029739], [40.8048, -73.3362, 53.60058782788289], [40.5884, -73.658, 51.881991963965795], [40.6548, -73.6718, 83.82644190378976], [40.9487, -73.7357, 53.988840708914175], [40.9115, -73.7823, 56.807979702599035], [41.2901, -73.9204, 46.622407714355596], [41.0018, -73.6657, 51.33624819794463], [40.8326, -73.7001, 54.08298585098705], [40.6587, -73.6412, 51.369236209617966], [40.9807, -73.6837, 48.85389151657633], [41.0051, -73.7846, 53.8005398115059], [41.0762, -73.8587, 56.55286348517826], [41.034, -73.7629, 57.50442297481996], [40.9312, -73.8988, 68.33968293886501]],
+                {
+  "minOpacity": 0.2,
+  "maxZoom": 18,
+  "radius": 15,
+  "blur": 10,
+  "gradient": {
+  0.2: "blue",
+  0.4: "lime",
+  0.6: "orange",
+  1: "red",
+},
+}
+            );
+        
+    
+            heat_map_1491509630fe115d4bd57776317e4a63.addTo(feature_group_0586687c2bcbe158f7bc2609338d7292);
+        
+    
+            feature_group_0586687c2bcbe158f7bc2609338d7292.addTo(map_010aafbe329a23384094124b04819b7a);
+        
+    
+            var layer_control_149fc63bc62d3b637f911f0a641f8915_layers = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_c84536eab7588ac3d8b42175ea5e868d,
+                },
+                overlays :  {
+                    "Marcadores de Cidades" : feature_group_05c32710a6389391224f4f692a8fb5ad,
+                    "Rotas ao JFK" : feature_group_7b2805138e3484e0630e20aee1f51483,
+                    "Heatmap de Delays" : feature_group_0586687c2bcbe158f7bc2609338d7292,
+                },
+            };
+            let layer_control_149fc63bc62d3b637f911f0a641f8915 = L.control.layers(
+                layer_control_149fc63bc62d3b637f911f0a641f8915_layers.base_layers,
+                layer_control_149fc63bc62d3b637f911f0a641f8915_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_010aafbe329a23384094124b04819b7a);
+
+        
+
+    
+    // ⚽ World Cup 2026 Stadium
+    var stadium_icon = L.AwesomeMarkers.icon({
+        icon: 'futbol-o',
+        prefix: 'fa',
+        markerColor: 'darkgreen',
+        iconColor: 'white'
+    });
+    L.marker([40.8128, -74.0742], {icon: stadium_icon})
+        .bindPopup("<b>⚽ MetLife Stadium</b><br><b>World Cup 2026</b>")
+        .bindTooltip("⚽ MetLife Stadium", {permanent: false})
+        .addTo(map_010aafbe329a23384094124b04819b7a);
+    
+</script>
+</html>

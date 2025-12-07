@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top 10% Richest Zip Codes - Analysis</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial; margin: 0; padding: 20px; background: #f0f0f0; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #800026; border-bottom: 3px solid #800026; padding-bottom: 10px; }
+        h2 { color: #bd0026; }
+        .highlight { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 5px solid #ffc107; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 20px 0; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card .number { font-size: 28px; font-weight: bold; color: #800026; }
+        .stat-card .label { font-size: 12px; color: #666; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 20px 0; }
+        th { background: #800026; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #fff5f5; }
+        .map-link { display: inline-block; background: #bd0026; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; margin: 5px; }
+        .map-link:hover { background: #800026; }
+        .chart-img { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TOP 10% RICHEST ZIP CODES</h1>
+        <p>National Analysis across 7 Major Metro Areas</p>
+        
+        <div class="highlight">
+            <strong>Threshold:</strong> Geometric Score >= 12.98% (90th percentile)<br>
+            <strong>Formula:</strong> IRS<sup>0.50</sup> x Time²<sup>0.20</sup> x Pop200k<sup>0.20</sup> x Density<sup>0.10</sup>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number">272</div>
+                <div class="label">Rich Zip Codes</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">1,149,167</div>
+                <div class="label">HH $200k+</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">$0k</div>
+                <div class="label">Median AGI/Return</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">7.3M</div>
+                <div class="label">Total Population</div>
+            </div>
+        </div>
+        
+        <h2>Maps</h2>
+        <p>
+            <a href="map_top10_national.html" class="map-link">National Map</a>
+    <a href="map_top10_los_angeles.html" class="map-link">Los Angeles (49)</a>
+<a href="map_top10_new_york.html" class="map-link">New York (86)</a>
+<a href="map_top10_chicago.html" class="map-link">Chicago (35)</a>
+<a href="map_top10_dallas.html" class="map-link">Dallas (25)</a>
+<a href="map_top10_houston.html" class="map-link">Houston (28)</a>
+<a href="map_top10_miami.html" class="map-link">Miami (8)</a>
+<a href="map_top10_san_francisco.html" class="map-link">San Francisco (41)</a>
+
+        </p>
+        
+        <h2>City Breakdown</h2>
+        <table>
+            <tr>
+                <th>City</th>
+                <th>Top 10% Zips</th>
+                <th>Total Zips</th>
+                <th>% Rich</th>
+                <th>Median Score</th>
+                <th>Median AGI</th>
+                <th>HH $200k+</th>
+            </tr>
+    
+            <tr>
+                <td><strong>New York</strong></td>
+                <td>86</td>
+                <td>924</td>
+                <td>9.3%</td>
+                <td>17.47%</td>
+                <td>$400</td>
+                <td>377,656</td>
+            </tr>
+        
+            <tr>
+                <td><strong>Los Angeles</strong></td>
+                <td>49</td>
+                <td>449</td>
+                <td>10.9%</td>
+                <td>17.24%</td>
+                <td>$317</td>
+                <td>172,238</td>
+            </tr>
+        
+            <tr>
+                <td><strong>San Francisco</strong></td>
+                <td>41</td>
+                <td>278</td>
+                <td>14.7%</td>
+                <td>15.49%</td>
+                <td>$376</td>
+                <td>216,940</td>
+            </tr>
+        
+            <tr>
+                <td><strong>Chicago</strong></td>
+                <td>35</td>
+                <td>339</td>
+                <td>10.3%</td>
+                <td>16.48%</td>
+                <td>$247</td>
+                <td>155,018</td>
+            </tr>
+        
+            <tr>
+                <td><strong>Houston</strong></td>
+                <td>28</td>
+                <td>261</td>
+                <td>10.7%</td>
+                <td>17.36%</td>
+                <td>$207</td>
+                <td>110,892</td>
+            </tr>
+        
+            <tr>
+                <td><strong>Dallas</strong></td>
+                <td>25</td>
+                <td>299</td>
+                <td>8.4%</td>
+                <td>16.48%</td>
+                <td>$244</td>
+                <td>99,271</td>
+            </tr>
+        
+            <tr>
+                <td><strong>Miami</strong></td>
+                <td>8</td>
+                <td>166</td>
+                <td>4.8%</td>
+                <td>14.54%</td>
+                <td>$725</td>
+                <td>17,152</td>
+            </tr>
+        
+        </table>
+        
+        <h2>Score Distribution</h2>
+        <img src="histogram_all_vs_top10.png" class="chart-img" alt="All vs Top 10%">
+        <img src="histogram_top10_by_city.png" class="chart-img" alt="By City">
+        <img src="histogram_top10_boxplot.png" class="chart-img" alt="Box Plot">
+        <img src="histogram_top10_agi.png" class="chart-img" alt="AGI Distribution">
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
+            Generated: 2025-11-26 23:21:21<br>
+            Data: IRS SOI 2022, Census ACS 5yr 2022, Google Distance Matrix API
+        </div>
+    </div>
+</body>
+</html>
+    
