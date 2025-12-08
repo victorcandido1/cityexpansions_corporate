@@ -236,47 +236,134 @@ def create_hourly_pattern_chart(df, output_file='hourly_pattern_by_airport.png')
 def create_combined_heatmap(df, output_file='heatmap_hour_day_combined.png'):
     """
     Cria heatmap combinado: hora x dia da semana para cada aeroporto
+    NOVO: Com eixo X = horas, eixo Y = dias da semana, separado por DEPARTURES/ARRIVALS
     """
     print(f"\n--- CRIANDO HEATMAP COMBINADO (HORA X DIA) ---")
     
     airports = sorted(df['query_airport'].unique())
-    n_airports = len(airports)
     
-    # Criar figura com subplots
-    fig, axes = plt.subplots(2, 3, figsize=(24, 12))
-    axes = axes.flatten()
+    # Nomes dos dias (começando com Monday)
+    day_names = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     
-    day_names = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
-    
-    for idx, airport in enumerate(airports):
-        airport_data = df[df['query_airport'] == airport]
+    # Processar cada aeroporto individualmente
+    for airport in airports:
+        airport_name = AIRPORT_NAMES.get(airport, airport)
+        print(f"  Processando {airport_name}...")
         
-        # Agregar por hora e dia
-        pivot_data = airport_data.groupby(['hour_local', 'day_of_week'])['premium_seats'].sum().reset_index()
-        pivot_table = pivot_data.pivot(index='day_of_week', columns='hour_local', values='premium_seats')
+        # Filtrar dados do aeroporto
+        airport_data = df[df['query_airport'] == airport].copy()
         
-        # Renomear índice
-        pivot_table.index = [day_names[i] for i in pivot_table.index]
+        # Identificar DEPARTURES e ARRIVALS
+        # Se a coluna 'direction' existe, usar ela
+        if 'direction' in airport_data.columns:
+            departures = airport_data[airport_data['direction'].str.upper().str.contains('DEP', na=False)]
+            arrivals = airport_data[airport_data['direction'].str.upper().str.contains('ARR', na=False)]
+        # Caso contrário, usar orig_icao e dest_icao
+        elif 'orig_icao' in airport_data.columns and 'dest_icao' in airport_data.columns:
+            departures = airport_data[airport_data['orig_icao'] == airport]
+            arrivals = airport_data[airport_data['dest_icao'] == airport]
+        else:
+            # Se não tem nenhuma dessas colunas, usar todos os dados para ambos
+            print(f"    [AVISO] Sem coluna de direção, usando mesmos dados para dep/arr")
+            departures = airport_data
+            arrivals = airport_data
         
-        # Criar heatmap
-        sns.heatmap(pivot_table, 
+        # Criar figura com dois subplots (Departures e Arrivals)
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 8))
+        
+        # DEPARTURES - Agregar por dia da semana e hora (usando MÉDIA)
+        if len(departures) > 0:
+            pivot_data_dep = departures.groupby(['day_of_week', 'hour_local'])['premium_seats'].mean().reset_index()
+            pivot_table_dep = pivot_data_dep.pivot(index='day_of_week', columns='hour_local', values='premium_seats')
+        else:
+            # Criar tabela vazia se não houver dados
+            pivot_table_dep = pd.DataFrame(0, index=range(7), columns=range(24))
+        
+        # Garantir que temos todas as horas (0-23) e todos os dias (0-6)
+        for hour in range(24):
+            if hour not in pivot_table_dep.columns:
+                pivot_table_dep[hour] = 0
+        for day in range(7):
+            if day not in pivot_table_dep.index:
+                pivot_table_dep.loc[day] = 0
+        
+        pivot_table_dep = pivot_table_dep.sort_index(axis=0).sort_index(axis=1)
+        
+        # Renomear índice para nomes dos dias
+        pivot_table_dep.index = [day_names[int(i)] for i in pivot_table_dep.index]
+        
+        # ARRIVALS - Agregar por dia da semana e hora (usando MÉDIA)
+        if len(arrivals) > 0:
+            pivot_data_arr = arrivals.groupby(['day_of_week', 'hour_local'])['premium_seats'].mean().reset_index()
+            pivot_table_arr = pivot_data_arr.pivot(index='day_of_week', columns='hour_local', values='premium_seats')
+        else:
+            # Criar tabela vazia se não houver dados
+            pivot_table_arr = pd.DataFrame(0, index=range(7), columns=range(24))
+        
+        # Garantir que temos todas as horas (0-23) e todos os dias (0-6)
+        for hour in range(24):
+            if hour not in pivot_table_arr.columns:
+                pivot_table_arr[hour] = 0
+        for day in range(7):
+            if day not in pivot_table_arr.index:
+                pivot_table_arr.loc[day] = 0
+        
+        pivot_table_arr = pivot_table_arr.sort_index(axis=0).sort_index(axis=1)
+        
+        # Renomear índice para nomes dos dias
+        pivot_table_arr.index = [day_names[int(i)] for i in pivot_table_arr.index]
+        
+        # Criar heatmaps com mesma escala
+        vmax = max(pivot_table_dep.max().max(), pivot_table_arr.max().max())
+        if vmax == 0:
+            vmax = 1  # Evitar divisão por zero
+        vmin = 0
+        
+        # DEPARTURES
+        sns.heatmap(pivot_table_dep, 
                     annot=False, 
-                    cmap='RdYlGn', 
-                    cbar_kws={'label': 'Assentos Premium'},
-                    ax=axes[idx],
-                    linewidths=0.1)
+                    cmap='YlOrRd', 
+                    cbar_kws={'label': 'Premium Seats'},
+                    ax=ax1,
+                    vmin=vmin,
+                    vmax=vmax,
+                    linewidths=0.5,
+                    linecolor='white')
         
-        axes[idx].set_title(AIRPORT_NAMES.get(airport, airport), 
-                           fontsize=12, fontweight='bold')
-        axes[idx].set_xlabel('Hora do Dia (Local)', fontsize=10)
-        axes[idx].set_ylabel('Dia da Semana', fontsize=10)
+        ax1.set_title(f'DEPARTURES - {airport_name}\nPremium Seats by Day/Hour', 
+                     fontsize=14, fontweight='bold', pad=15)
+        ax1.set_xlabel('Time of Day', fontsize=12, fontweight='bold')
+        ax1.set_ylabel('Day of Week', fontsize=12, fontweight='bold')
+        ax1.set_xticklabels([f'{h:02d}h' for h in range(24)], rotation=0)
+        ax1.set_yticklabels(day_names, rotation=0)
+        
+        # ARRIVALS
+        sns.heatmap(pivot_table_arr, 
+                    annot=False, 
+                    cmap='YlOrRd', 
+                    cbar_kws={'label': 'Premium Seats'},
+                    ax=ax2,
+                    vmin=vmin,
+                    vmax=vmax,
+                    linewidths=0.5,
+                    linecolor='white')
+        
+        ax2.set_title(f'ARRIVALS - {airport_name}\nPremium Seats by Day/Hour', 
+                     fontsize=14, fontweight='bold', pad=15)
+        ax2.set_xlabel('Time of Day', fontsize=12, fontweight='bold')
+        ax2.set_ylabel('Day of Week', fontsize=12, fontweight='bold')
+        ax2.set_xticklabels([f'{h:02d}h' for h in range(24)], rotation=0)
+        ax2.set_yticklabels(day_names, rotation=0)
+        
+        plt.tight_layout()
+        
+        # Salvar com nome específico do aeroporto
+        output_filename = f'heatmap_{airport.lower()}_departures_arrivals.png'
+        plt.savefig(output_filename, dpi=300, bbox_inches='tight')
+        print(f"    [OK] Salvo: {output_filename} (Dep: {len(departures)} voos, Arr: {len(arrivals)} voos)")
+        plt.close()
     
-    plt.suptitle('Distribuição de Assentos Premium por Hora e Dia da Semana\n(Horário Local de Cada Aeroporto)', 
-                 fontsize=16, fontweight='bold', y=0.995)
-    plt.tight_layout()
-    plt.savefig(output_file, dpi=300, bbox_inches='tight')
-    print(f"  [OK] Heatmap combinado salvo: {output_file}")
-    plt.close()
+    print(f"  [OK] Todos os heatmaps por aeroporto foram gerados")
 
 def generate_temporal_summary(df, output_file='temporal_summary.csv'):
     """
