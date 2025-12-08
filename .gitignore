@@ -1,5 +1,4 @@
-# Python - Exclude all Python files (may contain API keys)
-*.py
+# Python cache and compiled files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -32,6 +31,25 @@ build/
 10percent/zbp_real_data.csv
 10percent/industry_by_zip_all.csv
 10percent/cache_zbp_data.csv
+10percent/premium_flights_analysis.csv
+10percent/premium_flights_with_local_time.csv
+10percent/corporate_all_zips.csv
+
+# Exclude flights data folder (very large CSV files - raw data)
+flights an/
+
+# Exclude other large data folders
+traffic_data/
+cross_section_analytics/
+paper/
+publish_web/
+
+# Keep only processed/aggregated data needed for dashboard
+!10percent/top10_richest_data.csv
+!10percent/top10_corporate_data.csv
+!10percent/intersection_analysis.csv
+!10percent/intersection_by_city.csv
+!10percent/corporate_by_city_summary.csv
 
 # Backup folders
 BACKUP_*/
@@ -72,6 +90,3 @@ Thumbs.db
 
 # MSA multipliers data
 !msa_multipliers.json
-new_folder/cache_geometry.gpkg
-all-airport-data.xlsx
-publish_web/
