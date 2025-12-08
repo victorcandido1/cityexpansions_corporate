@@ -158,13 +158,16 @@
                 <li><a href="#household-analysis">3. Household Wealth Analysis</a></li>
                 <li><a href="#corporate-analysis">4. Corporate Power Analysis</a></li>
                 <li><a href="#geometric-score">5. Geometric Score Calculation</a></li>
-                <li><a href="#corporate-score">6. Corporate Score Calculation</a></li>
-                <li><a href="#top10-selection">7. Top 10% Selection Methodology</a></li>
-                <li><a href="#geographic-analysis">8. Geographic Analysis</a></li>
-                <li><a href="#statistical-analyses">9. Statistical Analyses</a></li>
-                <li><a href="#maps">10. Map Generation</a></li>
-                <li><a href="#intersection">11. Intersection Analysis</a></li>
-                <li><a href="#estimates">12. Data Estimates & Limitations</a></li>
+                <li><a href="#corporate-score">6. Corporate Score Calculation (Updated Dec 2025)</a></li>
+                <li><a href="#final-ranking">7. Final Integrated City Ranking (NEW)</a></li>
+                <li><a href="#top10-selection">8. Top 10% Selection Methodology</a></li>
+                <li><a href="#geographic-analysis">9. Geographic Analysis</a></li>
+                <li><a href="#statistical-analyses">10. Statistical Analyses</a></li>
+                <li><a href="#maps">11. Map Generation</a></li>
+                <li><a href="#intersection">12. Intersection Analysis (Updated)</a></li>
+                <li><a href="#cluster-analysis">13. Cluster Analysis</a></li>
+                <li><a href="#premium-flights">14. Premium Flight Analysis (NEW)</a></li>
+                <li><a href="#estimates">15. Data Estimates & Limitations</a></li>
             </ul>
         </div>
         
@@ -869,6 +872,10 @@
             </p>
             
             <h3>6.1 Component Variables</h3>
+            <div class="important">
+                <strong>Updated December 2025:</strong> Corporate Score now includes <strong>Revenue per Employee</strong> as a 
+                productivity/quality measure. This provides a balanced view of both volume and quality of corporate activity.
+            </div>
             <table>
                 <tr>
                     <th>Component</th>
@@ -877,23 +884,28 @@
                 </tr>
                 <tr>
                     <td>Revenue_Norm</td>
-                    <td>35%</td>
-                    <td>Normalized estimated revenue (millions $)</td>
+                    <td>30%</td>
+                    <td>Normalized estimated revenue (millions $) - Volume measure</td>
                 </tr>
                 <tr>
                     <td>Employment_Norm</td>
-                    <td>30%</td>
-                    <td>Normalized total employment</td>
+                    <td>25%</td>
+                    <td>Normalized total employment - Volume measure</td>
+                </tr>
+                <tr style="background: #d4edda;">
+                    <td><strong>RevPerEmp_Norm</strong></td>
+                    <td><strong>15%</strong></td>
+                    <td><strong>Normalized revenue per employee - Productivity/Quality measure (NEW)</strong></td>
                 </tr>
                 <tr>
                     <td>PowerShare_Norm</td>
-                    <td>15%</td>
+                    <td>10%</td>
                     <td>Normalized power industries employment percentage</td>
                 </tr>
                 <tr>
                     <td>Distance_Squared</td>
                     <td>20%</td>
-                    <td>Normalized distance to airport, squared (exclusivity indicator)</td>
+                    <td>Normalized travel time to airport, squared (exclusivity indicator)</td>
                 </tr>
             </table>
             
@@ -907,18 +919,39 @@
             
             <h3>6.2 Corporate Score Formula</h3>
             <div class="formula">
-                Corporate_Score = (Revenue_Norm^0.35) × (Employment_Norm^0.30) × (PowerShare_Norm^0.15) × (Distance_Squared^0.20)
+                Corporate_Score = (Revenue_Norm^0.30) × (Employment_Norm^0.25) × (RevPerEmp_Norm^0.15) × (PowerShare_Norm^0.10) × (Time_Squared^0.20)
             </div>
             
             <p>
-                Where <code>Distance_Squared = (Distance_Norm)²</code>, similar to the household analysis.
+                Where:
             </p>
+            <ul>
+                <li><code>RevPerEmp_Norm</code> = Normalized Revenue per Employee (productivity measure)</li>
+                <li><code>Time_Squared = (Time_Norm)²</code>, similar to the household analysis</li>
+                <li><code>Revenue per Employee</code> = Estimated Revenue ($M) × 1,000,000 / Total Employment</li>
+            </ul>
             
             <div class="important">
+                <strong>Why Revenue per Employee?</strong> This component captures the <strong>quality and productivity</strong> of corporate activity, 
+                not just volume. A ZIP with high-value tech companies will score higher than one with many low-wage jobs, even if total employment is similar.
+                This aligns with REVO's target market: high-value business travelers from productive, high-revenue companies.
+            </div>
+            
+            <div class="important">
+                <strong>Rationale for Weight Distribution:</strong>
+                <ul>
+                    <li><strong>Volume (55% total):</strong> Revenue (30%) + Employment (25%) = Total economic activity</li>
+                    <li><strong>Quality (25% total):</strong> Rev/Emp (15%) + Power Share (10%) = Productivity and industry quality</li>
+                    <li><strong>Geography (20%):</strong> Travel Time² = Exclusivity and spread across metro area</li>
+                </ul>
+                This structure ensures that both large-volume markets (LA) and high-quality markets (SF, NY) receive appropriate recognition.
+            </div>
+            
+            <div class="warning">
                 <strong>Note on Corporate_Power_Index:</strong> A separate metric called <strong>Corporate_Power_Index</strong> is also calculated 
                 for statistical analysis. It uses an arithmetic weighted average (40% Revenue + 30% Employment + 30% Power Share) 
-                <strong>without the distance component</strong>. This index is used in intersection analysis and statistical comparisons, 
-                but <strong>not</strong> for Top 10% selection (which uses Corporate_Score with geometric mean).
+                <strong>without the distance component or productivity measure</strong>. This index was used for intersection analysis in earlier versions,
+                but the current analysis primarily uses <strong>Corporate_Score</strong> (geometric mean with productivity) for consistency.
             </div>
             
             <h3>6.3 Distance Calculation</h3>
@@ -939,15 +972,140 @@
             </div>
         </section>
         
-        <section id="top10-selection" class="section">
-            <h2>7. Top 10% Selection Methodology</h2>
+        <section id="final-ranking" class="section">
+            <h2>7. Final Integrated City Ranking</h2>
             
-            <h3>7.1 Household Top 10%</h3>
+            <div class="important">
+                <strong>New in December 2025:</strong> A comprehensive <strong>Final Integrated Ranking</strong> combines all analysis dimensions 
+                to provide a holistic view of each city's potential for REVO's helicopter transportation services.
+            </div>
+            
+            <h3>7.1 Ranking Components</h3>
+            <p>
+                The Final Score integrates six key dimensions, each normalized to 0-100 scale:
+            </p>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Weight</th>
+                    <th>Description</th>
+                    <th>Source Metric</th>
+                </tr>
+                <tr>
+                    <td>Household Quality</td>
+                    <td>25%</td>
+                    <td>Quality of household wealth (per capita indicators)</td>
+                    <td>Geometric Score (median)</td>
+                </tr>
+                <tr>
+                    <td>Household Volume</td>
+                    <td>15%</td>
+                    <td>Total number of high-income households</td>
+                    <td>Total HH $200k+ in Top 10% ZIPs</td>
+                </tr>
+                <tr>
+                    <td>Corporate Quality</td>
+                    <td>25%</td>
+                    <td>Quality of corporate activity (productivity)</td>
+                    <td>Corporate Score with Rev/Emp (median)</td>
+                </tr>
+                <tr>
+                    <td>Corporate Volume</td>
+                    <td>15%</td>
+                    <td>Total employment in top corporate ZIPs</td>
+                    <td>Total Employment in Top 10% ZIPs</td>
+                </tr>
+                <tr>
+                    <td>Intersection</td>
+                    <td>10%</td>
+                    <td>Overlap between wealthy households and corporations</td>
+                    <td>Number of ZIPs in both Top 10%</td>
+                </tr>
+                <tr>
+                    <td>Infrastructure</td>
+                    <td>10%</td>
+                    <td>Existing aviation infrastructure</td>
+                    <td>Airports × 2 + Heliports</td>
+                </tr>
+            </table>
+            
+            <h3>7.2 Final Score Formula</h3>
+            <div class="formula">
+                Final_Score = 0.25×HH_Quality + 0.15×HH_Volume + 0.25×Corp_Quality + 0.15×Corp_Volume + 0.10×Intersection + 0.10×Infrastructure
+            </div>
+            
+            <p>
+                All components are normalized to 0-100 scale before weighting to ensure equal contribution ranges.
+            </p>
+            
+            <h3>7.3 Final Ranking Results</h3>
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>City</th>
+                    <th>Final Score</th>
+                    <th>Key Strengths</th>
+                </tr>
+                <tr style="background: #fff3cd;">
+                    <td><strong>1</strong></td>
+                    <td><strong>New York</strong></td>
+                    <td><strong>72.1</strong></td>
+                    <td>Balanced excellence across all metrics</td>
+                </tr>
+                <tr style="background: #d1ecf1;">
+                    <td><strong>2</strong></td>
+                    <td><strong>Los Angeles</strong></td>
+                    <td><strong>58.5</strong></td>
+                    <td>Largest volume: $799B revenue, 3.4M employees, 50 heliports</td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td><strong>Chicago</strong></td>
+                    <td><strong>37.4</strong></td>
+                    <td>Highest household score (13.67%), 95% HH-Corp overlap</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Miami</td>
+                    <td>35.4</td>
+                    <td>100% overlap between household and corporate top 10%</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Houston</td>
+                    <td>29.6</td>
+                    <td>Best infrastructure: 69 total facilities (23 airports, 46 heliports)</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>San Francisco</td>
+                    <td>28.1</td>
+                    <td>Highest productivity ($238k/employee), highest % wealthy (11.4%)</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Dallas</td>
+                    <td>9.5</td>
+                    <td>Emerging market with growth potential</td>
+                </tr>
+            </table>
+            
+            <div class="important">
+                <strong>Interpretation:</strong> The Final Score balances both quality and quantity across household wealth, corporate power, 
+                and infrastructure. New York leads due to consistent excellence in all dimensions. Los Angeles ranks second with the 
+                highest absolute volumes, while Chicago punches above its weight with high-quality metrics despite smaller absolute numbers.
+            </div>
+        </section>
+        
+        <section id="top10-selection" class="section">
+            <h2>8. Top 10% Selection Methodology</h2>
+            
+            <h3>8.1 Household Top 10%</h3>
             <p>
                 <strong>Selection Criterion:</strong> Geometric Score ≥ 90th percentile threshold
             </p>
             <p>
-                <strong>Result:</strong> 272 ZIP codes out of 2,720 total ZIP codes analyzed (10.0%)
+                <strong>Result:</strong> 272 ZIP codes out of 2,716 total ZIP codes analyzed (10.0%)
             </p>
             <p>
                 <strong>Distribution:</strong>
@@ -962,24 +1120,24 @@
                 <li>Miami: 6 ZIPs</li>
             </ul>
             
-            <h3>7.2 Corporate Top 10%</h3>
+            <h3>8.2 Corporate Top 10%</h3>
             <p>
                 <strong>Selection Criterion:</strong> Corporate Score ≥ 90th percentile threshold
             </p>
             <p>
-                <strong>Result:</strong> 360 ZIP codes out of 3,598 total ZIP codes analyzed (10.0%)
+                <strong>Result:</strong> 321 ZIP codes out of 3,204 active ZIP codes analyzed (10.0%)
             </p>
             <p>
-                <strong>Distribution:</strong>
+                <strong>Distribution (Updated with Productivity Component):</strong>
             </p>
             <ul>
-                <li>Los Angeles: 105 ZIPs (largest concentration)</li>
-                <li>Miami: 81 ZIPs</li>
-                <li>New York: 74 ZIPs</li>
-                <li>San Francisco: 30 ZIPs</li>
-                <li>Chicago: 27 ZIPs</li>
-                <li>Dallas: 22 ZIPs</li>
-                <li>Houston: 21 ZIPs</li>
+                <li>Los Angeles: 110 ZIPs (largest concentration)</li>
+                <li>Miami: 55 ZIPs</li>
+                <li>New York: 45 ZIPs</li>
+                <li>Chicago: 38 ZIPs</li>
+                <li>San Francisco: 34 ZIPs</li>
+                <li>Dallas: 20 ZIPs</li>
+                <li>Houston: 19 ZIPs</li>
             </ul>
             
             <div class="important">
@@ -989,9 +1147,9 @@
         </section>
         
         <section id="geographic-analysis" class="section">
-            <h2>8. Geographic Analysis</h2>
+            <h2>9. Geographic Analysis</h2>
             
-            <h3>8.1 Travel Time Calculation</h3>
+            <h3>9.1 Travel Time Calculation</h3>
             <p>
                 Travel times are calculated using Google Distance Matrix API. See Section 2.4 for detailed configuration. 
                 Key parameters:
@@ -1010,7 +1168,7 @@
                 not an average over time. Results may vary by time of day, day of week, and season.
             </p>
             
-            <h3>8.2 Geodesic Distance</h3>
+            <h3>9.2 Geodesic Distance</h3>
             <p>
                 Geodesic (great-circle) distance is calculated using the Haversine formula:
             </p>
@@ -1021,7 +1179,7 @@
             </div>
             <p>Where R = 6,371 km (Earth's radius)</p>
             
-            <h3>8.3 Weighted Distance Analysis</h3>
+            <h3>9.3 Weighted Distance Analysis</h3>
             <p>
                 For each city, we calculate several distance metrics:
             </p>
@@ -1033,7 +1191,7 @@
                 <li><strong>Centroid Distance:</strong> Distance from airport to the centroid of all top 10% ZIPs</li>
             </ul>
             
-            <h3>8.4 Speed Calculation</h3>
+            <h3>9.4 Speed Calculation</h3>
             <p>
                 Average speed to airport is calculated as:
             </p>
@@ -1046,9 +1204,9 @@
         </section>
         
         <section id="statistical-analyses" class="section">
-            <h2>9. Statistical Analyses</h2>
+            <h2>10. Statistical Analyses</h2>
             
-            <h3>9.1 Weighted Averages</h3>
+            <h3>10.1 Weighted Averages</h3>
             <p>
                 Weighted averages are calculated to give more importance to ZIP codes with higher economic activity:
             </p>
@@ -1081,7 +1239,7 @@
                 </li>
             </ul>
             
-            <h3>9.2 Time Weighted by Wealth</h3>
+            <h3>10.2 Time Weighted by Wealth</h3>
             <p>
                 For corporate analysis, travel time is weighted by corporate wealth (revenue × employment), 
                 similar to how household analysis weights by (HH200k × AGI):
@@ -1093,7 +1251,7 @@
                 Where <code>Corporate_Wealth = Revenue × Employment</code>
             </p>
             
-            <h3>9.3 Power Industries Analysis</h3>
+            <h3>10.3 Power Industries Analysis</h3>
             <p>
                 Power industries are analyzed by:
             </p>
@@ -1103,7 +1261,7 @@
                 <li><strong>Establishment Count:</strong> Number of power industry establishments</li>
             </ul>
             
-            <h3>9.4 Comparative Statistics</h3>
+            <h3>10.4 Comparative Statistics</h3>
             <p>
                 Various scatter plots and correlations are calculated:
             </p>
@@ -1116,21 +1274,21 @@
         </section>
         
         <section id="maps" class="section">
-            <h2>10. Map Generation</h2>
+            <h2>11. Map Generation</h2>
             
-            <h3>10.1 Technology</h3>
+            <h3>11.1 Technology</h3>
             <p>
                 Maps are generated using <strong>Folium</strong>, a Python library that creates interactive Leaflet.js maps.
             </p>
             
-            <h3>10.2 Map Types</h3>
+            <h3>11.2 Map Types</h3>
             <ul>
                 <li><strong>All ZIPs Maps:</strong> Show all ZIP codes with corporate/household data</li>
                 <li><strong>Top 10% Maps:</strong> Highlight only the top 10% ZIP codes</li>
                 <li><strong>Overlay Maps:</strong> Show intersection of household and corporate top 10%</li>
             </ul>
             
-            <h3>10.3 Color Schemes</h3>
+            <h3>11.3 Color Schemes</h3>
             <ul>
                 <li><strong>Household Maps:</strong> Color gradient based on Geometric Score (blue scale)</li>
                 <li><strong>Corporate Maps:</strong> Color gradient based on Corporate Score (red scale)</li>
@@ -1143,7 +1301,7 @@
                 </li>
             </ul>
             
-            <h3>10.4 Map Features</h3>
+            <h3>11.4 Map Features</h3>
             <ul>
                 <li><strong>ZIP Code Polygons:</strong> Colored by score value</li>
                 <li><strong>Airport Markers:</strong> Major airports marked with plane icons</li>
@@ -1154,13 +1312,13 @@
         </section>
         
         <section id="intersection" class="section">
-            <h2>11. Intersection Analysis</h2>
+            <h2>12. Intersection Analysis</h2>
             
             <p>
                 Intersection analysis identifies ZIP codes that appear in both the top 10% household and top 10% corporate rankings.
             </p>
             
-            <h3>11.1 Intersection Calculation</h3>
+            <h3>12.1 Intersection Calculation</h3>
             <p>
                 The intersection is defined as the set of ZIP codes that appear in both top 10% rankings:
             </p>
@@ -1168,7 +1326,7 @@
                 Intersection = {ZIP codes where Geometric_Score ≥ Threshold_HH AND Corporate_Score ≥ Threshold_Corp}
             </div>
             
-            <h3>11.2 Intersection Metrics - Explicit Formulas</h3>
+            <h3>12.2 Intersection Metrics - Explicit Formulas</h3>
             <p>
                 Three key metrics are calculated to measure the overlap between household and corporate top 10%:
             </p>
@@ -1217,7 +1375,7 @@
                 The Combined_Score uses Corporate_Power_Index (not Corporate_Score) to combine with Geometric_Score.
             </div>
             
-            <h3>11.4 Additional Metrics</h3>
+            <h3>12.4 Additional Metrics</h3>
             <ul>
                 <li><strong>Jaccard Index:</strong> <code>J = |A ∩ B| / |A ∪ B|</code> - Measures similarity between the two sets</li>
                 <li><strong>Correlation:</strong> Pearson correlation coefficient between Geometric Score and Corporate Score</li>
@@ -1225,37 +1383,44 @@
             
             <h3>11.3 Results</h3>
             <p>
-                <strong>Current Statistics:</strong>
+                <strong>Current Statistics (Updated December 2025):</strong>
             </p>
             <ul>
                 <li>Household Top 10%: 272 ZIPs</li>
-                <li>Corporate Top 10%: 360 ZIPs</li>
-                <li>Intersection: 197 ZIPs (72.4% of household top 10%)</li>
+                <li>Corporate Top 10%: 321 ZIPs (updated with productivity component)</li>
+                <li>Intersection: 67 ZIPs (24.6% of household top 10%)</li>
                 <li>Correlation: 0.261 (positive but moderate correlation)</li>
             </ul>
             
+            <div class="warning">
+                <strong>Note:</strong> The intersection decreased from 197 to 67 ZIPs after adding the <strong>Revenue per Employee</strong> 
+                component to Corporate Score. The new formula prioritizes <strong>high-productivity</strong> corporate zones, which don't always 
+                overlap with high-wealth residential areas. This is expected: wealthy households may live in areas with lower corporate density, 
+                while high-productivity companies may concentrate in business districts away from prime residential areas.
+            </div>
+            
             <div class="important">
-                <strong>Interpretation:</strong> A 72.4% overlap suggests that wealthy households and powerful corporations 
-                tend to co-locate, but not perfectly. The moderate correlation (0.261) indicates that while there is a 
-                relationship, other factors also play important roles.
+                <strong>Interpretation:</strong> A 24.6% overlap indicates that wealthy households and high-productivity corporations 
+                occupy partially distinct geographic areas. This suggests that <strong>helicopter services</strong> connecting these zones 
+                could serve a valuable niche: transporting wealthy residents to/from high-productivity corporate centers.
             </div>
         </section>
         
         <section id="cluster-analysis" class="section">
-            <h2>12. Cluster Analysis (Connectivity)</h2>
+            <h2>13. Cluster Analysis (Connectivity)</h2>
             
             <p>
                 Cluster analysis groups ZIP codes that share similar characteristics regarding their connectivity to airport infrastructure.
                 This helps identify "pockets of opportunity" where wealthy residential or corporate areas face similar travel challenges.
             </p>
             
-            <h3>12.1 Clustering Algorithm</h3>
+            <h3>13.1 Clustering Algorithm</h3>
             <p>
                 We use <strong>K-Means Clustering</strong> algorithm, which partitions ZIP codes into <em>k</em> clusters where each ZIP belongs 
                 to the cluster with the nearest mean.
             </p>
             
-            <h3>12.2 Variables Used (Feature Vector)</h3>
+            <h3>13.2 Variables Used (Feature Vector)</h3>
             <p>
                 The clustering is <strong>multidimensional</strong>, combining both geographic location and accessibility metrics. 
                 Each ZIP code is represented by a standardized feature vector containing:
@@ -1289,7 +1454,7 @@
                 while another represents "Downtown Core with High Congestion."
             </div>
             
-            <h3>12.3 Process</h3>
+            <h3>13.3 Process</h3>
             <ol>
                 <li><strong>Standardization:</strong> All variables are scaled (Z-score normalization) so that latitude/longitude do not dominate travel time variables.</li>
                 <li><strong>Dynamic K Selection:</strong> The number of clusters (<em>k</em>) is determined dynamically based on the number of ZIP codes in the city 
@@ -1297,7 +1462,7 @@
                 <li><strong>Heliport Assignment:</strong> For visualization, each cluster is analyzed to find the most efficient heliport infrastructure serving it.</li>
             </ol>
             
-            <h3>12.4 Output</h3>
+            <h3>13.4 Output</h3>
             <p>
                 The result is a set of clusters that are both geographically contiguous and functionally similar in their airport accessibility profile.
                 These are visualized in the "Cluster Layer Maps" where connections to optimal infrastructure are drawn.
@@ -1305,9 +1470,9 @@
         </section>
 
         <section id="estimates" class="section">
-            <h2>13. Data Estimates & Limitations</h2>
+            <h2>15. Data Estimates & Limitations</h2>
             
-            <h3>12.1 What is Direct from Government Sources?</h3>
+            <h3>15.1 What is Direct from Government Sources?</h3>
             <div class="important">
                 <strong>Direct Government Data (100% Real Counts):</strong>
                 <ul>
@@ -1325,7 +1490,7 @@
                 </p>
             </div>
             
-            <h3>12.2 What is Estimated?</h3>
+            <h3>15.2 What is Estimated?</h3>
             <div class="warning">
                 <strong>Statistical Estimates (Based on Real Data):</strong>
                 <ul>
@@ -1338,7 +1503,7 @@
                 </ul>
             </div>
             
-            <h3>12.3 Limitations</h3>
+            <h3>15.3 Limitations</h3>
             <ul>
                 <li><strong>Revenue Estimates:</strong> Based on industry averages from BLS/Census benchmarks, adjusted by MSA-specific multipliers. 
                     The simplified model uses $200K/employee for general industries and $350K/employee for power industries, 
@@ -1357,7 +1522,7 @@
                     (e.g., U-shaped function favoring moderate distances). Results may be robust to these variations, but this has not been tested.</li>
             </ul>
             
-            <h3>12.4 Data Quality Assurance</h3>
+            <h3>15.4 Data Quality Assurance</h3>
             <ul>
                 <li>All data sources are official U.S. government agencies</li>
                 <li>No synthetic or randomly generated data is used</li>
@@ -1367,10 +1532,83 @@
             </ul>
         </section>
         
-        <section class="section">
-            <h2>14. Technical Implementation</h2>
+        <section id="premium-flights" class="section">
+            <h2>14. Premium Flight Analysis</h2>
             
-            <h3>13.1 Software & Libraries</h3>
+            <div class="important">
+                <strong>New in December 2025:</strong> Analysis of premium flight patterns using FlightRadar24 data 
+                to understand demand patterns by time of day and day of week.
+            </div>
+            
+            <h3>14.1 Data Source</h3>
+            <p>
+                Premium flight data from major airports (JFK, LAX, ORD, DFW, SFO, IAH) covering:
+            </p>
+            <ul>
+                <li>3.1+ million premium flights (widebody aircraft, duration > 5 hours)</li>
+                <li>Aircraft cabin configurations (first class, business, premium economy)</li>
+                <li>Departure and arrival times (converted from UTC to local time)</li>
+            </ul>
+            
+            <h3>14.2 Local Time Conversion</h3>
+            <p>
+                All timestamps converted from UTC to <strong>local airport timezone</strong> for accurate pattern analysis:
+            </p>
+            <table>
+                <tr>
+                    <th>Airport</th>
+                    <th>Timezone</th>
+                    <th>UTC Offset</th>
+                </tr>
+                <tr>
+                    <td>JFK (New York)</td>
+                    <td>America/New_York</td>
+                    <td>UTC-5 (EST) / UTC-4 (EDT)</td>
+                </tr>
+                <tr>
+                    <td>LAX, SFO (California)</td>
+                    <td>America/Los_Angeles</td>
+                    <td>UTC-8 (PST) / UTC-7 (PDT)</td>
+                </tr>
+                <tr>
+                    <td>ORD, DFW, IAH (Central)</td>
+                    <td>America/Chicago</td>
+                    <td>UTC-6 (CST) / UTC-5 (CDT)</td>
+                </tr>
+            </table>
+            
+            <h3>14.3 Heatmap Methodology</h3>
+            <p>
+                Premium seat availability heatmaps show:
+            </p>
+            <ul>
+                <li><strong>X-Axis:</strong> Hours of day (00:00 - 23:00, local time)</li>
+                <li><strong>Y-Axis:</strong> Days of week (Monday - Sunday)</li>
+                <li><strong>Values:</strong> Average premium seats per day/hour combination</li>
+                <li><strong>Separation:</strong> DEPARTURES and ARRIVALS shown side-by-side for each airport</li>
+            </ul>
+            
+            <div class="formula">
+                Avg_Premium_Seats(day, hour) = Mean(Premium_Seats) across all weeks for that (day, hour) combination
+            </div>
+            
+            <h3>14.4 Premium Flight Criteria</h3>
+            <ul>
+                <li><strong>Widebody Aircraft:</strong> Only aircraft types: B747, B767, B777, B787, A330, A340, A350, A380, MD11</li>
+                <li><strong>Flight Duration:</strong> Minimum 5 hours (international/long-haul)</li>
+                <li><strong>Premium Seats:</strong> First Class + Business Class + Premium Economy</li>
+            </ul>
+            
+            <p>
+                This filters for flights most likely to carry high-value business travelers and wealthy passengers 
+                who are target customers for helicopter ground transportation services.
+            </p>
+        </section>
+        
+        <section class="section">
+            <h2>15. Technical Implementation</h2>
+            
+            <h3>15.1 Software & Libraries</h3>
             <ul>
                 <li><strong>Python 3.x:</strong> Primary programming language</li>
                 <li><strong>Pandas:</strong> Data manipulation and analysis</li>
@@ -1382,7 +1620,7 @@
                 <li><strong>Multiprocessing:</strong> Parallel data fetching</li>
             </ul>
             
-            <h3>13.2 Processing Pipeline</h3>
+            <h3>15.2 Processing Pipeline</h3>
             <ol>
                 <li>Data fetching (parallel API calls)</li>
                 <li>Data cleaning and validation</li>
@@ -1394,7 +1632,7 @@
                 <li>Dashboard compilation</li>
             </ol>
             
-            <h3>13.3 Performance Optimizations</h3>
+            <h3>15.3 Performance Optimizations</h3>
             <ul>
                 <li>Parallel processing (20-30 workers for API calls)</li>
                 <li>Data caching (JSON/CSV files)</li>
@@ -1404,9 +1642,9 @@
         </section>
         
         <section class="section">
-            <h2>15. References & Data Sources</h2>
+            <h2>16. References & Data Sources</h2>
             
-            <h3>14.1 Official Data Sources</h3>
+            <h3>16.1 Official Data Sources</h3>
             <ul>
                 <li><strong>IRS SOI:</strong> <a href="https://www.irs.gov/statistics/soi-tax-stats" target="_blank">https://www.irs.gov/statistics/soi-tax-stats</a></li>
                 <li><strong>Census ACS:</strong> <a href="https://www.census.gov/data/developers/data-sets/acs-5year.html" target="_blank">https://www.census.gov/data/developers/data-sets/acs-5year.html</a></li>
@@ -1414,7 +1652,7 @@
                 <li><strong>Google Distance Matrix:</strong> <a href="https://developers.google.com/maps/documentation/distance-matrix" target="_blank">https://developers.google.com/maps/documentation/distance-matrix</a></li>
             </ul>
             
-            <h3>14.2 Methodology References</h3>
+            <h3>16.2 Methodology References</h3>
             <ul>
                 <li>Geometric Mean: Standard statistical measure for multiplicative relationships</li>
                 <li>Haversine Formula: Standard geodesic distance calculation</li>
@@ -1424,16 +1662,24 @@
         </section>
         
         <section class="section">
-            <h2>16. Contact & Updates</h2>
+            <h2>17. Contact & Updates</h2>
             <p>
                 This methodology document is maintained as part of the GeoEco Dashboard project.
                 For questions or updates, please refer to the project documentation.
             </p>
             <p>
                 <strong>Data Version:</strong> 2021-2022 (Census/IRS data)<br>
-                <strong>Analysis Date:</strong> November 2025<br>
-                <strong>Last Updated:</strong> November 30, 2025
+                <strong>Analysis Date:</strong> November-December 2025<br>
+                <strong>Last Updated:</strong> December 8, 2025
             </p>
+            
+            <h3>17.1 Recent Updates (December 2025)</h3>
+            <ul>
+                <li><strong>Corporate Score Enhancement:</strong> Added Revenue per Employee (15% weight) as productivity measure</li>
+                <li><strong>Premium Flight Analysis:</strong> Added 3.1M+ flight records with local time conversion and temporal heatmaps</li>
+                <li><strong>Final Integrated Ranking:</strong> New comprehensive city ranking combining all 6 dimensions</li>
+                <li><strong>Intersection Analysis:</strong> Updated with new Corporate Score methodology</li>
+            </ul>
         </section>
         
         <a href="dashboard_integrated.html" class="back-link">← Back to Dashboard</a>
