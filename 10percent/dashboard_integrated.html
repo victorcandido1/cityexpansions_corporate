@@ -343,6 +343,31 @@
             </div>
         </div>
         
+        
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <div class="tab-nav">
+                <button class="tab-button active" onclick="openTab(event, 'tab-maps')">
+                    🗺️ Interactive Maps <span class="tab-badge">45</span>
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'tab-stats')">
+                    📊 Statistical Analysis <span class="tab-badge">20+</span>
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'tab-special')">
+                    ⚽🏢 Stadiums & FBOs <span class="tab-badge">30</span>
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'tab-premium')">
+                    ✈️ Premium Seats <span class="tab-badge">NEW</span>
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'tab-data')">
+                    📥 Data & Docs <span class="tab-badge">50+</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Tab 1: Interactive Maps -->
+        <div id="tab-maps" class="tab-content active">
+
         <!-- Advanced Statistics -->
         <div class="section">
             <h2>📈 Advanced Statistics: Household vs Corporate Wealth</h2>
@@ -546,6 +571,12 @@
             </table>
         </div>
         
+        
+        </div>
+        
+        <!-- Tab 2: Statistical Analysis -->
+        <div id="tab-stats" class="tab-content">
+
         <!-- City Breakdown -->
         <div class="section">
             <h2>🏙️ City Breakdown - Integrated View</h2>
@@ -740,6 +771,12 @@
             </p>
         </div>
         
+        
+        </div>
+        
+        <!-- Tab 3: Stadiums & FBOs -->
+        <div id="tab-special" class="tab-content">
+
         <!-- Cluster Analysis: Airport Infrastructure -->
         <div class="section">
             <h2>✈️ Cluster Analysis: Intersection ZIPs × Airport Infrastructure</h2>
@@ -953,6 +990,126 @@
             </p>
         </div>
         
+        
+        </div>
+        
+        <!-- Tab 4: Premium Seats Market -->
+        <div id="tab-premium" class="tab-content">
+            <div class="section">
+                <h2>✈️ Premium Seats Market Analysis</h2>
+                <p style="background: #e7f3ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <strong>Analysis of addressable market for helicopter services based on premium airline seats (First + Business class) at major airports.</strong><br>
+                    Data: Long-haul international flights (>1500km) with cabin layout information.
+                </p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card" style="border-top: 4px solid #f39c12;">
+                        <div class="number" style="color: #f39c12;">61,327</div>
+                        <div class="label">Daily Premium Seats (Avg)</div>
+                    </div>
+                    <div class="stat-card" style="border-top: 4px solid #e67e22;">
+                        <div class="number" style="color: #e67e22;">22.4M</div>
+                        <div class="label">Annual Projection</div>
+                    </div>
+                    <div class="stat-card" style="border-top: 4px solid #d35400;">
+                        <div class="number" style="color: #d35400;">600K</div>
+                        <div class="label">Long-Haul Flights Analyzed</div>
+                    </div>
+                    <div class="stat-card" style="border-top: 4px solid #c0392b;">
+                        <div class="number" style="color: #c0392b;">6</div>
+                        <div class="label">Major Airports</div>
+                    </div>
+                </div>
+                
+                <h3>Addressable Market by Airport</h3>
+                <table>
+                    <tr style="background: #f39c12; color: white;">
+                        <th>Airport</th>
+                        <th>City</th>
+                        <th>Daily Avg (Dep)</th>
+                        <th>Daily Avg (Arr)</th>
+                        <th>Total Daily</th>
+                        <th>Annual Projection</th>
+                    </tr>
+                    <tr>
+                        <td><strong>KDFW</strong></td>
+                        <td>Dallas</td>
+                        <td>~9,400</td>
+                        <td>~9,400</td>
+                        <td><strong>18,821</strong></td>
+                        <td><strong>6.87M</strong></td>
+                    </tr>
+                    <tr style="background: #f9f9f9;">
+                        <td><strong>KLAX</strong></td>
+                        <td>Los Angeles</td>
+                        <td>~5,500</td>
+                        <td>~5,500</td>
+                        <td><strong>10,983</strong></td>
+                        <td><strong>4.01M</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>KJFK</strong></td>
+                        <td>New York</td>
+                        <td>~5,000</td>
+                        <td>~5,000</td>
+                        <td><strong>9,951</strong></td>
+                        <td><strong>3.63M</strong></td>
+                    </tr>
+                    <tr style="background: #f9f9f9;">
+                        <td><strong>KORD</strong></td>
+                        <td>Chicago</td>
+                        <td>~4,300</td>
+                        <td>~4,300</td>
+                        <td><strong>8,662</strong></td>
+                        <td><strong>3.16M</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>KSFO</strong></td>
+                        <td>San Francisco</td>
+                        <td>~3,900</td>
+                        <td>~3,800</td>
+                        <td><strong>7,725</strong></td>
+                        <td><strong>2.82M</strong></td>
+                    </tr>
+                    <tr style="background: #f9f9f9;">
+                        <td><strong>KIAH</strong></td>
+                        <td>Houston</td>
+                        <td>~2,600</td>
+                        <td>~2,600</td>
+                        <td><strong>5,185</strong></td>
+                        <td><strong>1.89M</strong></td>
+                    </tr>
+                </table>
+                
+                <h3>Wealth × Premium Seats Correlation</h3>
+                <img src="wealth_premium_correlation_city.png" class="chart-img" alt="Wealth Premium Correlation">
+                <p style="font-size: 13px; color: #666;">
+                    <strong>Analysis:</strong> Correlation between city wealth metrics (Household $200k+, Corporate Revenue) and daily premium seat availability.
+                    Positive correlation with Corporate Revenue (0.227) suggests business travel drives premium capacity.
+                </p>
+                
+                <div style="background: #d4edda; padding: 15px; border-left: 4px solid #28a745; margin: 20px 0;">
+                    <strong>Key Insights:</strong>
+                    <ul>
+                        <li><strong>Dallas leads:</strong> 18,821 premium seats/day (31% of market) - American Airlines hub</li>
+                        <li><strong>LA & NYC:</strong> ~10,000 seats/day each - Tier 1 markets</li>
+                        <li><strong>Total addressable:</strong> 61,327 premium seats/day = 22.4M annually</li>
+                        <li><strong>At 1% conversion:</strong> 613 helicopter PAX/day potential (~224K/year)</li>
+                    </ul>
+                </div>
+                
+                <h3>Download Data</h3>
+                <p>
+                    <a href="addressable_market_summary.csv" class="map-link" style="background: #f39c12;">📊 Addressable Market Summary (CSV)</a>
+                    <a href="premium_seats_by_airport.csv" class="map-link" style="background: #f39c12;">✈️ Premium Seats Detail (CSV)</a>
+                    <a href="cluster_airport_premium_analysis.csv" class="map-link" style="background: #f39c12;">📈 Cluster Analysis (CSV)</a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Tab 5: Data & Documentation -->
+        <div id="tab-data" class="tab-content">
+
         <!-- Data Downloads -->
         <div class="section">
             <h2>📥 Data Downloads</h2>
@@ -991,6 +1148,9 @@
             </p>
         </div>
         
+        
+        </div>
+
         <!-- Footer -->
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
             <strong>Generated:</strong> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br>
@@ -1001,5 +1161,32 @@
             Revenue is estimated using Census/BLS benchmarks. See Methodology Section 12 for details.
         </div>
     </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            const contents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            
+            // Remove active from all buttons
+            const buttons = document.getElementsByClassName('tab-button');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            // Show selected tab and activate button
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+            
+            // Scroll to tabs
+            const tabContainer = document.querySelector('.tab-container');
+            if (tabContainer) {
+                tabContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    </script>
+
 </body>
 </html>
