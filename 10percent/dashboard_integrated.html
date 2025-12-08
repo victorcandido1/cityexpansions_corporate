@@ -268,18 +268,12 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🏠💼 GeoEco Dashboard</h1>
-            <p>Integrated Analysis: Top 10% Wealth & Corporate Power × Airport Infrastructure</p>
-            <div class="header-badges">
-                <span class="header-badge">89 Maps</span>
-                <span class="header-badge">24 FBOs</span>
-                <span class="header-badge">6 Stadiums</span>
-                <span class="header-badge">197 Clusters</span>
-            </div>
-        </div>
-        
-        <a href="METHODOLOGY.html" class="methodology-link">📚 Complete Methodology</a>
+        <a href="METHODOLOGY.html" class="methodology-link">📚 METHODOLOGY - Complete Documentation</a>
+        <h1>🏠💼 INTEGRATED DASHBOARD: HOUSEHOLDS & CORPORATE DATA</h1>
+        <p style="font-size: 16px; color: #666;">
+            Comprehensive analysis combining Top 10% Richest Households and Top 10% Corporate Power
+            <span class="data-badge">OFFICIAL GOVERNMENT DATA</span>
+        </p>
         
         <div class="highlight">
             <strong>Household Data:</strong> IRS SOI 2022, Census ACS 5yr 2022<br>
@@ -386,28 +380,6 @@
             </div>
         </div>
         
-        
-        <!-- Tab Navigation -->
-        <div class="tab-container">
-            <div class="tab-nav">
-                <button class="tab-button active" onclick="openTab(event, 'tab-maps')">
-                    🗺️ Interactive Maps <span class="tab-badge">45</span>
-                </button>
-                <button class="tab-button" onclick="openTab(event, 'tab-stats')">
-                    📊 Statistical Analysis <span class="tab-badge">20+</span>
-                </button>
-                <button class="tab-button" onclick="openTab(event, 'tab-special')">
-                    ⚽🏢 Stadiums & FBOs <span class="tab-badge">30</span>
-                </button>
-                <button class="tab-button" onclick="openTab(event, 'tab-data')">
-                    📥 Data & Docs <span class="tab-badge">50+</span>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Tab 1: Interactive Maps -->
-        <div id="tab-maps" class="tab-content active">
-
         <!-- Maps Section -->
         <div class="section">
             <h2>🗺️ Interactive Maps</h2>
@@ -574,12 +546,6 @@
             </table>
         </div>
         
-        
-        </div>
-        
-        <!-- Tab 2: Statistical Analysis -->
-        <div id="tab-stats" class="tab-content">
-
         <!-- City Breakdown -->
         <div class="section">
             <h2>🏙️ City Breakdown - Integrated View</h2>
@@ -774,12 +740,6 @@
             </p>
         </div>
         
-        
-        </div>
-        
-        <!-- Tab 3: Stadiums & FBOs -->
-        <div id="tab-special" class="tab-content">
-
         <!-- Cluster Analysis: Airport Infrastructure -->
         <div class="section">
             <h2>✈️ Cluster Analysis: Intersection ZIPs × Airport Infrastructure</h2>
@@ -993,14 +953,6 @@
             </p>
         </div>
         
-        
-        </div>
-        
-        <!-- Tab 4: Data & Documentation -->
-        <div id="tab-data" class="tab-content">
-        
-        <!-- Intersection by City Table (moved here) -->
-
         <!-- Data Downloads -->
         <div class="section">
             <h2>📥 Data Downloads</h2>
@@ -1039,9 +991,6 @@
             </p>
         </div>
         
-        
-        </div>
-
         <!-- Footer -->
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
             <strong>Generated:</strong> {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br>
@@ -1052,29 +1001,5 @@
             Revenue is estimated using Census/BLS benchmarks. See Methodology Section 12 for details.
         </div>
     </div>
-
-    <script>
-        function openTab(evt, tabName) {
-            // Hide all tab contents
-            const contents = document.getElementsByClassName('tab-content');
-            for (let i = 0; i < contents.length; i++) {
-                contents[i].classList.remove('active');
-            }
-            
-            // Remove active from all buttons
-            const buttons = document.getElementsByClassName('tab-button');
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-            
-            // Show selected tab and activate button
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-            
-            // Scroll to tabs
-            document.querySelector('.tab-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    </script>
-
 </body>
 </html>
