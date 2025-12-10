@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoEco Dashboard - Análise Integrada com Abas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .main-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #800026 0%, #bd0026 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+        
+        /* TAB SYSTEM */
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+        
+        .tab:hover {
+            background: rgba(0,0,0,0.05);
+            color: #333;
+        }
+        
+        .tab.active {
+            color: #800026;
+            border-bottom-color: #800026;
+            background: white;
+        }
+        
+        .tab.household.active {
+            color: #800026;
+            border-bottom-color: #800026;
+        }
+        
+        .tab.corporate.active {
+            color: #0066cc;
+            border-bottom-color: #0066cc;
+        }
+        
+        .tab.intersection.active {
+            color: #17a2b8;
+            border-bottom-color: #17a2b8;
+        }
+        
+        .tab.cluster.active {
+            color: #28a745;
+            border-bottom-color: #28a745;
+        }
+        
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #800026;
+        }
+        
+        .section.corporate {
+            border-left-color: #0066cc;
+        }
+        
+        .section.intersection {
+            border-left-color: #17a2b8;
+        }
+        
+        .section.cluster {
+            border-left-color: #28a745;
+        }
+        
+        h2 {
+            color: #800026;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            color: #0066cc;
+            margin: 20px 0 15px 0;
+            font-size: 1.3em;
+        }
+        
+        .chart-img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+        
+        .map-link {
+            display: inline-block;
+            background: #800026;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .map-link:hover {
+            background: #bd0026;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .map-link.corporate {
+            background: #0066cc;
+        }
+        
+        .map-link.corporate:hover {
+            background: #0052a3;
+        }
+        
+        .map-link.intersection {
+            background: #17a2b8;
+        }
+        
+        .map-link.intersection:hover {
+            background: #138496;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #800026;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        th.corporate {
+            background: #0066cc;
+        }
+        
+        th.intersection {
+            background: #17a2b8;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #800026;
+        }
+        
+        .stat-card.corporate {
+            border-top-color: #0066cc;
+        }
+        
+        .stat-card.intersection {
+            border-top-color: #17a2b8;
+        }
+        
+        .stat-card.cluster {
+            border-top-color: #28a745;
+        }
+        
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #800026;
+            margin: 10px 0;
+        }
+        
+        .stat-card.corporate .number {
+            color: #0066cc;
+        }
+        
+        .stat-card.intersection .number {
+            color: #17a2b8;
+        }
+        
+        .stat-card.cluster .number {
+            color: #28a745;
+        }
+        
+        .stat-card .label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .highlight.info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+        
+        .highlight.success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .methodology-link {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        
+        .methodology-link:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🏠💼 GeoEco Dashboard</h1>
+            <p>Análise Integrada: Households & Corporate Power</p>
+            <div style="margin-top: 15px;">
+                <span class="badge">100% Dados Reais</span>
+                <span class="badge">7 Metros Principais</span>
+                <span class="badge">Top 10% Analysis</span>
+                <span class="badge">Com Clusters</span>
+            </div>
+            <div style="margin-top: 15px;">
+                <a href="METHODOLOGY.html" class="methodology-link">📚 Metodologia Completa</a>
+                <a href="../index.html" class="methodology-link">🏠 Página Inicial</a>
+            </div>
+        </div>
+        
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab household active" onclick="openTab(event, 'overview')">📊 Visão Geral</button>
+            <button class="tab household" onclick="openTab(event, 'households')">🏠 Households</button>
+            <button class="tab corporate" onclick="openTab(event, 'corporate')">🏢 Corporate</button>
+            <button class="tab intersection" onclick="openTab(event, 'intersection')">🎯 Intersection</button>
+            <button class="tab cluster" onclick="openTab(event, 'clusters')">🔍 Clusters</button>
+            <button class="tab" onclick="openTab(event, 'maps')">🗺️ Mapas</button>
+            <button class="tab" onclick="openTab(event, 'downloads')">📥 Downloads</button>
+        </div>
+        
+        <!-- TAB CONTENT: OVERVIEW -->
+        <div id="overview" class="tab-content active">
+            <h2>📊 Visão Geral - Análise Integrada</h2>
+            
+            <div class="highlight success">
+                <strong>Fontes de Dados:</strong><br>
+                <strong>Households:</strong> IRS SOI 2022, Census ACS 2022<br>
+                <strong>Corporate:</strong> U.S. Census Bureau - County Business Patterns 2021<br>
+                <strong>Cobertura Geográfica:</strong> 7 Áreas Metropolitanas Principais<br>
+                <strong>Análise:</strong> Top 10% em Riqueza (Households) e Poder Corporativo
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Household ZIPs (Top 10%)</div>
+                    <div class="number">272</div>
+                </div>
+                <div class="stat-card corporate">
+                    <div class="label">Corporate ZIPs (Top 10%)</div>
+                    <div class="number">360</div>
+                </div>
+                <div class="stat-card intersection">
+                    <div class="label">Intersection ZIPs</div>
+                    <div class="number">197</div>
+                </div>
+                <div class="stat-card cluster">
+                    <div class="label">Clusters Identificados</div>
+                    <div class="number">8</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>🏆 Ranking Final por Cidade</h3>
+                <p style="margin-bottom: 15px; color: #666;">
+                    <strong>Fórmula Integrada:</strong> HH Quality 25% + HH Volume 15% + Corp Quality 25% + Corp Volume 15% + Intersection 10% + Infrastructure 10%
+                </p>
+                <img src="city_combined_ranking.png" class="chart-img" alt="City Rankings">
+                <img src="city_combined_details.png" class="chart-img" alt="City Details">
+            </div>
+        </div>
+        
+        <!-- TAB CONTENT: HOUSEHOLDS -->
+        <div id="households" class="tab-content">
+            <h2>🏠 Análise de Households (Top 10% Mais Ricos)</h2>
+            
+            <div class="highlight">
+                <strong>Dados:</strong> IRS Statistics of Income 2022, Census ACS 2022<br>
+                <strong>Critério:</strong> Geometric Score ≥ 90º percentil<br>
+                <strong>Total:</strong> 272 ZIP codes nos 7 metros
+            </div>
+            
+            <div class="section">
+                <h3>Distribuições</h3>
+                <img src="histogram_all_vs_top10.png" class="chart-img" alt="All vs Top 10%">
+                <img src="histogram_top10_scores.png" class="chart-img" alt="Score Distribution">
+                <img src="histogram_top10_by_city.png" class="chart-img" alt="By City">
+                <img src="histogram_top10_boxplot.png" class="chart-img" alt="Box Plot">
+                <img src="histogram_top10_agi.png" class="chart-img" alt="AGI Distribution">
+            </div>
+            
+            <div class="section">
+                <h3>Análise Geográfica</h3>
+                <img src="distance_radius_analysis.png" class="chart-img" alt="Distance & Radius Analysis">
+                <p><a href="distance_radius_analysis.csv" class="map-link">📥 Download Distance Data (CSV)</a></p>
+            </div>
+            
+            <div class="section">
+                <h3>Distância vs Tempo de Viagem</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                    <strong>Nota:</strong> Dados limpos excluindo velocidades impossíveis (> 120 km/h) ou tempos ausentes.
+                </p>
+                <img src="combined_distance_vs_travel_time.png" class="chart-img" alt="Combined Distance vs Travel Time">
+                <img src="distance_vs_travel_time_side_by_side.png" class="chart-img" alt="Side by Side">
+            </div>
+            
+            <div class="section">
+                <h3>Médias Ponderadas</h3>
+                <img src="weighted_averages_chart.png" class="chart-img" alt="Weighted Averages">
+                <p><a href="weighted_averages_analysis.csv" class="map-link">📥 Download Weighted Averages (CSV)</a></p>
+            </div>
+            
+            <div class="section">
+                <h3>HH $200k+ por Região</h3>
+                <img src="hh200k_by_region_charts.png" class="chart-img" alt="HH200k by Region">
+                <p><a href="hh200k_by_region.csv" class="map-link">📥 Download HH by Region (CSV)</a></p>
+            </div>
+        </div>
+        
+        <!-- TAB CONTENT: CORPORATE -->
+        <div id="corporate" class="tab-content">
+            <h2>🏢 Análise Corporate (Top 10% Poder Corporativo)</h2>
+            
+            <div class="highlight info">
+                <strong>Fonte:</strong> U.S. Census Bureau - County Business Patterns 2021<br>
+                <strong>Dados Diretos:</strong> Establishments, Employment, Payroll (100% reais)<br>
+                <strong>Estimativas:</strong> Revenue estimado usando ratios BLS revenue-per-employee
+            </div>
+            
+            <div class="section corporate">
+                <h3>Distribuições</h3>
+                <img src="corporate_histogram_all_vs_top10.png" class="chart-img" alt="All vs Top 10% Corporate">
+                <img src="corporate_histogram_top10_power_index.png" class="chart-img" alt="Power Index Distribution">
+                <img src="corporate_histogram_top10_by_city.png" class="chart-img" alt="Corporate by City">
+                <img src="corporate_histogram_top10_boxplot.png" class="chart-img" alt="Box Plot by City">
+            </div>
+            
+            <div class="section corporate">
+                <h3>Revenue & Employment</h3>
+                <img src="corporate_histogram_top10_revenue.png" class="chart-img" alt="Revenue Distribution">
+                <img src="corporate_histogram_top10_employment.png" class="chart-img" alt="Employment Distribution">
+            </div>
+            
+            <div class="section corporate">
+                <h3>Power Industries</h3>
+                <img src="corporate_histogram_top10_power_share.png" class="chart-img" alt="Power Industries Share">
+                <img src="corporate_power_industries_by_region.png" class="chart-img" alt="Power Industries by Region">
+                <p><a href="corporate_power_industries_by_region.csv" class="map-link corporate">📥 Download Power Industries (CSV)</a></p>
+            </div>
+            
+            <div class="section corporate">
+                <h3>Análise Geográfica</h3>
+                <img src="corporate_distance_radius_analysis.png" class="chart-img" alt="Distance & Radius Analysis">
+                <p><a href="corporate_distance_analysis.csv" class="map-link corporate">📥 Download Distance Data (CSV)</a></p>
+            </div>
+            
+            <div class="section corporate">
+                <h3>Tempo de Viagem Ponderado por Revenue</h3>
+                <p style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #ffc107;">
+                    <strong>Insight:</strong> Estes gráficos mostram como o tempo de viagem corporativo ao aeroporto é ponderado por significância econômica. 
+                    Maior ponderação por revenue/employee enfatiza empresas mais produtivas, enquanto ponderação por revenue total enfatiza 
+                    cidades com maior output econômico total.
+                </p>
+                <img src="corporate_travel_time_weighted_by_revenue.png" class="chart-img" alt="Travel Time Weighted by Revenue">
+                <p><a href="corporate_travel_time_weighted_by_revenue.csv" class="map-link corporate">📥 Download Travel Time Analysis (CSV)</a></p>
+            </div>
+            
+            <div class="section corporate">
+                <h3>Médias Ponderadas</h3>
+                <img src="corporate_weighted_averages_chart.png" class="chart-img" alt="Weighted Averages">
+                <p><a href="corporate_weighted_averages_analysis.csv" class="map-link corporate">📥 Download Weighted Averages (CSV)</a></p>
+            </div>
+            
+            <div class="section corporate">
+                <h3>Análise Comparativa</h3>
+                <img src="corporate_comparative_analysis.png" class="chart-img" alt="Comparative Analysis">
+            </div>
+        </div>
+        
+        <!-- TAB CONTENT: INTERSECTION -->
+        <div id="intersection" class="tab-content">
+            <h2>🎯 Intersection: Onde Riqueza Encontra Poder Corporativo</h2>
+            
+            <div class="highlight info">
+                <strong>Intersection:</strong> ZIP codes que estão simultaneamente no Top 10% de Households E Corporate<br>
+                <strong>Total:</strong> 197 ZIP codes<br>
+                <strong>Overlap:</strong> 72.4% dos household top 10% também são corporate top 10%<br>
+                <strong>Correlação:</strong> 0.261 (positiva mas moderada)
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Household Top 10%</div>
+                    <div class="number">272</div>
+                </div>
+                <div class="stat-card corporate">
+                    <div class="label">Corporate Top 10%</div>
+                    <div class="number">360</div>
+                </div>
+                <div class="stat-card intersection">
+                    <div class="label">Intersection</div>
+                    <div class="number">197</div>
+                </div>
+                <div class="stat-card intersection">
+                    <div class="label">% Overlap (HH)</div>
+                    <div class="number">72.4%</div>
+                </div>
+            </div>
+            
+            <div class="section intersection">
+                <h3>Intersection por Cidade</h3>
+                <img src="intersection_percentage_analysis.png" class="chart-img" alt="Intersection Analysis">
+                <p><a href="intersection_by_city.csv" class="map-link intersection">📥 Download Intersection by City (CSV)</a></p>
+            </div>
+            
+            <div class="section intersection">
+                <h3>Análise Estratégica: LA & NYC</h3>
+                <p><a href="STRATEGIC_ANALYSIS_LA_NYC.html" class="map-link intersection" style="font-size: 16px;">📈 Ver Análise Estratégica Detalhada</a></p>
+            </div>
+        </div>
+        
+        <!-- TAB CONTENT: CLUSTERS -->
+        <div id="clusters" class="tab-content">
+            <h2>🔍 Análise de Clusters</h2>
+            
+            <div class="highlight success">
+                <strong>Metodologia:</strong> K-Means Clustering (4 clusters para cada análise)<br>
+                <strong>Features Households:</strong> HH $200k+, AGI per Return, Travel Time<br>
+                <strong>Features Corporate:</strong> Employment, Revenue, Distance to Airport<br>
+                <strong>Objetivo:</strong> Identificar padrões geográficos e econômicos
+            </div>
+            
+            <div class="section cluster">
+                <h3>Visualização de Clusters</h3>
+                <img src="cluster_analysis.png" class="chart-img" alt="Cluster Analysis">
+            </div>
+            
+            <div class="section cluster">
+                <h3>Household Clusters</h3>
+                <table>
+                    <tr>
+                        <th>Cluster</th>
+                        <th>ZIPs</th>
+                        <th>Características</th>
+                        <th>Cidades Principais</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Ultra-Rich / Próximo</strong></td>
+                        <td>Variável</td>
+                        <td>Alto AGI, próximo ao aeroporto, densidade moderada</td>
+                        <td>Los Angeles, New York</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alta Renda / Distante</strong></td>
+                        <td>Variável</td>
+                        <td>Alto volume de HH200k+, mais distante do aeroporto</td>
+                        <td>New York, Los Angeles, San Francisco</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Moderado / Central</strong></td>
+                        <td>Maior grupo</td>
+                        <td>Riqueza moderada, localização central</td>
+                        <td>New York, Los Angeles, Houston</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Elite / Subúrbio</strong></td>
+                        <td>Menor grupo</td>
+                        <td>AGI muito alto, áreas exclusivas</td>
+                        <td>Miami</td>
+                    </tr>
+                </table>
+                <p><a href="household_clusters.csv" class="map-link cluster">📥 Download Household Clusters (CSV)</a></p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Corporate Clusters</h3>
+                <table>
+                    <tr>
+                        <th class="corporate">Cluster</th>
+                        <th class="corporate">ZIPs</th>
+                        <th class="corporate">Características</th>
+                        <th class="corporate">Cidades Principais</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Mega Corporações</strong></td>
+                        <td>~10 ZIPs</td>
+                        <td>Employment > 100k, Revenue > $30B</td>
+                        <td>New York, Chicago, Los Angeles</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Corporate Hub</strong></td>
+                        <td>~60 ZIPs</td>
+                        <td>Alto employment, próximo ao aeroporto</td>
+                        <td>Los Angeles, San Francisco, New York</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Empresas Médias</strong></td>
+                        <td>~120 ZIPs</td>
+                        <td>Employment moderado, bem distribuído</td>
+                        <td>Los Angeles, Miami, New York</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Periferia Empresarial</strong></td>
+                        <td>~135 ZIPs</td>
+                        <td>Mais distante, empresas menores</td>
+                        <td>Los Angeles, Miami, Chicago</td>
+                    </tr>
+                </table>
+                <p><a href="corporate_clusters.csv" class="map-link cluster">📥 Download Corporate Clusters (CSV)</a></p>
+            </div>
+        </div>
+        
+        <!-- TAB CONTENT: MAPS -->
+        <div id="maps" class="tab-content">
+            <h2>🗺️ Mapas Interativos</h2>
+            
+            <div class="section">
+                <h3>Mapas Nacionais</h3>
+                <p>
+                    <a href="map_top10_national.html" class="map-link">🏠 Household National</a>
+                    <a href="map_corporate_national.html" class="map-link corporate">🏢 Corporate National</a>
+                    <a href="map_intersection_national.html" class="map-link intersection">🎯 Intersection National</a>
+                </p>
+            </div>
+            
+            <div class="section">
+                <h3>Mapas por Cidade - Households</h3>
+                <p>
+                    <a href="map_top10_los_angeles.html" class="map-link">Los Angeles</a>
+                    <a href="map_top10_new_york.html" class="map-link">New York</a>
+                    <a href="map_top10_chicago.html" class="map-link">Chicago</a>
+                    <a href="map_top10_dallas.html" class="map-link">Dallas</a>
+                    <a href="map_top10_houston.html" class="map-link">Houston</a>
+                    <a href="map_top10_miami.html" class="map-link">Miami</a>
+                    <a href="map_top10_san_francisco.html" class="map-link">San Francisco</a>
+                </p>
+            </div>
+            
+            <div class="section">
+                <h3>Mapas por Cidade - Corporate</h3>
+                <p>
+                    <a href="map_corporate_los_angeles.html" class="map-link corporate">Los Angeles</a>
+                    <a href="map_corporate_new_york.html" class="map-link corporate">New York</a>
+                    <a href="map_corporate_chicago.html" class="map-link corporate">Chicago</a>
+                    <a href="map_corporate_dallas.html" class="map-link corporate">Dallas</a>
+                    <a href="map_corporate_houston.html" class="map-link corporate">Houston</a>
+                    <a href="map_corporate_miami.html" class="map-link corporate">Miami</a>
+                    <a href="map_corporate_san_francisco.html" class="map-link corporate">San Francisco</a>
+                </p>
+            </div>
+            
+            <div class="section">
+                <h3>Mapas Overlay (Intersection)</h3>
+                <p>
+                    <a href="map_overlay_los_angeles.html" class="map-link intersection">Los Angeles</a>
+                    <a href="map_overlay_new_york.html" class="map-link intersection">New York</a>
+                    <a href="map_overlay_chicago.html" class="map-link intersection">Chicago</a>
+                    <a href="map_overlay_dallas.html" class="map-link intersection">Dallas</a>
+                    <a href="map_overlay_houston.html" class="map-link intersection">Houston</a>
+                    <a href="map_overlay_miami.html" class="map-link intersection">Miami</a>
+                    <a href="map_overlay_san_francisco.html" class="map-link intersection">San Francisco</a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- TAB CONTENT: DOWNLOADS -->
+        <div id="downloads" class="tab-content">
+            <h2>📥 Downloads de Dados</h2>
+            
+            <div class="section">
+                <h3>Household Data</h3>
+                <p>
+                    <a href="top10_richest_data.csv" class="map-link">📊 Top 10% Household Data (CSV)</a>
+                    <a href="distance_radius_analysis.csv" class="map-link">📏 Distance Analysis</a>
+                    <a href="weighted_averages_analysis.csv" class="map-link">⚖️ Weighted Averages</a>
+                    <a href="hh200k_by_region.csv" class="map-link">🏠 HH by Region</a>
+                    <a href="household_clusters.csv" class="map-link cluster">🔍 Household Clusters</a>
+                </p>
+            </div>
+            
+            <div class="section">
+                <h3>Corporate Data</h3>
+                <p>
+                    <a href="corporate_all_zips.csv" class="map-link corporate">📊 All Corporate ZIPs (CSV)</a>
+                    <a href="top10_corporate_data.csv" class="map-link corporate">⭐ Top 10% Corporate ZIPs (CSV)</a>
+                    <a href="corporate_weighted_averages_analysis.csv" class="map-link corporate">⚖️ Weighted Averages</a>
+                    <a href="corporate_travel_time_weighted_by_revenue.csv" class="map-link corporate">✈️ Travel Time by Revenue</a>
+                    <a href="corporate_power_industries_by_region.csv" class="map-link corporate">🏭 Power Industries</a>
+                    <a href="corporate_clusters.csv" class="map-link cluster">🔍 Corporate Clusters</a>
+                </p>
+            </div>
+            
+            <div class="section">
+                <h3>Intersection Data</h3>
+                <p>
+                    <a href="intersection_analysis.csv" class="map-link intersection">🎯 Intersection ZIPs (CSV)</a>
+                    <a href="intersection_by_city.csv" class="map-link intersection">🏙️ Intersection by City (CSV)</a>
+                </p>
+            </div>
+            
+            <div class="section">
+                <h3>Documentação</h3>
+                <p>
+                    <a href="METHODOLOGY.html" class="map-link">📄 Metodologia Completa</a>
+                    <a href="CORPORATE_STATISTICS_EXPLANATION.md" class="map-link corporate">📊 Corporate Statistics</a>
+                    <a href="STRATEGIC_ANALYSIS_LA_NYC.html" class="map-link intersection">🎯 Strategic Analysis</a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div style="text-align: center; padding: 30px; background: #f8f9fa; border-top: 2px solid #dee2e6;">
+            <p style="color: #666; margin-bottom: 10px;">
+                <strong>Data Sources:</strong> IRS SOI 2022, Census Bureau CBP 2021, Census ACS 2022, Google Distance Matrix API
+            </p>
+            <p style="color: #999; font-size: 0.9em;">
+                Last Updated: December 2025 | 7 Major Metro Areas | Top 10% Analysis
+            </p>
+        </div>
+    </div>
+    
+    <!-- JAVASCRIPT FOR TABS -->
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tabs
+            var tabs = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            
+            // Show current tab and mark as active
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
+
