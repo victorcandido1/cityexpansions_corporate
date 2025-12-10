@@ -543,89 +543,211 @@
             <h2>🔍 Análise de Clusters</h2>
             
             <div class="highlight success">
-                <strong>Metodologia:</strong> K-Means Clustering (4 clusters para cada análise)<br>
-                <strong>Features Households:</strong> HH $200k+, AGI per Return, Travel Time<br>
-                <strong>Features Corporate:</strong> Employment, Revenue, Distance to Airport<br>
-                <strong>Objetivo:</strong> Identificar padrões geográficos e econômicos
+                <strong>Metodologia:</strong> K-Means, DBSCAN e Hierarchical Clustering<br>
+                <strong>Dados:</strong> 197 Intersection ZIPs (Top 10% em Households E Corporate)<br>
+                <strong>Features:</strong> Localização geográfica, distância a aeroportos, scores combinados<br>
+                <strong>Objetivo:</strong> Identificar padrões geográficos e econômicos ao redor de infraestrutura aeroportuária<br>
+                <a href="CLUSTER_ANALYSIS_README.md" style="color: #28a745; font-weight: bold;">📚 Documentação Completa dos Clusters</a>
             </div>
             
             <div class="section cluster">
-                <h3>Visualização de Clusters</h3>
+                <h3>Visão Geral dos Clusters</h3>
+                <img src="cluster_analysis.png" class="chart-img" alt="Cluster Analysis Overview">
+            </div>
+            
+            <div class="section cluster">
+                <h3>Mapas de Clusters por Cidade</h3>
+                <p style="margin-bottom: 15px;">
+                    Mapas interativos mostrando clusters de ZIPs premium ao redor de aeroportos e heliportos:
+                </p>
+                <p>
+                    <a href="map_cluster_airports_los_angeles.html" class="map-link cluster">Los Angeles</a>
+                    <a href="map_cluster_airports_new_york.html" class="map-link cluster">New York</a>
+                    <a href="map_cluster_airports_chicago.html" class="map-link cluster">Chicago</a>
+                    <a href="map_cluster_airports_dallas.html" class="map-link cluster">Dallas</a>
+                    <a href="map_cluster_airports_houston.html" class="map-link cluster">Houston</a>
+                    <a href="map_cluster_airports_miami.html" class="map-link cluster">Miami</a>
+                    <a href="map_cluster_airports_san_francisco.html" class="map-link cluster">San Francisco</a>
+                    <a href="map_cluster_airports_national.html" class="map-link cluster" style="font-weight: bold;">🌎 Nacional</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Visualizações Avançadas de Clusters</h3>
+                
+                <h4 style="color: #28a745; margin-top: 20px;">Cluster Dual View (2 análises lado a lado)</h4>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                    Compara clusters de households vs corporate no mesmo mapa
+                </p>
+                <p>
+                    <a href="cluster_dual_los_angeles.html" class="map-link cluster">Los Angeles</a>
+                    <a href="cluster_dual_new_york.html" class="map-link cluster">New York</a>
+                    <a href="cluster_dual_chicago.html" class="map-link cluster">Chicago</a>
+                    <a href="cluster_dual_dallas.html" class="map-link cluster">Dallas</a>
+                    <a href="cluster_dual_houston.html" class="map-link cluster">Houston</a>
+                    <a href="cluster_dual_miami.html" class="map-link cluster">Miami</a>
+                    <a href="cluster_dual_san_francisco.html" class="map-link cluster">San Francisco</a>
+                </p>
+                
+                <h4 style="color: #28a745; margin-top: 20px;">Cluster Layers (Camadas controláveis)</h4>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                    Mapas com múltiplas camadas que podem ser ativadas/desativadas
+                </p>
+                <p>
+                    <a href="cluster_layers_los_angeles.html" class="map-link cluster">Los Angeles</a>
+                    <a href="cluster_layers_new_york.html" class="map-link cluster">New York</a>
+                    <a href="cluster_layers_chicago.html" class="map-link cluster">Chicago</a>
+                    <a href="cluster_layers_dallas.html" class="map-link cluster">Dallas</a>
+                    <a href="cluster_layers_houston.html" class="map-link cluster">Houston</a>
+                    <a href="cluster_layers_miami.html" class="map-link cluster">Miami</a>
+                    <a href="cluster_layers_san_francisco.html" class="map-link cluster">San Francisco</a>
+                </p>
+                
+                <h4 style="color: #28a745; margin-top: 20px;">Network Graphs Interativos</h4>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                    Visualização de rede mostrando conexões entre ZIPs e aeroportos
+                </p>
+                <p>
+                    <a href="network_by_cluster_los_angeles.html" class="map-link cluster">Los Angeles</a>
+                    <a href="network_by_cluster_new_york.html" class="map-link cluster">New York</a>
+                    <a href="network_by_cluster_chicago.html" class="map-link cluster">Chicago</a>
+                    <a href="network_by_cluster_dallas.html" class="map-link cluster">Dallas</a>
+                    <a href="network_by_cluster_houston.html" class="map-link cluster">Houston</a>
+                    <a href="network_by_cluster_miami.html" class="map-link cluster">Miami</a>
+                    <a href="network_by_cluster_san_francisco.html" class="map-link cluster">San Francisco</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Box Plots por Cidade</h3>
+                <p style="margin-bottom: 15px;">Distribuição de métricas por cluster em cada cidade:</p>
+                <img src="boxplot_clusters_los_angeles.png" class="chart-img" alt="LA Clusters">
+                <img src="boxplot_clusters_new_york.png" class="chart-img" alt="NY Clusters">
+                <img src="boxplot_clusters_san_francisco.png" class="chart-img" alt="SF Clusters">
+                <img src="boxplot_clusters_chicago.png" class="chart-img" alt="Chicago Clusters">
+                <img src="boxplot_clusters_dallas.png" class="chart-img" alt="Dallas Clusters">
+                <img src="boxplot_clusters_houston.png" class="chart-img" alt="Houston Clusters">
+                <img src="boxplot_clusters_miami.png" class="chart-img" alt="Miami Clusters">
+            </div>
+            
+            <div class="section cluster">
+                <h3>Diagramas Conceituais</h3>
+                <img src="cluster_concept_diagram.png" class="chart-img" alt="Conceito de Clusters">
+                <img src="cluster_service_areas_diagram.png" class="chart-img" alt="Service Areas">
+                <img src="cluster_benefits_diagram.png" class="chart-img" alt="Benefits">
+            </div>
+            
+            <div class="section cluster">
+                <h3>📚 Documentação Completa</h3>
+                <p>
+                    <a href="CLUSTER_ANALYSIS_README.md" class="map-link cluster" style="font-size: 16px;">📄 Ver Documentação Completa dos Clusters</a>
+                    <a href="RUN_CLUSTER_ANALYSIS.md" class="map-link cluster">🚀 Como Executar Análise</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Mapas Interativos de Clusters × Aeroportos</h3>
+                <p style="margin-bottom: 15px;">
+                    <strong>Mapas principais:</strong> Clusters de ZIPs premium com aeroportos, heliportos e raios de acesso
+                </p>
+                <p>
+                    <a href="map_cluster_airports_los_angeles.html" class="map-link cluster">✈️ Los Angeles</a>
+                    <a href="map_cluster_airports_new_york.html" class="map-link cluster">✈️ New York</a>
+                    <a href="map_cluster_airports_chicago.html" class="map-link cluster">✈️ Chicago</a>
+                    <a href="map_cluster_airports_dallas.html" class="map-link cluster">✈️ Dallas</a>
+                    <a href="map_cluster_airports_houston.html" class="map-link cluster">✈️ Houston</a>
+                    <a href="map_cluster_airports_miami.html" class="map-link cluster">✈️ Miami</a>
+                    <a href="map_cluster_airports_san_francisco.html" class="map-link cluster">✈️ San Francisco</a>
+                    <a href="map_cluster_airports_national.html" class="map-link cluster" style="font-weight: bold; font-size: 16px;">🌎 NACIONAL</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Mapas com Visualização Dupla</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                    Compara clusters households vs corporate lado a lado
+                </p>
+                <p>
+                    <a href="cluster_dual_los_angeles.html" class="map-link cluster">Los Angeles</a>
+                    <a href="cluster_dual_new_york.html" class="map-link cluster">New York</a>
+                    <a href="cluster_dual_chicago.html" class="map-link cluster">Chicago</a>
+                    <a href="cluster_dual_dallas.html" class="map-link cluster">Dallas</a>
+                    <a href="cluster_dual_houston.html" class="map-link cluster">Houston</a>
+                    <a href="cluster_dual_miami.html" class="map-link cluster">Miami</a>
+                    <a href="cluster_dual_san_francisco.html" class="map-link cluster">San Francisco</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Mapas com Camadas Controláveis</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                    Ative/desative camadas: aeroportos, heliportos, raios, clusters
+                </p>
+                <p>
+                    <a href="cluster_layers_los_angeles.html" class="map-link cluster">Los Angeles</a>
+                    <a href="cluster_layers_new_york.html" class="map-link cluster">New York</a>
+                    <a href="cluster_layers_chicago.html" class="map-link cluster">Chicago</a>
+                    <a href="cluster_layers_dallas.html" class="map-link cluster">Dallas</a>
+                    <a href="cluster_layers_houston.html" class="map-link cluster">Houston</a>
+                    <a href="cluster_layers_miami.html" class="map-link cluster">Miami</a>
+                    <a href="cluster_layers_san_francisco.html" class="map-link cluster">San Francisco</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Mapas Clean (Versão Simplificada)</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                    Versão limpa focada nos clusters principais
+                </p>
+                <p>
+                    <a href="cluster_clean_los_angeles.html" class="map-link cluster">Los Angeles</a>
+                    <a href="cluster_clean_new_york.html" class="map-link cluster">New York</a>
+                    <a href="cluster_clean_chicago.html" class="map-link cluster">Chicago</a>
+                    <a href="cluster_clean_dallas.html" class="map-link cluster">Dallas</a>
+                    <a href="cluster_clean_houston.html" class="map-link cluster">Houston</a>
+                    <a href="cluster_clean_miami.html" class="map-link cluster">Miami</a>
+                    <a href="cluster_clean_san_francisco.html" class="map-link cluster">San Francisco</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Network Graphs por Cluster</h3>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+                    Grafos de rede interativos mostrando conexões entre ZIPs e infraestrutura
+                </p>
+                <p>
+                    <a href="network_by_cluster_los_angeles.html" class="map-link cluster">🕸️ Los Angeles</a>
+                    <a href="network_by_cluster_new_york.html" class="map-link cluster">🕸️ New York</a>
+                    <a href="network_by_cluster_chicago.html" class="map-link cluster">🕸️ Chicago</a>
+                    <a href="network_by_cluster_dallas.html" class="map-link cluster">🕸️ Dallas</a>
+                    <a href="network_by_cluster_houston.html" class="map-link cluster">🕸️ Houston</a>
+                    <a href="network_by_cluster_miami.html" class="map-link cluster">🕸️ Miami</a>
+                    <a href="network_by_cluster_san_francisco.html" class="map-link cluster">🕸️ San Francisco</a>
+                </p>
+            </div>
+            
+            <div class="section cluster">
+                <h3>Análises Estatísticas</h3>
                 <img src="cluster_analysis.png" class="chart-img" alt="Cluster Analysis">
+                <p style="margin-top: 15px;">
+                    <a href="cluster_results_by_city.csv" class="map-link cluster">📥 Cluster Results by City</a>
+                    <a href="cluster_metrics_by_city.csv" class="map-link cluster">📥 Cluster Metrics</a>
+                    <a href="cluster_results_national.csv" class="map-link cluster">📥 National Results</a>
+                    <a href="cluster_airport_premium_analysis.csv" class="map-link cluster">📥 Airport Premium Analysis</a>
+                    <a href="cluster_fbo_analysis.csv" class="map-link cluster">📥 FBO Analysis</a>
+                </p>
             </div>
             
             <div class="section cluster">
-                <h3>Household Clusters</h3>
-                <table>
-                    <tr>
-                        <th>Cluster</th>
-                        <th>ZIPs</th>
-                        <th>Características</th>
-                        <th>Cidades Principais</th>
-                    </tr>
-                    <tr>
-                        <td><strong>Ultra-Rich / Próximo</strong></td>
-                        <td>Variável</td>
-                        <td>Alto AGI, próximo ao aeroporto, densidade moderada</td>
-                        <td>Los Angeles, New York</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Alta Renda / Distante</strong></td>
-                        <td>Variável</td>
-                        <td>Alto volume de HH200k+, mais distante do aeroporto</td>
-                        <td>New York, Los Angeles, San Francisco</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Moderado / Central</strong></td>
-                        <td>Maior grupo</td>
-                        <td>Riqueza moderada, localização central</td>
-                        <td>New York, Los Angeles, Houston</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Elite / Subúrbio</strong></td>
-                        <td>Menor grupo</td>
-                        <td>AGI muito alto, áreas exclusivas</td>
-                        <td>Miami</td>
-                    </tr>
-                </table>
-                <p><a href="household_clusters.csv" class="map-link cluster">📥 Download Household Clusters (CSV)</a></p>
-            </div>
-            
-            <div class="section cluster">
-                <h3>Corporate Clusters</h3>
-                <table>
-                    <tr>
-                        <th class="corporate">Cluster</th>
-                        <th class="corporate">ZIPs</th>
-                        <th class="corporate">Características</th>
-                        <th class="corporate">Cidades Principais</th>
-                    </tr>
-                    <tr>
-                        <td><strong>Mega Corporações</strong></td>
-                        <td>~10 ZIPs</td>
-                        <td>Employment > 100k, Revenue > $30B</td>
-                        <td>New York, Chicago, Los Angeles</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Corporate Hub</strong></td>
-                        <td>~60 ZIPs</td>
-                        <td>Alto employment, próximo ao aeroporto</td>
-                        <td>Los Angeles, San Francisco, New York</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Empresas Médias</strong></td>
-                        <td>~120 ZIPs</td>
-                        <td>Employment moderado, bem distribuído</td>
-                        <td>Los Angeles, Miami, New York</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Periferia Empresarial</strong></td>
-                        <td>~135 ZIPs</td>
-                        <td>Mais distante, empresas menores</td>
-                        <td>Los Angeles, Miami, Chicago</td>
-                    </tr>
-                </table>
-                <p><a href="corporate_clusters.csv" class="map-link cluster">📥 Download Corporate Clusters (CSV)</a></p>
+                <h3>Box Plots - Métricas por Cluster</h3>
+                <p style="margin-bottom: 15px;">Distribuição de métricas dentro de cada cluster:</p>
+                <img src="boxplot_clusters_los_angeles.png" class="chart-img" alt="LA Clusters">
+                <img src="boxplot_clusters_new_york.png" class="chart-img" alt="NY Clusters">
+                <img src="boxplot_clusters_san_francisco.png" class="chart-img" alt="SF Clusters">
+                <img src="boxplot_clusters_chicago.png" class="chart-img" alt="Chicago Clusters">
+                <img src="boxplot_clusters_dallas.png" class="chart-img" alt="Dallas Clusters">
+                <img src="boxplot_clusters_houston.png" class="chart-img" alt="Houston Clusters">
+                <img src="boxplot_clusters_miami.png" class="chart-img" alt="Miami Clusters">
             </div>
         </div>
         
