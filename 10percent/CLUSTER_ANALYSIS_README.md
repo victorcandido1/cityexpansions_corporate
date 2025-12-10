@@ -30,6 +30,11 @@ This analysis connects the 197 "golden intersection" ZIP codes (top 10% in both 
    - Polygon boundaries for all U.S. ZIP codes
    - Used for map visualization
 
+4. **Gated Communities** (`v1/10percent/gated_communities.csv`)
+   - 30 premium private communities across New York and Los Angeles
+   - Categorized by distance from city center (0-50km, 50-100km, 100-200km)
+   - Includes coordinates and service category (Standard/Shuttle/Charter)
+
 ### City Coverage
 - **Los Angeles** (LAX)
 - **New York** (JFK)
@@ -115,12 +120,17 @@ travel_time_minutes = distance_km × 1.5
 | File | Description |
 |------|-------------|
 | `map_cluster_airports_{city}.html` | City-level cluster map with airports/heliports (7 files) |
+| `map_cluster_airports_{city}_with_gated.html` | Enhanced maps with gated communities overlay (NY & LA) |
 | `map_cluster_airports_national.html` | National overview of all clusters |
 
 **Map Features:**
 - ZIP polygons colored by K-means cluster
 - Airport markers (red plane icon) with 10/20/30km radius circles
 - Heliport markers (blue helicopter icon)
+- **Gated Communities markers** (home icon, color-coded by distance category):
+  - 🟢 Green (0-50km): Standard service area
+  - 🟠 Orange (50-100km): Shuttle/Full Cabin service
+  - 🔴 Dark Red (100-200km): Charter service required
 - Lines connecting each ZIP to nearest airport
 - Interactive tooltips with ZIP details
 - Layer controls for toggling elements
@@ -176,11 +186,15 @@ python cluster_network_graphs.py
 # Step 3: Create maps and statistical visualizations
 python create_cluster_visualizations.py
 # Output: map_cluster_airports_*.html (8 files), statistical PNGs (35 files)
+
+# Step 4 (Optional): Add gated communities to maps
+python add_gated_communities_to_maps.py
+# Output: map_cluster_airports_{city}_with_gated.html (NY & LA)
 ```
 
 ### Total Outputs
-- **4 CSV files** (data and metrics)
-- **8 HTML files** (interactive maps)
+- **5 CSV files** (data, metrics, and gated communities)
+- **10 HTML files** (8 cluster maps + 2 enhanced maps with gated communities)
 - **50 PNG files** (15 network graphs + 35 statistical charts)
 
 **Estimated Runtime:** 5-10 minutes (depends on system)
@@ -237,6 +251,24 @@ python create_cluster_visualizations.py
 - 60% within 10km
 - NYC/LA premium ZIPs average 15+ heliports accessible
 
+### Gated Communities Analysis
+
+**Premium Residential Zones Identified:**
+- **New York:** 11 gated communities
+  - 3 within 0-50km (Manhasset Crest, Cherry Lawn, Cobblefield)
+  - 2 within 50-100km (Stonebridge, Tuxedo Park)
+  - 6 within 100-200km (Hamptons area: Meadow Lane, Sagaponack, Sag Harbor, etc.)
+  
+- **Los Angeles:** 19 gated communities
+  - 13 within 0-50km (Beverly Park, Brentwood, Hidden Hills, Malibu Colony, etc.)
+  - 2 within 50-100km (Sherwood Country Club, Laguna Beach)
+  - 4 within 100-200km (Santa Barbara, Palm Springs, Temecula, Solvang)
+
+**Service Categorization:**
+- **0-50km:** Standard helicopter/luxury car service
+- **50-100km:** Shuttle service or full cabin charter
+- **100-200km:** Full charter flight required
+
 ---
 
 ## 🎨 Visualization Examples
@@ -274,6 +306,7 @@ python create_cluster_visualizations.py
 - Identify clusters with highest Combined_Score
 - Filter for < 20km to major airport
 - Check heliport accessibility (bonus)
+- **Check gated communities proximity** - target areas near multiple premium communities
 - **Target clusters:** Use scatter plots to find high-score, low-distance zones
 
 ### 2. Helicopter Service Routes
@@ -284,7 +317,11 @@ python create_cluster_visualizations.py
   - High Combined_Score (>0.6)
   - Airport distance 20-50km (too far to drive, feasible for helicopter)
   - Existing heliport within 5km
+  - **Proximity to gated communities** (high concentration of potential customers)
 - **Use:** Network bipartite graphs to visualize potential routes
+- **Focus areas:** 
+  - NY: Hamptons corridor (100-200km radius, multiple gated communities)
+  - LA: Malibu/Hidden Hills/Beverly area (0-50km, high density)
 
 ### 3. Real Estate Premium Analysis
 **Question:** Does airport proximity command a premium in luxury real estate?
@@ -412,17 +449,23 @@ print(f"Has required columns: {all(col in df.columns for col in required)}")
    - Include smaller private airports
    - Cluster by private vs public accessibility
 
-3. **Time-Series Analysis**
+3. **Expanded Gated Communities Coverage**
+   - Add communities for remaining 5 cities (Chicago, Dallas, Houston, Miami, San Francisco)
+   - Include property value data and resident demographics
+   - Calculate demand scores based on community size and wealth indicators
+
+4. **Time-Series Analysis**
    - Track changes in airport accessibility over time
    - Correlate with property value changes
 
-4. **3D Visualizations**
+5. **3D Visualizations**
    - Altitude + lat/lon network graphs
    - Interactive 3D clusters
 
-5. **Machine Learning Predictions**
+6. **Machine Learning Predictions**
    - Predict optimal locations for new heliports
    - Score potential new intersection ZIPs
+   - Identify underserved gated communities with high service potential
 
 ---
 

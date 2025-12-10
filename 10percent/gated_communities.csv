@@ -1,0 +1,74 @@
+community_name,city,state,lat,lon,radius_km
+Manhasset Crest,New York,NY,40.7831,-73.6995,50
+The Greens at Cherry Lawn,New York,NY,40.9217,-73.7826,50
+Cobblefield Community,New York,NY,41.0340,-73.7629,50
+Stonebridge Country Club,New York,NY,40.8700,-73.0500,100
+Tuxedo Park,New York,NY,41.1967,-74.1982,100
+Meadow Lane,New York,NY,40.8838,-72.3915,200
+Sagaponack South,New York,NY,40.9331,-72.2825,200
+Shelter Island,New York,NY,41.0642,-72.3398,200
+Sag Harbor,New York,NY,41.0001,-72.2926,200
+Fishers Island,New York,NY,41.2631,-71.9623,200
+Indian Neck,New York,NY,40.9517,-72.5198,200
+Palos Verdes Peninsula,Los Angeles,CA,33.7446,-118.3874,50
+Laughlin Park,Los Angeles,CA,34.1069,-118.2978,50
+Brentwood Park,Los Angeles,CA,34.0607,-118.4734,50
+Moraga Estates,Los Angeles,CA,34.0522,-118.3437,50
+South Beverly Park,Los Angeles,CA,34.0599,-118.4123,50
+North Beverly Park,Los Angeles,CA,34.0876,-118.4123,50
+Mulholland Estates,Los Angeles,CA,34.1008,-118.3815,50
+The Summit,Los Angeles,CA,34.0736,-118.4000,50
+Malibu Colony,Los Angeles,CA,34.0345,-118.6787,50
+The Oaks of Calabasas,Los Angeles,CA,34.1394,-118.6395,50
+Hidden Hills,Los Angeles,CA,34.1625,-118.6557,50
+Bell Canyon,Los Angeles,CA,34.2267,-118.6492,50
+Porter Ranch,Los Angeles,CA,34.2728,-118.5370,50
+Sherwood Country Club,Los Angeles,CA,34.1738,-118.9634,100
+Laguna Beach,Los Angeles,CA,33.5427,-117.7854,100
+Santa Barbara,Los Angeles,CA,34.4208,-119.6982,200
+Solvang,Los Angeles,CA,34.5958,-120.1379,200
+Palm Springs,Los Angeles,CA,33.8303,-116.5453,200
+Temecula,Los Angeles,CA,33.4936,-117.1484,200
+Lake Forest,Chicago,IL,42.2587,-87.8406,50
+Kenilworth,Chicago,IL,42.0856,-87.7178,50
+Winnetka,Chicago,IL,42.1081,-87.7359,50
+Glencoe,Chicago,IL,42.1347,-87.7587,50
+Highland Park,Chicago,IL,42.1817,-87.8003,50
+Northfield,Chicago,IL,42.0986,-87.7781,50
+Oak Brook,Chicago,IL,41.8328,-87.9289,50
+Burr Ridge,Chicago,IL,41.7489,-87.9178,50
+Hinsdale,Chicago,IL,41.8009,-87.9370,50
+Barrington Hills,Chicago,IL,42.1428,-88.1584,100
+Lake Geneva,Chicago,WI,42.5917,-88.4334,200
+Highland Park,Dallas,TX,32.8335,-96.8017,50
+University Park,Dallas,TX,32.8501,-96.8004,50
+Westlake,Dallas,TX,32.9907,-97.1981,50
+Southlake,Dallas,TX,32.9412,-97.1342,50
+Colleyville,Dallas,TX,32.8907,-97.1550,50
+Trophy Club,Dallas,TX,33.0073,-97.1853,100
+Flower Mound,Dallas,TX,33.0145,-97.0970,100
+River Oaks,Houston,TX,29.7561,-95.4113,50
+Memorial,Houston,TX,29.7752,-95.5594,50
+Tanglewood,Houston,TX,29.7344,-95.4872,50
+Piney Point Village,Houston,TX,29.7566,-95.5188,50
+Bunker Hill Village,Houston,TX,29.7677,-95.5238,50
+The Woodlands,Houston,TX,30.1582,-95.4613,100
+Sugar Land,Houston,TX,29.6196,-95.6349,100
+Fisher Island,Miami,FL,25.7617,-80.1428,50
+Star Island,Miami,FL,25.7653,-80.1656,50
+Bal Harbour,Miami,FL,25.8909,-80.1237,50
+Indian Creek Village,Miami,FL,25.8770,-80.1328,50
+Bay Point,Miami,FL,25.8451,-80.1290,50
+Golden Beach,Miami,FL,25.9651,-80.1217,50
+Palm Island,Miami,FL,25.7789,-80.1578,50
+Key Biscayne,Miami,FL,25.6926,-80.1631,100
+Palm Beach,Miami,FL,26.7056,-80.0364,200
+Atherton,San Francisco,CA,37.4613,-122.1977,50
+Woodside,San Francisco,CA,37.4299,-122.2541,50
+Hillsborough,San Francisco,CA,37.5741,-122.3794,50
+Los Altos Hills,San Francisco,CA,37.3688,-122.1272,50
+Portola Valley,San Francisco,CA,37.3841,-122.2083,50
+Tiburon,San Francisco,CA,37.8736,-122.4561,50
+Belvedere,San Francisco,CA,37.8727,-122.4644,50
+Carmel,San Francisco,CA,36.5553,-121.9233,200
+
