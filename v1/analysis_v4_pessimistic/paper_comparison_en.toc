@@ -1,0 +1,29 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Research Objectives}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Scope}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Methodology}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Traffic Multipliers}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Journey Models}{3}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Car Journey}{3}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Helicopter Journey}{4}{subsubsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.3}Manhattan Helipad Restrictions}{4}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Traffic Multiplier Analysis}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Impact on Travel Time}{5}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Results}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Scenario Comparison Overview}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Comprehensive Statistics}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Time Savings Distribution}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Speed Analysis}{7}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Time per 100 Meters}{8}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Normal vs Worst Case Comparison}{9}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Multiplier Effect on Car Travel}{10}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Savings Distribution Histogram}{11}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Time Breakdown Analysis}{12}{subsection.4.9}%
+\contentsline {section}{\numberline {5}Discussion}{12}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Key Findings}{12}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Practical Implications}{12}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Limitations}{13}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Conclusions}{13}{section.6}%
+\contentsline {section}{\numberline {7}Summary Statistics}{13}{section.7}%
+\contentsline {section}{\numberline {A}Data Sources}{14}{appendix.A}%
+\contentsline {section}{\numberline {B}Technical Parameters}{14}{appendix.B}%

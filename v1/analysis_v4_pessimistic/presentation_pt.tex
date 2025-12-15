@@ -112,10 +112,12 @@
 \section{Metodologia}
 % ============================================================================
 
-\begin{frame}{Multiplicadores de Trafego Explicados}
+\begin{frame}{Multiplicadores de Trafego por Cidade}
 \begin{center}
-\includegraphics[width=0.7\textwidth,height=0.75\textheight,keepaspectratio]{../diagrams/traffic_multiplier_pt.png}
+\includegraphics[width=0.9\textwidth,height=0.78\textheight,keepaspectratio]{../regional_charts_pt/city_traffic_multipliers.png}
 \end{center}
+\vspace{-0.5em}
+\footnotesize{NY: Pior caso mais alto (5.20x) | LA: Trafego normal mais alto (1.42x)}
 \end{frame}
 
 \begin{frame}{Comparacao de Trajeto: Carro vs Helicoptero}
@@ -285,6 +287,34 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \end{frame}
 
 % ============================================================================
+\section{Analise Regional}
+% ============================================================================
+
+\begin{frame}{Nova York: Detalhamento Regional}
+\begin{center}
+\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../regional_charts_pt/ny_regional_breakdown.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Los Angeles: Detalhamento Regional}
+\begin{center}
+\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../regional_charts_pt/la_regional_breakdown.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Componentes do Trajeto por Regiao}
+\begin{center}
+\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../regional_charts_pt/regional_stacked_comparison.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Resumo de Economia por Regiao}
+\begin{center}
+\includegraphics[width=0.88\textwidth,height=0.78\textheight,keepaspectratio]{../regional_charts_pt/regional_savings_summary.png}
+\end{center}
+\end{frame}
+
+% ============================================================================
 \section{Insights Principais}
 % ============================================================================
 
@@ -294,9 +324,9 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \begin{block}{\faCarSide\ Viagem de Carro}
 \begin{itemize}
     \item \textcolor{revoRed}{\textbf{100\%}} afetado pelo trafego
-    \item Tempo aumenta \textcolor{revoRed}{\textbf{4.68x}}
+    \item NY: Tempo aumenta \textcolor{revoRed}{\textbf{5.20x}}
+    \item LA: Tempo aumenta \textcolor{revoRed}{\textbf{4.15x}}
     \item Atrasos imprevisiveis
-    \item Estresse e fadiga
 \end{itemize}
 \end{block}
 
@@ -304,7 +334,7 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \begin{block}{\faHelicopter\ Viagem de Helicoptero}
 \begin{itemize}
     \item Apenas \textcolor{revoGreen}{\textbf{20\%}} afetado pelo trafego
-    \item Tempo aumenta apenas \textcolor{revoGreen}{\textbf{1.6x}}
+    \item Tempo aumenta apenas \textcolor{revoGreen}{\textbf{1.5-1.8x}}
     \item Agenda previsivel
     \item Conforto e produtividade
 \end{itemize}
