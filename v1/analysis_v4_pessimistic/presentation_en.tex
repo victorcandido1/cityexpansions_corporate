@@ -1,4 +1,4 @@
-\documentclass[aspectratio=169,11pt]{beamer}
+\documentclass[aspectratio=169,9pt]{beamer}
 
 % Theme
 \usetheme{Madrid}
@@ -12,6 +12,12 @@
 \usepackage{tikz}
 \usepackage{xcolor}
 \usepackage{fontawesome5}
+
+% Smaller fonts for items
+\setbeamerfont{itemize/enumerate body}{size=\small}
+\setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}
+\setbeamerfont{block body}{size=\small}
+\setbeamerfont{block title}{size=\normalsize}
 
 % Custom colors
 \definecolor{revoBlue}{RGB}{52, 152, 219}
@@ -32,9 +38,6 @@
 \author{REVO Helicopter Services}
 \institute{Strategic Analysis Division}
 \date{December 2025}
-
-% Logo (disabled to avoid overflow)
-% \logo{\includegraphics[height=0.8cm]{../diagrams/traffic_multiplier_en.png}}
 
 \begin{document}
 
@@ -71,10 +74,10 @@
 \column{0.5\textwidth}
 \begin{alertblock}{Worst Case Reality}
 \begin{center}
-\textbf{During severe traffic:}\\[0.5em]
-\Large{\textcolor{revoRed}{4.68x}} \normalsize{travel time}\\[0.5em]
-\Large{\textcolor{revoRed}{12 km/h}} \normalsize{average speed}\\[0.5em]
-\textit{(barely faster than walking!)}
+\textbf{During severe traffic:}\\[0.3em]
+\large{\textcolor{revoRed}{4.68x}} \small{travel time}\\[0.3em]
+\large{\textcolor{revoRed}{12 km/h}} \small{average speed}\\[0.3em]
+\footnotesize{\textit{(barely faster than walking!)}}
 \end{center}
 \end{alertblock}
 \end{columns}
@@ -95,10 +98,10 @@
 \column{0.4\textwidth}
 \begin{exampleblock}{Key Numbers}
 \begin{center}
-\Large{114} \normalsize{ZIP Codes}\\[0.3em]
-\Large{65} \normalsize{Heliports}\\[0.3em]
-\Large{4} \normalsize{Traffic Scenarios}\\[0.3em]
-\Large{27} \normalsize{Manhattan ZIPs}
+\large{114} \small{ZIP Codes}\\[0.2em]
+\large{65} \small{Heliports}\\[0.2em]
+\large{4} \small{Traffic Scenarios}\\[0.2em]
+\large{27} \small{Manhattan ZIPs}
 \end{center}
 \end{exampleblock}
 \end{columns}
@@ -110,13 +113,13 @@
 
 \begin{frame}{Traffic Multipliers Explained}
 \begin{center}
-\includegraphics[width=0.75\textwidth]{../diagrams/traffic_multiplier_en.png}
+\includegraphics[width=0.7\textwidth,height=0.75\textheight,keepaspectratio]{../diagrams/traffic_multiplier_en.png}
 \end{center}
 \end{frame}
 
 \begin{frame}{Journey Comparison: Car vs Helicopter}
 \begin{center}
-\includegraphics[width=0.95\textwidth]{../diagrams/journey_diagram_en.png}
+\includegraphics[width=0.85\textwidth,height=0.78\textheight,keepaspectratio]{../diagrams/journey_diagram_en.png}
 \end{center}
 \end{frame}
 
@@ -178,17 +181,17 @@
 
 \column{0.5\textwidth}
 \begin{center}
-\textbf{Why Manhattan-Only?}\\[1em]
-\begin{tikzpicture}[scale=0.8]
-    \draw[thick, fill=revoBlue!20] (0,0) rectangle (2,4);
-    \node at (1,3.5) {\small Manhattan};
-    \draw[ultra thick, revoRed] (2,2) -- (4,2);
-    \node[revoRed] at (3,2.5) {\small \faTimesCircle\ Bridges};
-    \node[revoRed] at (3,1.5) {\small \faTimesCircle\ Tunnels};
-    \draw[thick, fill=gray!20] (4,0) rectangle (6,4);
-    \node at (5,2) {\small NJ/Queens};
-\end{tikzpicture}\\[1em]
-\textit{Avoid congested crossings!}
+\textbf{Why Manhattan-Only?}\\[0.5em]
+\begin{tikzpicture}[scale=0.7]
+    \draw[thick, fill=revoBlue!20] (0,0) rectangle (2,3.5);
+    \node at (1,3) {\footnotesize Manhattan};
+    \draw[ultra thick, revoRed] (2,1.75) -- (4,1.75);
+    \node[revoRed] at (3,2.2) {\footnotesize \faTimesCircle\ Bridges};
+    \node[revoRed] at (3,1.3) {\footnotesize \faTimesCircle\ Tunnels};
+    \draw[thick, fill=gray!20] (4,0) rectangle (6,3.5);
+    \node at (5,1.75) {\footnotesize NJ/Queens};
+\end{tikzpicture}\\[0.5em]
+\footnotesize{\textit{Avoid congested crossings!}}
 \end{center}
 \end{columns}
 \end{frame}
@@ -199,11 +202,12 @@
 
 \begin{frame}{Scenario Comparison Overview}
 \begin{center}
-\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig1_scenario_comparison.png}
+\includegraphics[width=0.88\textwidth,height=0.8\textheight,keepaspectratio]{../comparison_charts_en/fig1_scenario_comparison.png}
 \end{center}
 \end{frame}
 
 \begin{frame}{Key Statistics}
+\small
 \begin{table}
 \centering
 \begin{tabular}{l|cccc|cccc}
@@ -218,64 +222,64 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \end{tabular}
 \end{table}
 
+\vspace{0.5em}
 \begin{center}
-\Large{\textcolor{revoGreen}{\textbf{Worst Case: Save 2+ Hours!}}}
+\large{\textcolor{revoGreen}{\textbf{Worst Case: Save 2+ Hours!}}}
 \end{center}
 \end{frame}
 
 \begin{frame}{Speed Degradation by Scenario}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig2_speed_comparison.png}
+\includegraphics[width=0.85\textwidth,height=0.8\textheight,keepaspectratio]{../comparison_charts_en/fig2_speed_comparison.png}
 \end{center}
 \end{frame}
 
 \begin{frame}{Time Savings Distribution}
 \begin{center}
-\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig4_savings_boxplot.png}
+\includegraphics[width=0.88\textwidth,height=0.8\textheight,keepaspectratio]{../comparison_charts_en/fig4_savings_boxplot.png}
 \end{center}
 \end{frame}
 
 \begin{frame}{Normal vs Worst Case: The Dramatic Difference}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig6_normal_vs_worst.png}
+\includegraphics[width=0.82\textwidth,height=0.78\textheight,keepaspectratio]{../comparison_charts_en/fig6_normal_vs_worst.png}
 \end{center}
 \end{frame}
 
 \begin{frame}{How Traffic Multiplies Travel Time}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig5_multiplier_effect.png}
+\includegraphics[width=0.85\textwidth,height=0.8\textheight,keepaspectratio]{../comparison_charts_en/fig5_multiplier_effect.png}
 \end{center}
 \end{frame}
 
 \begin{frame}{Time per 100 Meters}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig3_time_100m.png}
+\includegraphics[width=0.8\textwidth,height=0.65\textheight,keepaspectratio]{../comparison_charts_en/fig3_time_100m.png}
 \end{center}
 
+\vspace{0.3em}
 \begin{columns}
 \column{0.5\textwidth}
 \begin{center}
-\textbf{Worst Case:}\\
-30 seconds / 100m
+\small{\textbf{Worst Case:} 30 sec / 100m}
 \end{center}
 
 \column{0.5\textwidth}
 \begin{center}
-\textbf{Walking:}\\
-72 seconds / 100m
+\small{\textbf{Walking:} 72 sec / 100m}
 \end{center}
 \end{columns}
 \end{frame}
 
 \begin{frame}{Time Breakdown: Worst Case}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{../diagrams/time_breakdown_en.png}
+\includegraphics[width=0.75\textwidth,height=0.78\textheight,keepaspectratio]{../diagrams/time_breakdown_en.png}
 \end{center}
 \end{frame}
 
 \begin{frame}{Savings Distribution Histogram}
 \begin{center}
-\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig8_savings_histogram.png}
+\includegraphics[width=0.85\textwidth,height=0.78\textheight,keepaspectratio]{../comparison_charts_en/fig8_savings_histogram.png}
 \end{center}
 \end{frame}
 
@@ -306,15 +310,15 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \end{block}
 \end{columns}
 
-\vspace{1em}
+\vspace{0.5em}
 \begin{center}
-\begin{tikzpicture}
-    \draw[ultra thick, ->, revoBlue] (0,0) -- (10,0);
-    \node at (5,-0.5) {Traffic Severity};
-    \draw[thick, revoRed] (0,0.5) -- (10,3);
-    \node[revoRed] at (10.5,3) {Car};
-    \draw[thick, revoGreen] (0,0.5) -- (10,1);
-    \node[revoGreen] at (10.5,1) {Heli};
+\begin{tikzpicture}[scale=0.85]
+    \draw[ultra thick, ->, revoBlue] (0,0) -- (9,0);
+    \node at (4.5,-0.4) {\small Traffic Severity};
+    \draw[thick, revoRed] (0,0.4) -- (9,2.5);
+    \node[revoRed] at (9.4,2.5) {\small Car};
+    \draw[thick, revoGreen] (0,0.4) -- (9,0.9);
+    \node[revoGreen] at (9.4,0.9) {\small Heli};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -323,32 +327,32 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \begin{columns}
 \column{0.33\textwidth}
 \begin{center}
-\textcolor{revoBlue}{\Huge{\faClock}}\\[0.5em]
-\textbf{Time Savings}\\[0.5em]
-\Large{147 min}\\
-\normalsize{(NY worst case)}
+\textcolor{revoBlue}{\Large{\faClock}}\\[0.3em]
+\small{\textbf{Time Savings}}\\[0.3em]
+\large{147 min}\\
+\footnotesize{(NY worst case)}
 \end{center}
 
 \column{0.33\textwidth}
 \begin{center}
-\textcolor{revoGreen}{\Huge{\faCheckCircle}}\\[0.5em]
-\textbf{Reliability}\\[0.5em]
-\Large{99\%}\\
-\normalsize{advantage rate}
+\textcolor{revoGreen}{\Large{\faCheckCircle}}\\[0.3em]
+\small{\textbf{Reliability}}\\[0.3em]
+\large{99\%}\\
+\footnotesize{advantage rate}
 \end{center}
 
 \column{0.33\textwidth}
 \begin{center}
-\textcolor{revoOrange}{\Huge{\faPlane}}\\[0.5em]
-\textbf{Never Miss}\\[0.5em]
-\Large{Flights}\\
-\normalsize{predictable arrival}
+\textcolor{revoOrange}{\Large{\faPlane}}\\[0.3em]
+\small{\textbf{Never Miss}}\\[0.3em]
+\large{Flights}\\
+\footnotesize{predictable arrival}
 \end{center}
 \end{columns}
 
-\vspace{1em}
+\vspace{0.8em}
 \begin{exampleblock}{ROI Consideration}
-2+ hours saved = productive meeting time, reduced stress, guaranteed connections
+\small{2+ hours saved = productive meeting time, reduced stress, guaranteed connections}
 \end{exampleblock}
 \end{frame}
 
@@ -381,29 +385,28 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \end{block}
 \end{columns}
 
-\vspace{1em}
+\vspace{0.5em}
 \begin{alertblock}{Key Takeaway}
 \centering
-The worse the traffic, the greater the helicopter advantage.\\
-In extreme conditions, helicopter is the \textbf{only viable option} for time-sensitive travel.
+\small{The worse the traffic, the greater the helicopter advantage.\\
+In extreme conditions, helicopter is the \textbf{only viable option} for time-sensitive travel.}
 \end{alertblock}
 \end{frame}
 
 \begin{frame}{Complete Summary Statistics}
 \begin{center}
-\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig7_summary_table.png}
+\includegraphics[width=0.88\textwidth,height=0.78\textheight,keepaspectratio]{../comparison_charts_en/fig7_summary_table.png}
 \end{center}
 \end{frame}
 
 \begin{frame}
 \begin{center}
-\Huge{\textbf{Thank You}}\\[2em]
-\Large{Questions?}\\[2em]
+\Huge{\textbf{Thank You}}\\[1.5em]
+\Large{Questions?}\\[1.5em]
 \normalsize{REVO Helicopter Services}\\
-\textit{Strategic Analysis Division}\\[1em]
-December 2025
+\small{\textit{Strategic Analysis Division}}\\[0.8em]
+\small{December 2025}
 \end{center}
 \end{frame}
 
 \end{document}
-
