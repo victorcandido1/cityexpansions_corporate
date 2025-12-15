@@ -1,0 +1,409 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+% Theme
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+% Custom colors
+\definecolor{revoBlue}{RGB}{52, 152, 219}
+\definecolor{revoRed}{RGB}{231, 76, 60}
+\definecolor{revoGreen}{RGB}{39, 174, 96}
+\definecolor{revoDark}{RGB}{44, 62, 80}
+\definecolor{revoOrange}{RGB}{230, 126, 34}
+
+\setbeamercolor{frametitle}{bg=revoDark,fg=white}
+\setbeamercolor{title}{bg=revoDark,fg=white}
+\setbeamercolor{structure}{fg=revoBlue}
+\setbeamercolor{block title}{bg=revoBlue,fg=white}
+\setbeamercolor{block body}{bg=revoBlue!10}
+
+% Title
+\title[\textbf{Helicopter vs Car Analysis}]{\textbf{Helicopter vs Car Travel Time Analysis}}
+\subtitle{A Comprehensive Comparison of Traffic Scenarios\\New York \& Los Angeles}
+\author{REVO Helicopter Services}
+\institute{Strategic Analysis Division}
+\date{December 2025}
+
+% Logo
+\logo{\includegraphics[height=0.8cm]{../diagrams/traffic_multiplier_en.png}}
+
+\begin{document}
+
+% ============================================================================
+% TITLE SLIDE
+% ============================================================================
+\begin{frame}
+\titlepage
+\end{frame}
+
+% ============================================================================
+% AGENDA
+% ============================================================================
+\begin{frame}{Agenda}
+\tableofcontents
+\end{frame}
+
+% ============================================================================
+\section{Introduction}
+% ============================================================================
+
+\begin{frame}{The Problem: Urban Traffic Congestion}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{The Challenge}
+\begin{itemize}
+    \item Business travelers need reliable airport access
+    \item Traffic is unpredictable and often severe
+    \item Missing flights = significant business impact
+    \item Stress and time loss affect productivity
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{alertblock}{Worst Case Reality}
+\begin{center}
+\textbf{During severe traffic:}\\[0.5em]
+\Large{\textcolor{revoRed}{4.68x}} \normalsize{travel time}\\[0.5em]
+\Large{\textcolor{revoRed}{12 km/h}} \normalsize{average speed}\\[0.5em]
+\textit{(barely faster than walking!)}
+\end{center}
+\end{alertblock}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Study Overview}
+\begin{columns}
+\column{0.6\textwidth}
+\begin{block}{Scope}
+\begin{itemize}
+    \item \textbf{New York}: 70 wealthy ZIP codes $\rightarrow$ JFK
+    \item \textbf{Los Angeles}: 44 wealthy ZIP codes $\rightarrow$ LAX
+    \item \textbf{Data}: Google Traffic (Pessimistic)
+    \item \textbf{Routing}: OSRM + FAA Helipad Data
+\end{itemize}
+\end{block}
+
+\column{0.4\textwidth}
+\begin{exampleblock}{Key Numbers}
+\begin{center}
+\Large{114} \normalsize{ZIP Codes}\\[0.3em]
+\Large{65} \normalsize{Heliports}\\[0.3em]
+\Large{4} \normalsize{Traffic Scenarios}\\[0.3em]
+\Large{27} \normalsize{Manhattan ZIPs}
+\end{center}
+\end{exampleblock}
+\end{columns}
+\end{frame}
+
+% ============================================================================
+\section{Methodology}
+% ============================================================================
+
+\begin{frame}{Traffic Multipliers Explained}
+\begin{center}
+\includegraphics[width=0.75\textwidth]{../diagrams/traffic_multiplier_en.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Journey Comparison: Car vs Helicopter}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../diagrams/journey_diagram_en.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Helicopter Journey Components}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{\faCarSide\ Step 1: Drive to Helipad}
+\begin{itemize}
+    \item Affected by traffic
+    \item Manhattan helipad priority
+    \item Average: 5-15 minutes
+\end{itemize}
+\end{block}
+
+\begin{block}{\faHelicopter\ Step 3: Flight}
+\begin{itemize}
+    \item 200 km/h cruise speed
+    \item Direct route
+    \item 8-12 minutes typical
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{\faClipboardCheck\ Step 2: Check-in}
+\begin{itemize}
+    \item Fixed 10 minutes
+    \item Security screening
+    \item Boarding preparation
+\end{itemize}
+\end{block}
+
+\begin{block}{\faWalking\ Step 4: Terminal Transfer}
+\begin{itemize}
+    \item Fixed 10 minutes
+    \item Helipad to terminal
+    \item Internal transport
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Manhattan Helipad Network}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Approved Heliports}
+\begin{itemize}
+    \item \textbf{JRB}: Downtown/Wall St
+    \item \textbf{JRA}: West 30th Street
+    \item \textbf{6N5}: East 34th Street
+    \item \textbf{3NY2}: Astoria (Queens)
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Exclusions}
+\faTimesCircle\ Police Heliports\\
+\faTimesCircle\ One Police Plaza\\
+\faTimesCircle\ Newport Beach Police (LA)
+\end{alertblock}
+
+\column{0.5\textwidth}
+\begin{center}
+\textbf{Why Manhattan-Only?}\\[1em]
+\begin{tikzpicture}[scale=0.8]
+    \draw[thick, fill=revoBlue!20] (0,0) rectangle (2,4);
+    \node at (1,3.5) {\small Manhattan};
+    \draw[ultra thick, revoRed] (2,2) -- (4,2);
+    \node[revoRed] at (3,2.5) {\small \faTimesCircle\ Bridges};
+    \node[revoRed] at (3,1.5) {\small \faTimesCircle\ Tunnels};
+    \draw[thick, fill=gray!20] (4,0) rectangle (6,4);
+    \node at (5,2) {\small NJ/Queens};
+\end{tikzpicture}\\[1em]
+\textit{Avoid congested crossings!}
+\end{center}
+\end{columns}
+\end{frame}
+
+% ============================================================================
+\section{Results}
+% ============================================================================
+
+\begin{frame}{Scenario Comparison Overview}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig1_scenario_comparison.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Key Statistics}
+\begin{table}
+\centering
+\begin{tabular}{l|cccc|cccc}
+\toprule
+& \multicolumn{4}{c|}{\textcolor{revoBlue}{\textbf{New York}}} & \multicolumn{4}{c}{\textcolor{revoRed}{\textbf{Los Angeles}}} \\
+\textbf{Metric} & Fast & Norm & Rush & Worst & Fast & Norm & Rush & Worst \\
+\midrule
+Car (min) & 47 & 59 & 79 & \textbf{221} & 47 & 59 & 80 & \textbf{222} \\
+Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
+\rowcolor{revoGreen!30} Savings & 3 & 13 & 30 & \textbf{147} & 1 & 11 & 28 & \textbf{143} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{center}
+\Large{\textcolor{revoGreen}{\textbf{Worst Case: Save 2+ Hours!}}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Speed Degradation by Scenario}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig2_speed_comparison.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Time Savings Distribution}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig4_savings_boxplot.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Normal vs Worst Case: The Dramatic Difference}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig6_normal_vs_worst.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{How Traffic Multiplies Travel Time}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig5_multiplier_effect.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Time per 100 Meters}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{../comparison_charts_en/fig3_time_100m.png}
+\end{center}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+\textbf{Worst Case:}\\
+30 seconds / 100m
+\end{center}
+
+\column{0.5\textwidth}
+\begin{center}
+\textbf{Walking:}\\
+72 seconds / 100m
+\end{center}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Time Breakdown: Worst Case}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{../diagrams/time_breakdown_en.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Savings Distribution Histogram}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig8_savings_histogram.png}
+\end{center}
+\end{frame}
+
+% ============================================================================
+\section{Key Insights}
+% ============================================================================
+
+\begin{frame}{Why Helicopter Wins in Worst Case}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{\faCarSide\ Car Travel}
+\begin{itemize}
+    \item \textcolor{revoRed}{\textbf{100\%}} affected by traffic
+    \item Time increases \textcolor{revoRed}{\textbf{4.68x}}
+    \item Unpredictable delays
+    \item Stress and fatigue
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{\faHelicopter\ Helicopter Travel}
+\begin{itemize}
+    \item Only \textcolor{revoGreen}{\textbf{20\%}} affected by traffic
+    \item Time increases only \textcolor{revoGreen}{\textbf{1.6x}}
+    \item Predictable schedule
+    \item Comfort and productivity
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{1em}
+\begin{center}
+\begin{tikzpicture}
+    \draw[ultra thick, ->, revoBlue] (0,0) -- (10,0);
+    \node at (5,-0.5) {Traffic Severity};
+    \draw[thick, revoRed] (0,0.5) -- (10,3);
+    \node[revoRed] at (10.5,3) {Car};
+    \draw[thick, revoGreen] (0,0.5) -- (10,1);
+    \node[revoGreen] at (10.5,1) {Heli};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Business Value Proposition}
+\begin{columns}
+\column{0.33\textwidth}
+\begin{center}
+\textcolor{revoBlue}{\Huge{\faClock}}\\[0.5em]
+\textbf{Time Savings}\\[0.5em]
+\Large{147 min}\\
+\normalsize{(NY worst case)}
+\end{center}
+
+\column{0.33\textwidth}
+\begin{center}
+\textcolor{revoGreen}{\Huge{\faCheckCircle}}\\[0.5em]
+\textbf{Reliability}\\[0.5em]
+\Large{99\%}\\
+\normalsize{advantage rate}
+\end{center}
+
+\column{0.33\textwidth}
+\begin{center}
+\textcolor{revoOrange}{\Huge{\faPlane}}\\[0.5em]
+\textbf{Never Miss}\\[0.5em]
+\Large{Flights}\\
+\normalsize{predictable arrival}
+\end{center}
+\end{columns}
+
+\vspace{1em}
+\begin{exampleblock}{ROI Consideration}
+2+ hours saved = productive meeting time, reduced stress, guaranteed connections
+\end{exampleblock}
+\end{frame}
+
+% ============================================================================
+\section{Conclusions}
+% ============================================================================
+
+\begin{frame}{Summary of Findings}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{\textcolor{revoBlue}{New York}}
+\begin{itemize}
+    \item 70 ZIP codes analyzed
+    \item 27 Manhattan locations
+    \item \textbf{147 min} worst case savings
+    \item \textbf{66\%} time reduction
+    \item 99\% show helicopter advantage
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{\textcolor{revoRed}{Los Angeles}}
+\begin{itemize}
+    \item 44 ZIP codes analyzed
+    \item Distributed coverage
+    \item \textbf{143 min} worst case savings
+    \item \textbf{64\%} time reduction
+    \item 98\% show helicopter advantage
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{1em}
+\begin{alertblock}{Key Takeaway}
+\centering
+The worse the traffic, the greater the helicopter advantage.\\
+In extreme conditions, helicopter is the \textbf{only viable option} for time-sensitive travel.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Complete Summary Statistics}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../comparison_charts_en/fig7_summary_table.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\Huge{\textbf{Thank You}}\\[2em]
+\Large{Questions?}\\[2em]
+\normalsize{REVO Helicopter Services}\\
+\textit{Strategic Analysis Division}\\[1em]
+December 2025
+\end{center}
+\end{frame}
+
+\end{document}
+

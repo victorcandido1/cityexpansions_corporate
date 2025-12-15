@@ -7,18 +7,18 @@ Esta análise compara tempos de viagem de helicóptero vs carro para aeroportos 
 ## ⚠️ Características Principais
 
 ### Multiplicadores de Tráfego (derivados do Google)
-- **Rush Hour**: 1.68x
-- **Pior Caso**: 4.68x (quase 5x mais lento que condições normais!)
+| Cenário | Multiplicador | Descrição |
+|---------|---------------|-----------|
+| Fast | 1.0x | Fluxo livre |
+| Normal | 1.25x | Condições típicas |
+| Rush Hour | 1.68x | Horário de pico |
+| **Worst Case** | **4.68x** | Congestionamento severo |
 
 ### Regras de Manhattan
-- ZIP codes de Manhattan usam **EXCLUSIVAMENTE** helipontos localizados na ilha:
-  - **JRB** - Downtown Manhattan/Wall St Heliport
-  - **JRA** - West 30th St Heliport
-  - **6N5** - East 34th Street Heliport
-  - **3NY2** - Astoria Heliport (Queens, próximo)
+- ZIP codes de Manhattan usam **EXCLUSIVAMENTE** helipontos localizados na ilha
 - Helipontos de polícia são **EXCLUÍDOS**
 
-## 📈 Resultados
+## 📈 Resultados Principais
 
 | Métrica | New York | Los Angeles |
 |---------|----------|-------------|
@@ -28,61 +28,114 @@ Esta análise compara tempos de viagem de helicóptero vs carro para aeroportos 
 | Tempo Heli (worst) | 74 min | 79 min |
 | **Economia (worst)** | **147 min** | **143 min** |
 | % com vantagem heli | 99% | 98% |
-| Velocidade média (worst) | 11.9 km/h | 13.7 km/h |
+| Velocidade média (worst) | 12 km/h | 14 km/h |
 
-## 📁 Arquivos
+## 📁 Estrutura de Arquivos
 
-### Dados
-- `analysis_v4_pessimistic.csv` - Resultados completos (114 ZIP codes)
-- `route_segments_100m.csv` - 62,579 segmentos de 100m com velocidades
+```
+analysis_v4_pessimistic/
+├── 📊 DADOS
+│   ├── analysis_v4_pessimistic.csv    # Resultados (114 ZIP codes)
+│   └── route_segments_100m.csv        # 62,579 segmentos de 100m
+│
+├── 🐍 SCRIPTS
+│   ├── analysis_v4_pessimistic.py     # Script principal
+│   ├── create_map_v4.py               # Gerador de mapas
+│   └── create_charts_v4.py            # Gerador de gráficos
+│
+├── 🗺️ MAPAS INTERATIVOS
+│   ├── dashboard_v4.html              # Dashboard completo
+│   ├── map_v4_ny_pessimistic.html     # Mapa NY
+│   └── map_v4_la_pessimistic.html     # Mapa LA
+│
+├── 📊 GRÁFICOS BÁSICOS
+│   ├── charts_v4_en/                  # Gráficos V4 (inglês)
+│   └── charts_v4_pt/                  # Gráficos V4 (português)
+│
+├── 📊 GRÁFICOS COMPARATIVOS (NOVO!)
+│   ├── comparison_charts_en/          # Comparação Normal vs Worst (inglês)
+│   │   ├── fig1_scenario_comparison.png
+│   │   ├── fig2_speed_comparison.png
+│   │   ├── fig3_time_100m.png
+│   │   ├── fig4_savings_boxplot.png
+│   │   ├── fig5_multiplier_effect.png
+│   │   ├── fig6_normal_vs_worst.png
+│   │   ├── fig7_summary_table.png
+│   │   └── fig8_savings_histogram.png
+│   └── comparison_charts_pt/          # Comparação Normal vs Worst (português)
+│       └── (mesmos arquivos acima)
+│
+├── 📐 DIAGRAMAS (NOVO!)
+│   ├── journey_diagram_en.png         # Fluxo de trajeto (inglês)
+│   ├── journey_diagram_pt.png         # Fluxo de trajeto (português)
+│   ├── traffic_multiplier_en.png      # Multiplicadores (inglês)
+│   ├── traffic_multiplier_pt.png      # Multiplicadores (português)
+│   ├── time_breakdown_en.png          # Detalhamento (inglês)
+│   └── time_breakdown_pt.png          # Detalhamento (português)
+│
+├── 📄 PAPERS LaTeX (NOVO!)
+│   ├── paper_comparison_en.tex        # Paper completo (inglês)
+│   └── paper_comparison_pt.tex        # Paper completo (português)
+│
+└── 🎬 APRESENTAÇÕES Beamer (NOVO!)
+    ├── presentation_en.tex            # Slides (inglês)
+    ├── presentation_en.pdf            # PDF compilado (inglês)
+    └── presentation_pt.tex            # Slides (português)
+```
 
-### Scripts
-- `analysis_v4_pessimistic.py` - Script principal de análise
-- `create_map_v4.py` - Gerador de mapas interativos
-- `create_charts_v4.py` - Gerador de gráficos (EN/PT)
+## 📊 Descrição dos Gráficos Comparativos
 
-### Visualizações
-- `dashboard_v4.html` - Dashboard interativo completo
-- `map_v4_ny_pessimistic.html` - Mapa interativo NY
-- `map_v4_la_pessimistic.html` - Mapa interativo LA
-- `charts_v4_en/` - Gráficos em inglês
-- `charts_v4_pt/` - Gráficos em português
+1. **fig1_scenario_comparison** - Carro vs Helicóptero em todos os cenários
+2. **fig2_speed_comparison** - Velocidade média por cenário
+3. **fig3_time_100m** - Tempo para percorrer 100 metros
+4. **fig4_savings_boxplot** - Box plot de economia por cenário
+5. **fig5_multiplier_effect** - Efeito do multiplicador no tempo
+6. **fig6_normal_vs_worst** - Comparação direta Normal vs Pior Caso
+7. **fig7_summary_table** - Tabela resumo completa
+8. **fig8_savings_histogram** - Distribuição de economia
+
+## 📐 Descrição dos Diagramas
+
+1. **journey_diagram** - Comparação visual dos trajetos (carro vs helicóptero)
+2. **traffic_multiplier** - Visualização dos multiplicadores de tráfego
+3. **time_breakdown** - Detalhamento dos componentes de tempo
 
 ## 🚀 Como Usar
 
-1. Abrir `dashboard_v4.html` no navegador
-2. Ou iniciar servidor local:
-   ```bash
-   python -m http.server 8080
-   ```
-3. Acessar `http://localhost:8080/dashboard_v4.html`
+### Dashboard
+```bash
+python -m http.server 8080
+# Acesse http://localhost:8080/dashboard_v4.html
+```
 
-## 📊 Gráficos Disponíveis
+### Compilar Papers LaTeX
+```bash
+pdflatex paper_comparison_en.tex
+pdflatex paper_comparison_pt.tex
+```
 
-Cada gráfico está disponível em **inglês** (charts_v4_en/) e **português** (charts_v4_pt/):
-
-1. `fig1_comparison_worst.png` - Comparação Carro vs Helicóptero
-2. `fig2_savings_boxplot.png` - Box Plot de Economia
-3. `fig3_speed_comparison.png` - Velocidade por Cenário
-4. `fig4_time_per_100m.png` - Tempo para percorrer 100m
-5. `fig5_manhattan_comparison.png` - Manhattan vs Outras Áreas
-6. `fig6_summary_table.png` - Tabela Resumo
-7. `fig7_savings_distribution.png` - Distribuição de Economia
+### Compilar Apresentações Beamer
+```bash
+pdflatex presentation_en.tex
+pdflatex presentation_pt.tex
+```
 
 ## 🔍 Metodologia
 
 ### Cálculo de Tempo de Helicóptero
-1. Tempo de carro até heliponto (com tráfego)
-2. + 10 min check-in
-3. + Tempo de voo (200 km/h)
-4. + 10 min transfer no aeroporto
+```
+Tempo Total = Carro→Heliponto + Check-in(10min) + Voo + Transfer(10min)
+```
 
-### Cenários de Tráfego
+### Cenários de Tráfego (baseado em Google Traffic)
 - **Fast**: Multiplicador 1.0x (baseline OSRM)
 - **Normal**: Multiplicador 1.25x
 - **Rush**: Multiplicador 1.68x (horário de pico)
-- **Worst**: Multiplicador 4.68x (pior cenário histórico)
+- **Worst**: Multiplicador 4.68x (pior cenário histórico - PESSIMISTA)
 
 ## 📅 Data de Geração
 Dezembro 2025
 
+## 📝 Changelog
+- **v4.0**: Análise completa com cenário pessimista
+- **v4.1**: Adicionados gráficos comparativos, diagramas, papers e apresentações
