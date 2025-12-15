@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard V4 - Análise Helicóptero vs Carro (Cenário Pessimista)</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a252f 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .stat-card.success h3 { color: var(--success); }
+        .stat-card.warning h3 { color: var(--warning); }
+        .stat-card.accent h3 { color: var(--accent); }
+        
+        .section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #dee2e6;
+        }
+        
+        .tab.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .chart-card {
+            background: #fafafa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .chart-card img {
+            width: 100%;
+            display: block;
+        }
+        
+        .chart-header {
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .map-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .map-link {
+            display: block;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .map-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4);
+        }
+        
+        .map-link.ny {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+        }
+        
+        .map-link.la {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+        }
+        
+        .map-link h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .map-link p {
+            opacity: 0.9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .highlight {
+            background: #fff3cd !important;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 2rem;
+        }
+        
+        .lang-switch {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .chart-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="switchLang('pt')">PT</button>
+        <button class="lang-btn" onclick="switchLang('en')">EN</button>
+    </div>
+
+    <div class="header">
+        <h1>🚁 Helicóptero vs 🚗 Carro</h1>
+        <p>Análise de Tempo de Viagem para Aeroportos - NY & LA</p>
+        <span class="badge">⚠️ CENÁRIO PESSIMISTA (4.68x tráfego)</span>
+    </div>
+
+    <div class="container">
+        <!-- Estatísticas Principais -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>114</h3>
+                <p>ZIP Codes Analisados</p>
+            </div>
+            <div class="stat-card">
+                <h3>27</h3>
+                <p>ZIPs em Manhattan</p>
+            </div>
+            <div class="stat-card success">
+                <h3>147 min</h3>
+                <p>Economia Média (NY)</p>
+            </div>
+            <div class="stat-card success">
+                <h3>143 min</h3>
+                <p>Economia Média (LA)</p>
+            </div>
+            <div class="stat-card accent">
+                <h3>4.68x</h3>
+                <p>Multiplicador Pior Caso</p>
+            </div>
+            <div class="stat-card warning">
+                <h3>~12 km/h</h3>
+                <p>Velocidade Média (Worst)</p>
+            </div>
+        </div>
+
+        <!-- Mapas Interativos -->
+        <div class="section">
+            <h2>🗺️ Mapas Interativos</h2>
+            <div class="map-links">
+                <a href="map_v4_ny_pessimistic.html" class="map-link ny" target="_blank">
+                    <h3>🗽 New York</h3>
+                    <p>70 ZIP Codes • 27 em Manhattan</p>
+                    <p>Economia média: 147 min</p>
+                </a>
+                <a href="map_v4_la_pessimistic.html" class="map-link la" target="_blank">
+                    <h3>🌴 Los Angeles</h3>
+                    <p>44 ZIP Codes</p>
+                    <p>Economia média: 143 min</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="section">
+            <h2>📊 Gráficos e Análises</h2>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('pt')">🇧🇷 Português</button>
+                <button class="tab" onclick="showTab('en')">🇺🇸 English</button>
+            </div>
+
+            <div id="charts-pt" class="chart-grid">
+                <div class="chart-card">
+                    <div class="chart-header">📊 Comparação Carro vs Helicóptero</div>
+                    <img src="charts_v4_pt/fig1_comparison_worst.png" alt="Comparação">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">📦 Box Plot de Economia</div>
+                    <img src="charts_v4_pt/fig2_savings_boxplot.png" alt="Box Plot">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">🚗 Velocidade por Cenário</div>
+                    <img src="charts_v4_pt/fig3_speed_comparison.png" alt="Velocidade">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">⏱️ Tempo por 100m</div>
+                    <img src="charts_v4_pt/fig4_time_per_100m.png" alt="Tempo 100m">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">🏙️ Manhattan vs Outros</div>
+                    <img src="charts_v4_pt/fig5_manhattan_comparison.png" alt="Manhattan">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">📈 Distribuição de Economia</div>
+                    <img src="charts_v4_pt/fig7_savings_distribution.png" alt="Distribuição">
+                </div>
+            </div>
+
+            <div id="charts-en" class="chart-grid" style="display:none;">
+                <div class="chart-card">
+                    <div class="chart-header">📊 Car vs Helicopter Comparison</div>
+                    <img src="charts_v4_en/fig1_comparison_worst.png" alt="Comparison">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">📦 Savings Box Plot</div>
+                    <img src="charts_v4_en/fig2_savings_boxplot.png" alt="Box Plot">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">🚗 Speed by Scenario</div>
+                    <img src="charts_v4_en/fig3_speed_comparison.png" alt="Speed">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">⏱️ Time per 100m</div>
+                    <img src="charts_v4_en/fig4_time_per_100m.png" alt="Time 100m">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">🏙️ Manhattan vs Others</div>
+                    <img src="charts_v4_en/fig5_manhattan_comparison.png" alt="Manhattan">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">📈 Savings Distribution</div>
+                    <img src="charts_v4_en/fig7_savings_distribution.png" alt="Distribution">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela Resumo -->
+        <div class="section">
+            <h2>📋 Resumo Estatístico</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Métrica</th>
+                        <th>New York</th>
+                        <th>Los Angeles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total ZIP Codes</td>
+                        <td>70</td>
+                        <td>44</td>
+                    </tr>
+                    <tr>
+                        <td>Manhattan ZIPs</td>
+                        <td>27</td>
+                        <td>-</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td>Tempo Carro (Worst)</td>
+                        <td>221 min (3h41m)</td>
+                        <td>222 min (3h42m)</td>
+                    </tr>
+                    <tr>
+                        <td>Tempo Helicóptero (Worst)</td>
+                        <td>74 min (1h14m)</td>
+                        <td>79 min (1h19m)</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>Economia (Worst)</strong></td>
+                        <td><strong>147 min (2h27m)</strong></td>
+                        <td><strong>143 min (2h23m)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>% com Vantagem Heli</td>
+                        <td>99%</td>
+                        <td>98%</td>
+                    </tr>
+                    <tr>
+                        <td>Velocidade Média (Worst)</td>
+                        <td>11.9 km/h</td>
+                        <td>13.7 km/h</td>
+                    </tr>
+                    <tr>
+                        <td>Tempo por 100m (Worst)</td>
+                        <td>~30 seg</td>
+                        <td>~26 seg</td>
+                    </tr>
+                    <tr>
+                        <td>Multiplicador Rush Hour</td>
+                        <td colspan="2">1.68x (derivado do Google Traffic)</td>
+                    </tr>
+                    <tr>
+                        <td>Multiplicador Pior Caso</td>
+                        <td colspan="2">4.68x (derivado do Google Traffic)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Helipontos Manhattan -->
+        <div class="section">
+            <h2>🚁 Helipontos Aprovados de Manhattan</h2>
+            <p style="margin-bottom: 1rem; color: #666;">
+                ZIP codes de Manhattan usam EXCLUSIVAMENTE helipontos localizados na ilha:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Localização</th>
+                        <th>ZIPs Atendidos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>JRB</td>
+                        <td>Downtown Manhattan/Wall St Heliport</td>
+                        <td>Lower Manhattan</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>JRA</td>
+                        <td>West 30th St Heliport</td>
+                        <td>Midtown West</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>6N5</td>
+                        <td>East 34th Street Heliport</td>
+                        <td>Midtown East</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>3NY2</td>
+                        <td>Astoria Heliport</td>
+                        <td>Queens (próximo)</td>
+                        <td>2</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Dados do Google -->
+        <div class="section">
+            <h2>📡 Sobre os Dados do Google Traffic</h2>
+            <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+                <h4 style="color: #856404;">⚠️ CENÁRIO PESSIMISTA UTILIZADO</h4>
+                <p style="color: #856404;">
+                    Os dados do Google Maps incluem duas métricas:
+                </p>
+                <ul style="color: #856404; margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li><strong>duration_normal_min</strong> - Tempo em condições típicas</li>
+                    <li><strong>duration_pessimistic_min</strong> - Tempo no PIOR CENÁRIO histórico</li>
+                </ul>
+                <p style="color: #856404; margin-top: 0.5rem;">
+                    <strong>Esta análise usa duration_pessimistic_min</strong> para garantir que trabalhamos 
+                    com o pior cenário possível.
+                </p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div style="background: #d4edda; padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: #155724;">Rush Hour</h4>
+                    <p style="color: #155724; font-size: 2rem; font-weight: bold;">1.68x</p>
+                    <p style="color: #155724;">Multiplicador médio durante horários de pico</p>
+                </div>
+                <div style="background: #f8d7da; padding: 1rem; border-radius: 8px;">
+                    <h4 style="color: #721c24;">Pior Caso</h4>
+                    <p style="color: #721c24; font-size: 2rem; font-weight: bold;">4.68x</p>
+                    <p style="color: #721c24;">Multiplicador máximo observado (pessimista)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Downloads -->
+        <div class="section">
+            <h2>📥 Downloads</h2>
+            <div class="map-links">
+                <a href="analysis_v4_pessimistic.csv" class="map-link" style="background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);">
+                    <h3>📄 CSV Resultados</h3>
+                    <p>Dados completos da análise V4</p>
+                </a>
+                <a href="route_segments_100m.csv" class="map-link" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                    <h3>📄 Segmentos 100m</h3>
+                    <p>62,579 segmentos de rota</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Análise V4 - Cenário Pessimista | Gerado em Dezembro 2025</p>
+        <p>Dados: Google Traffic (Pessimistic) + OSRM Local + FAA Heliports</p>
+    </div>
+
+    <script>
+        function showTab(lang) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[onclick="showTab('${lang}')"]`).classList.add('active');
+            
+            document.getElementById('charts-pt').style.display = lang === 'pt' ? 'grid' : 'none';
+            document.getElementById('charts-en').style.display = lang === 'en' ? 'grid' : 'none';
+        }
+        
+        function switchLang(lang) {
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="switchLang('${lang}')"]`).classList.add('active');
+            showTab(lang);
+        }
+    </script>
+</body>
+</html>
+
