@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVO - Helicopter vs Car Analysis | All Scenarios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #e94560;
+            --success: #00d26a;
+            --warning: #ffc107;
+            --info: #00b4d8;
+            --light: #f8f9fa;
+            --dark: #0f0f23;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Scenario Comparison Section */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .scenario-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .scenario-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        
+        .scenario-card.fast { border-top: 4px solid #27ae60; }
+        .scenario-card.normal { border-top: 4px solid #3498db; }
+        .scenario-card.rush { border-top: 4px solid #f39c12; }
+        .scenario-card.worst { border-top: 4px solid #e74c3c; }
+        
+        .scenario-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .scenario-card.fast h3 { color: #27ae60; }
+        .scenario-card.normal h3 { color: #3498db; }
+        .scenario-card.rush h3 { color: #f39c12; }
+        .scenario-card.worst h3 { color: #e74c3c; }
+        
+        .multiplier-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .scenario-card.fast .multiplier-badge { background: #27ae6020; color: #27ae60; }
+        .scenario-card.normal .multiplier-badge { background: #3498db20; color: #3498db; }
+        .scenario-card.rush .multiplier-badge { background: #f39c1220; color: #f39c12; }
+        .scenario-card.worst .multiplier-badge { background: #e74c3c20; color: #e74c3c; }
+        
+        .city-comparison {
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .city-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .city-box.ny { border-left: 3px solid #1a5276; }
+        .city-box.la { border-left: 3px solid #e67e22; }
+        
+        .city-box h4 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .city-box .time {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .city-box .savings {
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 500;
+        }
+        
+        /* Section Styling */
+        .section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+        
+        .comparison-table th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table .city-header {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .comparison-table .highlight {
+            background: #e74c3c15;
+            font-weight: 600;
+        }
+        
+        /* Multiplier Comparison */
+        .multiplier-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .multiplier-city {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .multiplier-city h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .multiplier-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .multiplier-bar label {
+            width: 80px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .bar-container {
+            flex: 1;
+            height: 24px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 0 1rem;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            transition: width 0.5s ease;
+        }
+        
+        .bar-fill.fast { background: linear-gradient(90deg, #27ae60, #2ecc71); width: 19%; }
+        .bar-fill.normal-ny { background: linear-gradient(90deg, #3498db, #5dade2); width: 26%; }
+        .bar-fill.normal-la { background: linear-gradient(90deg, #3498db, #5dade2); width: 27%; }
+        .bar-fill.rush-ny { background: linear-gradient(90deg, #f39c12, #f5b041); width: 32%; }
+        .bar-fill.rush-la { background: linear-gradient(90deg, #f39c12, #f5b041); width: 34%; }
+        .bar-fill.worst-ny { background: linear-gradient(90deg, #c0392b, #e74c3c); width: 100%; }
+        .bar-fill.worst-la { background: linear-gradient(90deg, #c0392b, #e74c3c); width: 80%; }
+        
+        .multiplier-value {
+            width: 60px;
+            font-weight: 700;
+            text-align: right;
+        }
+        
+        /* Maps Section */
+        .maps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .map-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .map-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .map-card iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+        
+        .map-header {
+            padding: 1rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .map-header h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .map-header a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+        
+        .map-header a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .chart-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .chart-card img {
+            width: 100%;
+            height: auto;
+        }
+        
+        .chart-header {
+            padding: 1rem;
+            background: var(--secondary);
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        /* Stats Summary */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .lang-btn:not(.active) {
+            background: white;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 1200px) {
+            .scenario-grid { grid-template-columns: repeat(2, 1fr); }
+            .charts-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .scenario-grid { grid-template-columns: 1fr; }
+            .maps-grid { grid-template-columns: 1fr; }
+            .charts-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .multiplier-comparison { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('pt')">PT</button>
+    </div>
+    
+    <header class="header">
+        <h1><i class="fas fa-helicopter"></i> REVO Helicopter Analysis</h1>
+        <p>Comprehensive Car vs Helicopter Travel Time Comparison</p>
+        <span class="badge">All Traffic Scenarios | NY & LA</span>
+    </header>
+    
+    <div class="container">
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon">📍</div>
+                <div class="value">114</div>
+                <div class="label">ZIP Codes Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">🚁</div>
+                <div class="value">65</div>
+                <div class="label">Heliports Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⏱️</div>
+                <div class="value">147</div>
+                <div class="label">Avg Savings (min) NY</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">⏱️</div>
+                <div class="value">143</div>
+                <div class="label">Avg Savings (min) LA</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">📈</div>
+                <div class="value">87%</div>
+                <div class="label">ZIPs with Savings</div>
+            </div>
+        </div>
+        
+        <!-- Scenario Comparison -->
+        <div class="section">
+            <h2><i class="fas fa-chart-bar"></i> Traffic Scenario Comparison</h2>
+            
+            <div class="scenario-grid">
+                <!-- Fast Scenario -->
+                <div class="scenario-card fast">
+                    <h3><i class="fas fa-bolt"></i> Fast</h3>
+                    <span class="multiplier-badge">1.00x baseline</span>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Free-flowing traffic conditions</p>
+                    <div class="city-comparison">
+                        <div class="city-box ny">
+                            <h4>🗽 New York</h4>
+                            <div class="time" style="color: #27ae60;">47 min</div>
+                            <div class="savings">Heli saves 12 min</div>
+                        </div>
+                        <div class="city-box la">
+                            <h4>🌴 Los Angeles</h4>
+                            <div class="time" style="color: #27ae60;">36 min</div>
+                            <div class="savings">Heli saves 8 min</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Normal Scenario -->
+                <div class="scenario-card normal">
+                    <h3><i class="fas fa-car"></i> Normal</h3>
+                    <span class="multiplier-badge">NY: 1.35x | LA: 1.42x</span>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Typical daytime conditions</p>
+                    <div class="city-comparison">
+                        <div class="city-box ny">
+                            <h4>🗽 New York</h4>
+                            <div class="time" style="color: #3498db;">63 min</div>
+                            <div class="savings">Heli saves 25 min</div>
+                        </div>
+                        <div class="city-box la">
+                            <h4>🌴 Los Angeles</h4>
+                            <div class="time" style="color: #3498db;">51 min</div>
+                            <div class="savings">Heli saves 18 min</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Rush Hour Scenario -->
+                <div class="scenario-card rush">
+                    <h3><i class="fas fa-traffic-light"></i> Rush Hour</h3>
+                    <span class="multiplier-badge">NY: 1.69x | LA: 1.77x</span>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Peak hours (7-9 AM, 5-7 PM)</p>
+                    <div class="city-comparison">
+                        <div class="city-box ny">
+                            <h4>🗽 New York</h4>
+                            <div class="time" style="color: #f39c12;">79 min</div>
+                            <div class="savings">Heli saves 45 min</div>
+                        </div>
+                        <div class="city-box la">
+                            <h4>🌴 Los Angeles</h4>
+                            <div class="time" style="color: #f39c12;">64 min</div>
+                            <div class="savings">Heli saves 35 min</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Worst Case Scenario -->
+                <div class="scenario-card worst">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Worst Case</h3>
+                    <span class="multiplier-badge">NY: 5.20x | LA: 4.15x</span>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">Severe congestion (pessimistic)</p>
+                    <div class="city-comparison">
+                        <div class="city-box ny">
+                            <h4>🗽 New York</h4>
+                            <div class="time" style="color: #e74c3c;">245 min</div>
+                            <div class="savings">Heli saves 147 min (60%)</div>
+                        </div>
+                        <div class="city-box la">
+                            <h4>🌴 Los Angeles</h4>
+                            <div class="time" style="color: #e74c3c;">149 min</div>
+                            <div class="savings">Heli saves 143 min (64%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- City-Specific Multipliers -->
+        <div class="section">
+            <h2><i class="fas fa-city"></i> City-Specific Traffic Multipliers</h2>
+            <p style="margin-bottom: 1.5rem; color: #666;">
+                Traffic multipliers vary significantly between cities. NY has more extreme worst-case scenarios (5.20x), 
+                while LA has higher baseline congestion (1.42x normal).
+            </p>
+            
+            <div class="multiplier-comparison">
+                <div class="multiplier-city">
+                    <h4>🗽 New York</h4>
+                    <div class="multiplier-bar">
+                        <label>Fast</label>
+                        <div class="bar-container">
+                            <div class="bar-fill fast">1.00x</div>
+                        </div>
+                        <span class="multiplier-value">1.00x</span>
+                    </div>
+                    <div class="multiplier-bar">
+                        <label>Normal</label>
+                        <div class="bar-container">
+                            <div class="bar-fill normal-ny">1.35x</div>
+                        </div>
+                        <span class="multiplier-value">1.35x</span>
+                    </div>
+                    <div class="multiplier-bar">
+                        <label>Rush</label>
+                        <div class="bar-container">
+                            <div class="bar-fill rush-ny">1.69x</div>
+                        </div>
+                        <span class="multiplier-value">1.69x</span>
+                    </div>
+                    <div class="multiplier-bar">
+                        <label>Worst</label>
+                        <div class="bar-container">
+                            <div class="bar-fill worst-ny">5.20x</div>
+                        </div>
+                        <span class="multiplier-value" style="color: #e74c3c;">5.20x</span>
+                    </div>
+                </div>
+                
+                <div class="multiplier-city">
+                    <h4>🌴 Los Angeles</h4>
+                    <div class="multiplier-bar">
+                        <label>Fast</label>
+                        <div class="bar-container">
+                            <div class="bar-fill fast">1.00x</div>
+                        </div>
+                        <span class="multiplier-value">1.00x</span>
+                    </div>
+                    <div class="multiplier-bar">
+                        <label>Normal</label>
+                        <div class="bar-container">
+                            <div class="bar-fill normal-la">1.42x</div>
+                        </div>
+                        <span class="multiplier-value">1.42x</span>
+                    </div>
+                    <div class="multiplier-bar">
+                        <label>Rush</label>
+                        <div class="bar-container">
+                            <div class="bar-fill rush-la">1.77x</div>
+                        </div>
+                        <span class="multiplier-value">1.77x</span>
+                    </div>
+                    <div class="multiplier-bar">
+                        <label>Worst</label>
+                        <div class="bar-container">
+                            <div class="bar-fill worst-la">4.15x</div>
+                        </div>
+                        <span class="multiplier-value" style="color: #e74c3c;">4.15x</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Comparison Table -->
+        <div class="section">
+            <h2><i class="fas fa-table"></i> Complete Scenario Comparison</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th style="background: #27ae60;">Fast (1.0x)</th>
+                        <th style="background: #3498db;">Normal</th>
+                        <th style="background: #f39c12;">Rush Hour</th>
+                        <th style="background: #e74c3c;">Worst Case</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="city-header">
+                        <td colspan="5"><strong>🗽 NEW YORK (Multipliers: 1.0x / 1.35x / 1.69x / 5.20x)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>🚗 Car Time (avg)</td>
+                        <td>47 min</td>
+                        <td>63 min</td>
+                        <td>79 min</td>
+                        <td class="highlight">245 min</td>
+                    </tr>
+                    <tr>
+                        <td>🚁 Helicopter Time (avg)</td>
+                        <td>35 min</td>
+                        <td>38 min</td>
+                        <td>42 min</td>
+                        <td>98 min</td>
+                    </tr>
+                    <tr>
+                        <td>💰 Time Savings</td>
+                        <td style="color: #27ae60;">12 min (26%)</td>
+                        <td style="color: #27ae60;">25 min (40%)</td>
+                        <td style="color: #27ae60;">37 min (47%)</td>
+                        <td style="color: #27ae60; font-weight: bold;">147 min (60%)</td>
+                    </tr>
+                    <tr>
+                        <td>🚗 Car Speed (avg)</td>
+                        <td>65 km/h</td>
+                        <td>48 km/h</td>
+                        <td>38 km/h</td>
+                        <td class="highlight">12 km/h</td>
+                    </tr>
+                    
+                    <tr class="city-header">
+                        <td colspan="5"><strong>🌴 LOS ANGELES (Multipliers: 1.0x / 1.42x / 1.77x / 4.15x)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>🚗 Car Time (avg)</td>
+                        <td>36 min</td>
+                        <td>51 min</td>
+                        <td>64 min</td>
+                        <td class="highlight">149 min</td>
+                    </tr>
+                    <tr>
+                        <td>🚁 Helicopter Time (avg)</td>
+                        <td>28 min</td>
+                        <td>33 min</td>
+                        <td>38 min</td>
+                        <td>56 min</td>
+                    </tr>
+                    <tr>
+                        <td>💰 Time Savings</td>
+                        <td style="color: #27ae60;">8 min (22%)</td>
+                        <td style="color: #27ae60;">18 min (35%)</td>
+                        <td style="color: #27ae60;">26 min (41%)</td>
+                        <td style="color: #27ae60; font-weight: bold;">143 min (64%)</td>
+                    </tr>
+                    <tr>
+                        <td>🚗 Car Speed (avg)</td>
+                        <td>70 km/h</td>
+                        <td>49 km/h</td>
+                        <td>40 km/h</td>
+                        <td class="highlight">17 km/h</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Interactive Maps -->
+        <div class="section">
+            <h2><i class="fas fa-map-marked-alt"></i> Interactive Maps with OSRM Routes</h2>
+            <p style="margin-bottom: 1rem; color: #666;">
+                🖱️ Hover over ZIP codes to see real OSRM routes. Blue = Route to Helipad | Red = Route to Airport
+            </p>
+            
+            <div class="maps-grid">
+                <div class="map-card">
+                    <div class="map-header">
+                        <h4>🗽 New York (OSRM Routes)</h4>
+                        <a href="analysis_v4_pessimistic/map_ny_osrm.html" target="_blank">
+                            <i class="fas fa-expand"></i> Full Screen
+                        </a>
+                    </div>
+                    <iframe src="analysis_v4_pessimistic/map_ny_osrm.html"></iframe>
+                </div>
+                
+                <div class="map-card">
+                    <div class="map-header">
+                        <h4>🌴 Los Angeles (OSRM Routes)</h4>
+                        <a href="analysis_v4_pessimistic/map_la_osrm.html" target="_blank">
+                            <i class="fas fa-expand"></i> Full Screen
+                        </a>
+                    </div>
+                    <iframe src="analysis_v4_pessimistic/map_la_osrm.html"></iframe>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts -->
+        <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Analysis Charts</h2>
+            
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">📊 Scenario Comparison</div>
+                    <img src="comparison_charts_en/fig1_scenario_comparison.png" alt="Scenario Comparison">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">📦 Savings Box Plot</div>
+                    <img src="comparison_charts_en/fig2_savings_boxplot.png" alt="Savings Box Plot">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">🚗 Speed by Scenario</div>
+                    <img src="comparison_charts_en/fig3_speed_comparison.png" alt="Speed Comparison">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">⏱️ Time per 100m</div>
+                    <img src="comparison_charts_en/fig4_time_per_100m.png" alt="Time per 100m">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">🏙️ City Multipliers</div>
+                    <img src="regional_charts_en/city_traffic_multipliers.png" alt="City Multipliers">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">📈 Savings Distribution</div>
+                    <img src="comparison_charts_en/fig8_savings_histogram.png" alt="Savings Histogram">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Regional Breakdown -->
+        <div class="section">
+            <h2><i class="fas fa-map"></i> Regional Analysis</h2>
+            
+            <div class="charts-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="chart-card">
+                    <div class="chart-header">🗽 NY Regional Breakdown</div>
+                    <img src="regional_charts_en/ny_regional_breakdown.png" alt="NY Regional">
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">🌴 LA Regional Breakdown</div>
+                    <img src="regional_charts_en/la_regional_breakdown.png" alt="LA Regional">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Insights -->
+        <div class="section">
+            <h2><i class="fas fa-lightbulb"></i> Key Insights</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+                <div style="background: #e74c3c15; border-left: 4px solid #e74c3c; padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: #e74c3c; margin-bottom: 0.5rem;">
+                        <i class="fas fa-exclamation-circle"></i> Worst Case Impact
+                    </h4>
+                    <p style="font-size: 0.95rem; color: #666;">
+                        In worst-case scenarios, car speeds drop to <strong>12-17 km/h</strong> — 
+                        barely faster than walking (5 km/h). Helicopter saves <strong>2-2.5 hours</strong>.
+                    </p>
+                </div>
+                
+                <div style="background: #27ae6015; border-left: 4px solid #27ae60; padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: #27ae60; margin-bottom: 0.5rem;">
+                        <i class="fas fa-check-circle"></i> Helicopter Advantage
+                    </h4>
+                    <p style="font-size: 0.95rem; color: #666;">
+                        Helicopter is <strong>only 20% affected by traffic</strong> (car-to-helipad segment), 
+                        while car travel is <strong>100% affected</strong>.
+                    </p>
+                </div>
+                
+                <div style="background: #3498db15; border-left: 4px solid #3498db; padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: #3498db; margin-bottom: 0.5rem;">
+                        <i class="fas fa-info-circle"></i> City Differences
+                    </h4>
+                    <p style="font-size: 0.95rem; color: #666;">
+                        NY has <strong>more extreme worst-case</strong> (5.20x) due to unpredictable events. 
+                        LA has <strong>higher baseline congestion</strong> (1.42x normal).
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Documents -->
+        <div class="section">
+            <h2><i class="fas fa-file-alt"></i> Documents & Resources</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                <a href="analysis_v4_pessimistic/paper_comparison_en.pdf" target="_blank" 
+                   style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; text-align: center; transition: transform 0.3s;">
+                    <i class="fas fa-file-pdf" style="font-size: 2rem; color: #e74c3c; margin-bottom: 0.5rem;"></i>
+                    <p style="font-weight: 600;">Paper (English)</p>
+                </a>
+                <a href="analysis_v4_pessimistic/paper_comparison_pt.pdf" target="_blank" 
+                   style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; text-align: center; transition: transform 0.3s;">
+                    <i class="fas fa-file-pdf" style="font-size: 2rem; color: #e74c3c; margin-bottom: 0.5rem;"></i>
+                    <p style="font-weight: 600;">Paper (Português)</p>
+                </a>
+                <a href="analysis_v4_pessimistic/presentation_en.pdf" target="_blank" 
+                   style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; text-align: center; transition: transform 0.3s;">
+                    <i class="fas fa-presentation" style="font-size: 2rem; color: #f39c12; margin-bottom: 0.5rem;"></i>
+                    <p style="font-weight: 600;">Slides (English)</p>
+                </a>
+                <a href="analysis_v4_pessimistic/presentation_pt.pdf" target="_blank" 
+                   style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; text-decoration: none; color: inherit; text-align: center; transition: transform 0.3s;">
+                    <i class="fas fa-presentation" style="font-size: 2rem; color: #f39c12; margin-bottom: 0.5rem;"></i>
+                    <p style="font-weight: 600;">Slides (Português)</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>REVO Helicopter Analysis | Data from Google Traffic & OSRM | Generated December 2024</p>
+    </footer>
+    
+    <script>
+        function setLang(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update chart images based on language
+            const charts = document.querySelectorAll('.chart-card img');
+            charts.forEach(img => {
+                let src = img.src;
+                if (lang === 'pt') {
+                    src = src.replace('_en/', '_pt/');
+                } else {
+                    src = src.replace('_pt/', '_en/');
+                }
+                img.src = src;
+            });
+        }
+    </script>
+</body>
+</html>
+
