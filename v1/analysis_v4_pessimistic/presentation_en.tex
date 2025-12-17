@@ -75,8 +75,9 @@
 \begin{alertblock}{Worst Case Reality}
 \begin{center}
 \textbf{During severe traffic:}\\[0.3em]
-\large{\textcolor{revoRed}{4.68x}} \small{travel time}\\[0.3em]
-\large{\textcolor{revoRed}{12 km/h}} \small{average speed}\\[0.3em]
+\large{NY: \textcolor{revoRed}{5.20x}} \small{travel time}\\[0.2em]
+\large{LA: \textcolor{revoRed}{4.15x}} \small{travel time}\\[0.2em]
+\large{\textcolor{revoRed}{12-17 km/h}} \small{avg speed}\\[0.2em]
 \footnotesize{\textit{(barely faster than walking!)}}
 \end{center}
 \end{alertblock}
@@ -310,6 +311,84 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \begin{frame}{Regional Savings Summary}
 \begin{center}
 \includegraphics[width=0.88\textwidth,height=0.78\textheight,keepaspectratio]{../regional_charts_en/regional_savings_summary.png}
+\end{center}
+\end{frame}
+
+% ============================================================================
+\section{Interactive Maps}
+% ============================================================================
+
+\begin{frame}{Interactive Maps with OSRM Routes}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{\faMapMarkedAlt\ New York Map}
+\begin{itemize}
+    \item 70 ZIP codes analyzed
+    \item 27 in Manhattan
+    \item Real OSRM driving routes
+    \item Routes appear on hover
+\end{itemize}
+\vspace{0.5em}
+\footnotesize{\texttt{map\_ny\_osrm.html}}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{\faMapMarkedAlt\ Los Angeles Map}
+\begin{itemize}
+    \item 44 ZIP codes analyzed
+    \item Multiple regions covered
+    \item Real OSRM driving routes
+    \item Routes appear on hover
+\end{itemize}
+\vspace{0.5em}
+\footnotesize{\texttt{map\_la\_osrm.html}}
+\end{block}
+\end{columns}
+
+\vspace{0.8em}
+\begin{center}
+\begin{tikzpicture}
+    \draw[fill=revoBlue!20, rounded corners] (0,0) rectangle (10,1.2);
+    \node at (5,0.6) {\small \faMousePointer\ \textbf{Hover over ZIP codes to see:} Blue route to helipad | Red route to airport};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Map Features: Route Visualization}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{exampleblock}{Route Colors}
+\begin{itemize}
+    \item \textcolor{revoBlue}{\textbf{Blue dashed line:}} Route to nearest helipad
+    \item \textcolor{revoRed}{\textbf{Red dashed line:}} Route to main airport (JFK/LAX)
+\end{itemize}
+\end{exampleblock}
+
+\begin{block}{ZIP Code Colors (Savings)}
+\begin{itemize}
+    \item \textcolor{green!60!black}{\textbf{Dark green:}} $>$ 100 min savings
+    \item \textcolor{green!40!black}{\textbf{Green:}} 50-100 min savings
+    \item \textcolor{orange}{\textbf{Orange:}} 0-50 min savings
+    \item \textcolor{red}{\textbf{Red:}} No savings
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{alertblock}{Info Panel Shows}
+\begin{itemize}
+    \item Nearest helipad name
+    \item Distance in km
+    \item Flight time
+    \item Car times: Fast/Rush/Worst
+    \item Heli times: Fast/Rush/Worst
+    \item \textbf{Total savings}
+\end{itemize}
+\end{alertblock}
+\end{columns}
+
+\vspace{0.5em}
+\begin{center}
+\footnotesize{Access: \texttt{victorcandido1.github.io/cityexpansions\_corporate/v1/}}
 \end{center}
 \end{frame}
 

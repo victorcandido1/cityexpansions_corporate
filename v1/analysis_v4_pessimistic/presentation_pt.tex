@@ -76,8 +76,9 @@
 \begin{alertblock}{Realidade do Pior Caso}
 \begin{center}
 \textbf{Durante trafego severo:}\\[0.3em]
-\large{\textcolor{revoRed}{4.68x}} \small{tempo de viagem}\\[0.3em]
-\large{\textcolor{revoRed}{12 km/h}} \small{velocidade media}\\[0.3em]
+\large{NY: \textcolor{revoRed}{5.20x}} \small{tempo de viagem}\\[0.2em]
+\large{LA: \textcolor{revoRed}{4.15x}} \small{tempo de viagem}\\[0.2em]
+\large{\textcolor{revoRed}{12-17 km/h}} \small{velocidade media}\\[0.2em]
 \footnotesize{\textit{(mal mais rapido que caminhar!)}}
 \end{center}
 \end{alertblock}
@@ -311,6 +312,84 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \begin{frame}{Resumo de Economia por Regiao}
 \begin{center}
 \includegraphics[width=0.88\textwidth,height=0.78\textheight,keepaspectratio]{../regional_charts_pt/regional_savings_summary.png}
+\end{center}
+\end{frame}
+
+% ============================================================================
+\section{Mapas Interativos}
+% ============================================================================
+
+\begin{frame}{Mapas Interativos com Rotas OSRM}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{\faMapMarkedAlt\ Mapa de Nova York}
+\begin{itemize}
+    \item 70 CEPs analisados
+    \item 27 em Manhattan
+    \item Rotas reais OSRM
+    \item Rotas aparecem no hover
+\end{itemize}
+\vspace{0.5em}
+\footnotesize{\texttt{map\_ny\_osrm.html}}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{\faMapMarkedAlt\ Mapa de Los Angeles}
+\begin{itemize}
+    \item 44 CEPs analisados
+    \item Multiplas regioes cobertas
+    \item Rotas reais OSRM
+    \item Rotas aparecem no hover
+\end{itemize}
+\vspace{0.5em}
+\footnotesize{\texttt{map\_la\_osrm.html}}
+\end{block}
+\end{columns}
+
+\vspace{0.8em}
+\begin{center}
+\begin{tikzpicture}
+    \draw[fill=revoBlue!20, rounded corners] (0,0) rectangle (10,1.2);
+    \node at (5,0.6) {\small \faMousePointer\ \textbf{Passe o mouse sobre CEPs:} Azul = heliponto | Vermelho = aeroporto};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Recursos do Mapa: Visualizacao de Rotas}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{exampleblock}{Cores das Rotas}
+\begin{itemize}
+    \item \textcolor{revoBlue}{\textbf{Linha azul tracejada:}} Rota ate o heliponto mais proximo
+    \item \textcolor{revoRed}{\textbf{Linha vermelha tracejada:}} Rota ate o aeroporto (JFK/LAX)
+\end{itemize}
+\end{exampleblock}
+
+\begin{block}{Cores dos CEPs (Economia)}
+\begin{itemize}
+    \item \textcolor{green!60!black}{\textbf{Verde escuro:}} $>$ 100 min economia
+    \item \textcolor{green!40!black}{\textbf{Verde:}} 50-100 min economia
+    \item \textcolor{orange}{\textbf{Laranja:}} 0-50 min economia
+    \item \textcolor{red}{\textbf{Vermelho:}} Sem economia
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{alertblock}{Painel de Informacoes Mostra}
+\begin{itemize}
+    \item Nome do heliponto mais proximo
+    \item Distancia em km
+    \item Tempo de voo
+    \item Tempos carro: Rapido/Pico/Pior
+    \item Tempos heli: Rapido/Pico/Pior
+    \item \textbf{Economia total}
+\end{itemize}
+\end{alertblock}
+\end{columns}
+
+\vspace{0.5em}
+\begin{center}
+\footnotesize{Acesso: \texttt{victorcandido1.github.io/cityexpansions\_corporate/v1/}}
 \end{center}
 \end{frame}
 
