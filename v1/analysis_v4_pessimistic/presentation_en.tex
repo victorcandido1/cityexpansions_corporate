@@ -35,8 +35,7 @@
 % Title
 \title[\textbf{REVO CITY EXPANSION: Helicopter vs Car}]{\textbf{Helicopter vs Car Travel Time Analysis}}
 \subtitle{A Comprehensive Comparison of Traffic Scenarios\\New York \& Los Angeles}
-\author{REVO Helicopter Services}
-\institute{Strategic Analysis Division}
+\author{REVO}
 \date{December 2025}
 
 \begin{document}
@@ -118,6 +117,103 @@
 \end{center}
 \vspace{-0.5em}
 \footnotesize{NY: Higher worst case (5.20x) | LA: Higher normal traffic (1.42x)}
+\end{frame}
+
+\begin{frame}{How We Calculate Traffic Multipliers}
+\begin{center}
+\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../diagrams/multiplier_methodology_en.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Google Traffic API: Data Flow}
+\begin{center}
+\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../diagrams/google_api_flow_en.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Multiplier Calculation: Numerical Examples}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{\textcolor{revoBlue}{New York Example}}
+\small
+\textbf{Route:} Manhattan $\rightarrow$ JFK\\[0.3em]
+\begin{tabular}{ll}
+Baseline: & 47 min \\
+Pessimistic: & 245 min \\
+\textbf{Multiplier:} & $\frac{245}{47} = $ \textcolor{revoRed}{\textbf{5.21x}}
+\end{tabular}
+\end{block}
+
+\begin{exampleblock}{NY City Average}
+\begin{center}
+52 routes analyzed\\
+\textbf{Final: 5.20x}
+\end{center}
+\end{exampleblock}
+
+\column{0.5\textwidth}
+\begin{block}{\textcolor{revoOrange}{Los Angeles Example}}
+\small
+\textbf{Route:} Beverly Hills $\rightarrow$ LAX\\[0.3em]
+\begin{tabular}{ll}
+Baseline: & 36 min \\
+Pessimistic: & 149 min \\
+\textbf{Multiplier:} & $\frac{149}{36} = $ \textcolor{revoRed}{\textbf{4.14x}}
+\end{tabular}
+\end{block}
+
+\begin{exampleblock}{LA City Average}
+\begin{center}
+44 routes analyzed\\
+\textbf{Final: 4.15x}
+\end{center}
+\end{exampleblock}
+\end{columns}
+
+\vspace{0.5em}
+\begin{center}
+\footnotesize{\textit{Data source: Google Distance Matrix API with traffic\_model=pessimistic}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Why Pessimistic Data?}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Google Traffic Models}
+\begin{itemize}
+    \item \textbf{best\_guess}: Average conditions
+    \item \textbf{optimistic}: Lighter traffic
+    \item \textcolor{revoRed}{\textbf{pessimistic}}: Worst historical
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Our Choice: Pessimistic}
+\begin{itemize}
+    \item Represents real worst-case scenarios
+    \item Based on actual historical data
+    \item Critical for risk assessment
+\end{itemize}
+\end{alertblock}
+
+\column{0.5\textwidth}
+\begin{exampleblock}{What Causes Worst Traffic?}
+\begin{itemize}
+    \item \faExclamationTriangle\ Major accidents
+    \item \faCloudRain\ Severe weather
+    \item \faFootballBall\ Special events (sports, concerts)
+    \item \faCalendarAlt\ Holiday periods
+    \item \faRoad\ Road construction
+\end{itemize}
+\end{exampleblock}
+\end{columns}
+
+\vspace{0.5em}
+\begin{center}
+\begin{tikzpicture}
+    \draw[fill=revoRed!20, rounded corners] (0,0) rectangle (10,0.8);
+    \node at (5,0.4) {\small \textbf{Result:} NY 5.20x | LA 4.15x travel time in worst conditions};
+\end{tikzpicture}
+\end{center}
 \end{frame}
 
 \begin{frame}{Journey Comparison: Car vs Helicopter}

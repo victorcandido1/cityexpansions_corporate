@@ -121,6 +121,103 @@
 \footnotesize{NY: Pior caso mais alto (5.20x) | LA: Trafego normal mais alto (1.42x)}
 \end{frame}
 
+\begin{frame}{Como Calculamos os Multiplicadores de Trafego}
+\begin{center}
+\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../diagrams/multiplier_methodology_pt.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{API Google Traffic: Fluxo de Dados}
+\begin{center}
+\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../diagrams/google_api_flow_pt.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Calculo do Multiplicador: Exemplos Numericos}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{\textcolor{revoBlue}{Exemplo Nova York}}
+\small
+\textbf{Rota:} Manhattan $\rightarrow$ JFK\\[0.3em]
+\begin{tabular}{ll}
+Base: & 47 min \\
+Pessimista: & 245 min \\
+\textbf{Multiplicador:} & $\frac{245}{47} = $ \textcolor{revoRed}{\textbf{5.21x}}
+\end{tabular}
+\end{block}
+
+\begin{exampleblock}{Media NY}
+\begin{center}
+52 rotas analisadas\\
+\textbf{Final: 5.20x}
+\end{center}
+\end{exampleblock}
+
+\column{0.5\textwidth}
+\begin{block}{\textcolor{revoOrange}{Exemplo Los Angeles}}
+\small
+\textbf{Rota:} Beverly Hills $\rightarrow$ LAX\\[0.3em]
+\begin{tabular}{ll}
+Base: & 36 min \\
+Pessimista: & 149 min \\
+\textbf{Multiplicador:} & $\frac{149}{36} = $ \textcolor{revoRed}{\textbf{4.14x}}
+\end{tabular}
+\end{block}
+
+\begin{exampleblock}{Media LA}
+\begin{center}
+44 rotas analisadas\\
+\textbf{Final: 4.15x}
+\end{center}
+\end{exampleblock}
+\end{columns}
+
+\vspace{0.5em}
+\begin{center}
+\footnotesize{\textit{Fonte: Google Distance Matrix API com traffic\_model=pessimistic}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Por que Dados Pessimistas?}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Modelos de Trafego Google}
+\begin{itemize}
+    \item \textbf{best\_guess}: Condicoes medias
+    \item \textbf{optimistic}: Trafego mais leve
+    \item \textcolor{revoRed}{\textbf{pessimistic}}: Pior historico
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Nossa Escolha: Pessimista}
+\begin{itemize}
+    \item Representa cenarios reais de pior caso
+    \item Baseado em dados historicos reais
+    \item Critico para avaliacao de risco
+\end{itemize}
+\end{alertblock}
+
+\column{0.5\textwidth}
+\begin{exampleblock}{O que Causa Pior Trafego?}
+\begin{itemize}
+    \item \faExclamationTriangle\ Acidentes graves
+    \item \faCloudRain\ Clima severo
+    \item \faFootballBall\ Eventos especiais (esportes, shows)
+    \item \faCalendarAlt\ Periodos de feriado
+    \item \faRoad\ Obras na estrada
+\end{itemize}
+\end{exampleblock}
+\end{columns}
+
+\vspace{0.5em}
+\begin{center}
+\begin{tikzpicture}
+    \draw[fill=revoRed!20, rounded corners] (0,0) rectangle (10,0.8);
+    \node at (5,0.4) {\small \textbf{Resultado:} NY 5.20x | LA 4.15x tempo de viagem no pior caso};
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
 \begin{frame}{Comparacao de Trajeto: Carro vs Helicoptero}
 \begin{center}
 \includegraphics[width=0.85\textwidth,height=0.78\textheight,keepaspectratio]{../diagrams/journey_diagram_pt.png}

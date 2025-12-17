@@ -104,6 +104,71 @@ Hora do Pico & 1.69x (+69\%) & 1.77x (+77\%) & Horario de pico (7-9h, 17-19h) \\
 
 \textbf{Insight principal:} Nova York apresenta condicoes de pior caso mais extremas (5.20x) devido a eventos imprevisiveis como acidentes, clima e eventos especiais. Los Angeles, embora tenha congestionamento base mais alto (1.42x normal), mostra cenarios de pior caso menos extremos (4.15x) devido a padroes de trafego mais distribuidos em sua extensa rede de rodovias.
 
+\subsection{Metodologia de Calculo dos Multiplicadores de Trafego}
+
+Os multiplicadores de trafego utilizados nesta analise foram derivados de dados reais da API Google Traffic usando a seguinte metodologia:
+
+\subsubsection{Processo de Coleta de Dados}
+
+Coletamos dados de trafego da API Distance Matrix do Google usando o modelo de trafego \textbf{pessimista}, que retorna os piores tempos de viagem historicos. Para cada rota:
+
+\begin{enumerate}
+    \item \textbf{Requisicao da API}: Enviar requisicao com origem (centroide do CEP), destino (JFK/LAX) e \texttt{traffic\_model=pessimistic}
+    \item \textbf{Dados de Resposta}: Receber \texttt{duration} (base sem trafego) e \texttt{duration\_in\_traffic} (com trafego historico pessimista)
+    \item \textbf{Calcular Multiplicador}: Computar razao = \texttt{duration\_in\_traffic} / \texttt{duration}
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{../diagrams/multiplier_methodology_pt.png}
+\caption{Metodologia de Calculo dos Multiplicadores de Trafego}
+\label{fig:methodology}
+\end{figure}
+
+\subsubsection{Exemplos Numericos}
+
+\textbf{Exemplo 1: Nova York (Manhattan para JFK)}
+\begin{itemize}
+    \item Rota: Upper East Side (CEP 10021) $\rightarrow$ Aeroporto JFK
+    \item Duracao base da API Google: 47 minutos
+    \item Duracao pessimista da API Google: 245 minutos
+    \item Multiplicador calculado: $245 \div 47 = 5.21\times$
+\end{itemize}
+
+\textbf{Exemplo 2: Los Angeles (Beverly Hills para LAX)}
+\begin{itemize}
+    \item Rota: Beverly Hills (CEP 90210) $\rightarrow$ Aeroporto LAX
+    \item Duracao base da API Google: 36 minutos
+    \item Duracao pessimista da API Google: 149 minutos
+    \item Multiplicador calculado: $149 \div 36 = 4.14\times$
+\end{itemize}
+
+\subsubsection{Agregacao a Nivel de Cidade}
+
+Os multiplicadores finais por cidade foram calculados pela media de todos os multiplicadores de rota dentro de cada cidade:
+
+\begin{table}[H]
+\centering
+\caption{Resumo do Calculo dos Multiplicadores}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Cidade} & \textbf{Rotas Analisadas} & \textbf{Multiplicador Pessimista Medio} \\
+\midrule
+Nova York & 52 rotas & \textbf{5.20x} \\
+Los Angeles & 44 rotas & \textbf{4.15x} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../diagrams/google_api_flow_pt.png}
+\caption{Fluxo de Dados da API Google Distance Matrix}
+\label{fig:api_flow}
+\end{figure}
+
+Os multiplicadores \textbf{Normal} e \textbf{Hora do Pico} foram interpolados com base na razao entre padroes de trafego diurno tipico e horarios de pico observados nos dados.
+
 \subsection{Modelos de Trajeto}
 
 \subsubsection{Trajeto de Carro}

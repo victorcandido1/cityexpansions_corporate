@@ -103,6 +103,71 @@ Rush Hour & 1.69x (+69\%) & 1.77x (+77\%) & Peak hour traffic (7-9 AM, 5-7 PM) \
 
 \textbf{Key insight:} New York exhibits more extreme worst-case conditions (5.20x) due to unpredictable events such as accidents, weather, and special events. Los Angeles, while having higher baseline congestion (1.42x normal), shows less extreme worst-case scenarios (4.15x) due to more distributed traffic patterns across its extensive highway network.
 
+\subsection{Traffic Multiplier Calculation Methodology}
+
+The traffic multipliers used in this analysis were derived from real Google Traffic API data using the following methodology:
+
+\subsubsection{Data Collection Process}
+
+We collected traffic data from Google's Distance Matrix API using the \textbf{pessimistic} traffic model, which returns the worst-case historical travel times. For each route:
+
+\begin{enumerate}
+    \item \textbf{API Request}: Send request with origin (ZIP code centroid), destination (JFK/LAX), and \texttt{traffic\_model=pessimistic}
+    \item \textbf{Response Data}: Receive \texttt{duration} (baseline without traffic) and \texttt{duration\_in\_traffic} (with historical pessimistic traffic)
+    \item \textbf{Calculate Multiplier}: Compute ratio = \texttt{duration\_in\_traffic} / \texttt{duration}
+\end{enumerate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth]{../diagrams/multiplier_methodology_en.png}
+\caption{Traffic Multiplier Calculation Methodology}
+\label{fig:methodology}
+\end{figure}
+
+\subsubsection{Numerical Examples}
+
+\textbf{Example 1: New York (Manhattan to JFK)}
+\begin{itemize}
+    \item Route: Upper East Side (ZIP 10021) $\rightarrow$ JFK Airport
+    \item Google API baseline duration: 47 minutes
+    \item Google API pessimistic duration: 245 minutes
+    \item Calculated multiplier: $245 \div 47 = 5.21\times$
+\end{itemize}
+
+\textbf{Example 2: Los Angeles (Beverly Hills to LAX)}
+\begin{itemize}
+    \item Route: Beverly Hills (ZIP 90210) $\rightarrow$ LAX Airport
+    \item Google API baseline duration: 36 minutes
+    \item Google API pessimistic duration: 149 minutes
+    \item Calculated multiplier: $149 \div 36 = 4.14\times$
+\end{itemize}
+
+\subsubsection{City-Level Aggregation}
+
+The final city multipliers were calculated by averaging all route multipliers within each city:
+
+\begin{table}[H]
+\centering
+\caption{Multiplier Calculation Summary}
+\begin{tabular}{lccc}
+\toprule
+\textbf{City} & \textbf{Routes Analyzed} & \textbf{Avg. Pessimistic Multiplier} \\
+\midrule
+New York & 52 routes & \textbf{5.20x} \\
+Los Angeles & 44 routes & \textbf{4.15x} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../diagrams/google_api_flow_en.png}
+\caption{Google Distance Matrix API Data Flow}
+\label{fig:api_flow}
+\end{figure}
+
+The \textbf{Normal} and \textbf{Rush Hour} multipliers were interpolated based on the ratio between typical daytime and peak hour traffic patterns observed in the data.
+
 \subsection{Journey Models}
 
 \subsubsection{Car Journey}
