@@ -47,7 +47,7 @@ Strategic Analysis Division}
 \maketitle
 
 \begin{abstract}
-This study presents a comprehensive analysis comparing helicopter and car travel times to major airports in New York (JFK) and Los Angeles (LAX) under multiple traffic scenarios. Using real Google Traffic historical data, we evaluate four distinct scenarios: Fast (free flow), Normal (1.25x multiplier), Rush Hour (1.68x multiplier), and Worst Case (4.68x multiplier based on pessimistic historical data). Our analysis covers 114 ZIP codes (70 in NY, 44 in LA) and demonstrates that helicopter travel provides significant time savings, particularly under severe traffic conditions. In worst-case scenarios, helicopter travel saves an average of \textbf{147 minutes in New York} and \textbf{143 minutes in Los Angeles}, representing time reductions of 66\% and 64\% respectively. The study also reveals that during worst traffic conditions, average car speeds drop to approximately 12 km/h---barely faster than walking pace.
+This study presents a comprehensive analysis comparing helicopter and car travel times to major airports in New York (JFK) and Los Angeles (LAX) under multiple traffic scenarios. Using real Google Traffic historical data, we evaluate four distinct scenarios with \textbf{city-specific multipliers}: Fast (1.00x), Normal (NY: 1.35x, LA: 1.42x), Rush Hour (NY: 1.69x, LA: 1.77x), and Worst Case (NY: 5.20x, LA: 4.15x based on pessimistic historical data). Our analysis covers 114 ZIP codes (70 in NY, 44 in LA) and demonstrates that helicopter travel provides significant time savings, particularly under severe traffic conditions. New York shows higher worst-case multipliers (5.20x) due to more extreme traffic events, while Los Angeles exhibits higher normal congestion (1.42x). In worst-case scenarios, helicopter travel saves an average of \textbf{147 minutes in New York} and \textbf{143 minutes in Los Angeles}, representing time reductions of 66\% and 64\% respectively. The study also reveals that during worst traffic conditions, average car speeds drop to approximately 12 km/h---barely faster than walking pace.
 \end{abstract}
 
 \newpage
@@ -82,24 +82,26 @@ The analysis covers:
 \section{Methodology}
 % ============================================================================
 
-\subsection{Traffic Multipliers}
+\subsection{City-Specific Traffic Multipliers}
 
-Traffic multipliers were derived from Google Traffic historical data, specifically using the \textbf{pessimistic} duration estimates which represent worst-case historical conditions.
+Traffic multipliers were derived from Google Traffic historical data, specifically using the \textbf{pessimistic} duration estimates which represent worst-case historical conditions. Importantly, our analysis reveals that \textbf{multipliers differ significantly between cities}:
 
 \begin{table}[H]
 \centering
-\caption{Traffic Multiplier Definitions}
-\begin{tabular}{lccl}
+\caption{City-Specific Traffic Multiplier Definitions}
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Scenario} & \textbf{Multiplier} & \textbf{Time Increase} & \textbf{Description} \\
+\textbf{Scenario} & \textbf{New York} & \textbf{Los Angeles} & \textbf{Description} \\
 \midrule
-Fast & 1.00x & Baseline & Free-flowing traffic \\
-Normal & 1.25x & +25\% & Typical daytime conditions \\
-Rush Hour & 1.68x & +68\% & Peak hour traffic (7-9 AM, 5-7 PM) \\
-\rowcolor{lared!20} Worst Case & 4.68x & +368\% & Severe congestion (pessimistic) \\
+Fast & 1.00x & 1.00x & Free-flowing traffic \\
+Normal & 1.35x (+35\%) & 1.42x (+42\%) & Typical daytime conditions \\
+Rush Hour & 1.69x (+69\%) & 1.77x (+77\%) & Peak hour traffic (7-9 AM, 5-7 PM) \\
+\rowcolor{lared!20} Worst Case & \textbf{5.20x (+420\%)} & \textbf{4.15x (+315\%)} & Severe congestion (pessimistic) \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\textbf{Key insight:} New York exhibits more extreme worst-case conditions (5.20x) due to unpredictable events such as accidents, weather, and special events. Los Angeles, while having higher baseline congestion (1.42x normal), shows less extreme worst-case scenarios (4.15x) due to more distributed traffic patterns across its extensive highway network.
 
 \subsection{Journey Models}
 
@@ -166,7 +168,7 @@ A 30-minute base journey becomes:
     \item \textbf{Worst Case}: 140 minutes (+368\%)
 \end{itemize}
 
-The 4.68x multiplier for worst-case scenarios reflects severe congestion events such as:
+The worst-case multipliers (5.20x for NY, 4.15x for LA) reflect severe congestion events such as:
 \begin{itemize}
     \item Major accidents
     \item Severe weather conditions
@@ -313,7 +315,7 @@ Key observations:
 \subsection{Key Findings}
 
 \begin{enumerate}
-    \item \textbf{Worst-case scenarios show dramatic helicopter advantage}: With 4.68x traffic multipliers, helicopter travel saves 2-3 hours compared to driving.
+    \item \textbf{Worst-case scenarios show dramatic helicopter advantage}: With city-specific traffic multipliers (NY: 5.20x, LA: 4.15x), helicopter travel saves 2-3 hours compared to driving.
     
     \item \textbf{Speed degradation is severe}: In worst traffic, average speeds drop to 12-14 km/h---approaching bicycle speed.
     
@@ -354,7 +356,7 @@ Key observations:
 This comprehensive analysis demonstrates that helicopter transport provides significant time advantages over car travel, particularly during severe traffic conditions. Key conclusions:
 
 \begin{enumerate}
-    \item In \textbf{worst-case scenarios} (4.68x traffic), helicopter saves:
+    \item In \textbf{worst-case scenarios} (NY: 5.20x, LA: 4.15x traffic), helicopter saves:
     \begin{itemize}
         \item New York: \textbf{147 minutes} (66\% reduction)
         \item Los Angeles: \textbf{143 minutes} (64\% reduction)
@@ -411,4 +413,5 @@ Total heliports considered & 65 (34 NY, 31 LA) \\
 \end{table}
 
 \end{document}
+
 

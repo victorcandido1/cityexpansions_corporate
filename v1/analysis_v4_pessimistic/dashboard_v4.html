@@ -307,18 +307,36 @@
 
         <!-- Mapas Interativos -->
         <div class="section">
-            <h2>🗺️ Mapas Interativos</h2>
+            <h2>🗺️ Mapas Interativos (com Rotas em Hover)</h2>
+            <p style="margin-bottom: 1rem; color: #666;">
+                🖱️ Passe o mouse sobre os ZIP codes para ver as rotas para helipontos e aeroporto
+            </p>
             <div class="map-links">
-                <a href="map_v4_ny_pessimistic.html" class="map-link ny" target="_blank">
-                    <h3>🗽 New York</h3>
+                <a href="map_ny_hover_routes.html" class="map-link ny" target="_blank">
+                    <h3>🗽 New York (Rotas)</h3>
                     <p>70 ZIP Codes • 27 em Manhattan</p>
+                    <p>Multiplier Worst: <strong>5.20x</strong></p>
                     <p>Economia média: 147 min</p>
                 </a>
-                <a href="map_v4_la_pessimistic.html" class="map-link la" target="_blank">
-                    <h3>🌴 Los Angeles</h3>
+                <a href="map_la_hover_routes.html" class="map-link la" target="_blank">
+                    <h3>🌴 Los Angeles (Rotas)</h3>
                     <p>44 ZIP Codes</p>
+                    <p>Multiplier Worst: <strong>4.15x</strong></p>
                     <p>Economia média: 143 min</p>
                 </a>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <h4 style="margin-bottom: 0.5rem;">📍 Mapas Estáticos (versão anterior)</h4>
+                <div class="map-links" style="opacity: 0.8;">
+                    <a href="map_v4_ny_pessimistic.html" class="map-link ny" target="_blank" style="transform: scale(0.95);">
+                        <h3>🗽 NY (Estático)</h3>
+                        <p>Versão sem rotas em hover</p>
+                    </a>
+                    <a href="map_v4_la_pessimistic.html" class="map-link la" target="_blank" style="transform: scale(0.95);">
+                        <h3>🌴 LA (Estático)</h3>
+                        <p>Versão sem rotas em hover</p>
+                    </a>
+                </div>
             </div>
         </div>
 
