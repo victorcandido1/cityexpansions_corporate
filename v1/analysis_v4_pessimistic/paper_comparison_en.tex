@@ -374,6 +374,104 @@ Key observations:
 \end{figure}
 
 % ============================================================================
+\section{Variance Analysis}
+% ============================================================================
+
+Understanding the variability of travel times is crucial for risk assessment and travel planning. We analyzed the variance, standard deviation, and coefficient of variation (CV) across all ZIP codes.
+
+\subsection{Travel Time Variability by Scenario}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_en/fig1_std_by_scenario.png}
+\caption{Standard Deviation of Travel Times by Scenario}
+\label{fig:variance_std}
+\end{figure}
+
+Key observations:
+\begin{itemize}
+    \item Car travel time variance increases dramatically with traffic severity
+    \item Helicopter time variance remains relatively stable across scenarios
+    \item In worst case: Car Std=102 min vs Helicopter Std=35-90 min
+\end{itemize}
+
+\subsection{Coefficient of Variation Analysis}
+
+The coefficient of variation (CV = $\sigma / \mu \times 100\%$) measures relative variability:
+
+\begin{table}[H]
+\centering
+\caption{Coefficient of Variation by City and Scenario (Worst Case)}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{City} & \textbf{Car Mean} & \textbf{Car Std} & \textbf{Car CV} & \textbf{Heli CV} \\
+\midrule
+New York & 221 min & 102 min & 46.3\% & 121.1\% \\
+Los Angeles & 222 min & 105 min & 47.3\% & 44.3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_en/fig2_cv_comparison.png}
+\caption{Coefficient of Variation Comparison: Car vs Helicopter}
+\label{fig:variance_cv}
+\end{figure}
+
+\subsection{Regional Variance Analysis}
+
+Different regions show markedly different travel time variability:
+
+\begin{table}[H]
+\centering
+\caption{Regional Travel Time Variance (Worst Case Scenario)}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{City} & \textbf{Region} & \textbf{N} & \textbf{Mean} & \textbf{Std} & \textbf{CV} \\
+\midrule
+NY & Manhattan & 27 & 152 min & 12 min & \textbf{7.9\%} \\
+NY & Brooklyn & 5 & 158 min & 37 min & 23.8\% \\
+NY & New Jersey & 14 & 260 min & 57 min & 21.8\% \\
+NY & Long Island & 19 & 299 min & 143 min & \textcolor{red}{47.8\%} \\
+\midrule
+LA & Pasadena & 3 & 198 min & 10 min & \textbf{4.9\%} \\
+LA & Beverly Hills & 10 & 106 min & 23 min & 21.7\% \\
+LA & Orange County & 24 & 278 min & 99 min & \textcolor{red}{35.4\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../variance_charts_en/fig4_regional_cv_heatmap.png}
+\caption{Regional Travel Time Variability Heatmap}
+\label{fig:variance_heatmap}
+\end{figure}
+
+\textbf{Key Insight:} Manhattan and Pasadena show the \textbf{lowest variance} (CV $<$ 10\%), making travel times more predictable. Long Island and Orange County show the \textbf{highest variance} (CV $>$ 35\%), indicating greater uncertainty in travel times.
+
+\subsection{Distribution Analysis}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_en/fig3_boxplots_variance.png}
+\caption{Travel Time Distribution by Scenario (Boxplots with Standard Deviation)}
+\label{fig:variance_boxplot}
+\end{figure}
+
+\subsection{Correlation: Travel Time vs Savings}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_en/fig5_scatter_mean_vs_savings.png}
+\caption{Scatter Plot: Car Travel Time vs Helicopter Savings}
+\label{fig:variance_scatter}
+\end{figure}
+
+The strong positive correlation ($R^2 > 0.9$) indicates that the longer the car journey, the greater the helicopter advantage. This relationship is nearly linear, confirming that helicopter benefits scale proportionally with distance.
+
+% ============================================================================
 \section{Discussion}
 % ============================================================================
 

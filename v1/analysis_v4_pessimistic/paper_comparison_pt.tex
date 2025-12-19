@@ -375,6 +375,104 @@ Observacoes principais:
 \end{figure}
 
 % ============================================================================
+\section{Analise de Variancia}
+% ============================================================================
+
+Compreender a variabilidade dos tempos de viagem e crucial para avaliacao de risco e planejamento. Analisamos a variancia, desvio padrao e coeficiente de variacao (CV) em todos os CEPs.
+
+\subsection{Variabilidade do Tempo de Viagem por Cenario}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_pt/fig1_std_by_scenario.png}
+\caption{Desvio Padrao dos Tempos de Viagem por Cenario}
+\label{fig:variance_std}
+\end{figure}
+
+Observacoes principais:
+\begin{itemize}
+    \item A variancia do tempo de carro aumenta dramaticamente com a severidade do trafego
+    \item A variancia do tempo de helicoptero permanece relativamente estavel
+    \item No pior caso: Carro DP=102 min vs Helicoptero DP=35-90 min
+\end{itemize}
+
+\subsection{Analise do Coeficiente de Variacao}
+
+O coeficiente de variacao (CV = $\sigma / \mu \times 100\%$) mede a variabilidade relativa:
+
+\begin{table}[H]
+\centering
+\caption{Coeficiente de Variacao por Cidade e Cenario (Pior Caso)}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Cidade} & \textbf{Carro Media} & \textbf{Carro DP} & \textbf{Carro CV} & \textbf{Heli CV} \\
+\midrule
+Nova York & 221 min & 102 min & 46.3\% & 121.1\% \\
+Los Angeles & 222 min & 105 min & 47.3\% & 44.3\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_pt/fig2_cv_comparison.png}
+\caption{Comparacao do Coeficiente de Variacao: Carro vs Helicoptero}
+\label{fig:variance_cv}
+\end{figure}
+
+\subsection{Analise de Variancia Regional}
+
+Diferentes regioes mostram variabilidade marcadamente diferente nos tempos de viagem:
+
+\begin{table}[H]
+\centering
+\caption{Variancia Regional do Tempo de Viagem (Pior Cenario)}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Cidade} & \textbf{Regiao} & \textbf{N} & \textbf{Media} & \textbf{DP} & \textbf{CV} \\
+\midrule
+NY & Manhattan & 27 & 152 min & 12 min & \textbf{7.9\%} \\
+NY & Brooklyn & 5 & 158 min & 37 min & 23.8\% \\
+NY & New Jersey & 14 & 260 min & 57 min & 21.8\% \\
+NY & Long Island & 19 & 299 min & 143 min & \textcolor{red}{47.8\%} \\
+\midrule
+LA & Pasadena & 3 & 198 min & 10 min & \textbf{4.9\%} \\
+LA & Beverly Hills & 10 & 106 min & 23 min & 21.7\% \\
+LA & Orange County & 24 & 278 min & 99 min & \textcolor{red}{35.4\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{../variance_charts_pt/fig4_regional_cv_heatmap.png}
+\caption{Mapa de Calor da Variabilidade Regional do Tempo de Viagem}
+\label{fig:variance_heatmap}
+\end{figure}
+
+\textbf{Insight Principal:} Manhattan e Pasadena mostram a \textbf{menor variancia} (CV $<$ 10\%), tornando os tempos de viagem mais previsiveis. Long Island e Orange County mostram a \textbf{maior variancia} (CV $>$ 35\%), indicando maior incerteza nos tempos de viagem.
+
+\subsection{Analise de Distribuicao}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_pt/fig3_boxplots_variance.png}
+\caption{Distribuicao do Tempo de Viagem por Cenario (Boxplots com Desvio Padrao)}
+\label{fig:variance_boxplot}
+\end{figure}
+
+\subsection{Correlacao: Tempo de Viagem vs Economia}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{../variance_charts_pt/fig5_scatter_mean_vs_savings.png}
+\caption{Grafico de Dispersao: Tempo de Viagem de Carro vs Economia com Helicoptero}
+\label{fig:variance_scatter}
+\end{figure}
+
+A forte correlacao positiva ($R^2 > 0.9$) indica que quanto mais longa a viagem de carro, maior a vantagem do helicoptero. Esta relacao e quase linear, confirmando que os beneficios do helicoptero escalam proporcionalmente com a distancia.
+
+% ============================================================================
 \section{Discussao}
 % ============================================================================
 

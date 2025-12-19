@@ -491,6 +491,62 @@ Heli (min) & 44 & 46 & 49 & \textbf{74} & 46 & 48 & 52 & \textbf{79} \\
 \end{frame}
 
 % ============================================================================
+\section{Analise de Variancia}
+% ============================================================================
+
+\begin{frame}{Variabilidade do Tempo de Viagem por Cenario}
+\begin{center}
+\includegraphics[width=0.88\textwidth,height=0.78\textheight,keepaspectratio]{../variance_charts_pt/fig1_std_by_scenario.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Coeficiente de Variacao: Previsibilidade}
+\begin{center}
+\includegraphics[width=0.88\textwidth,height=0.78\textheight,keepaspectratio]{../variance_charts_pt/fig2_cv_comparison.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Variancia Regional: Descobertas Principais}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Mais Previsiveis (CV Baixo)}
+\begin{itemize}
+    \item \textcolor{revoGreen}{\textbf{Pasadena}}: CV = 4.9\%
+    \item \textcolor{revoGreen}{\textbf{Manhattan}}: CV = 7.9\%
+    \item Beverly Hills: CV = 21.7\%
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{alertblock}{Menos Previsiveis (CV Alto)}
+\begin{itemize}
+    \item \textcolor{revoRed}{\textbf{Long Island}}: CV = 47.8\%
+    \item \textcolor{revoRed}{\textbf{Orange County}}: CV = 35.4\%
+    \item Malibu: CV = 32.2\%
+\end{itemize}
+\end{alertblock}
+\end{columns}
+
+\vspace{0.8em}
+\begin{exampleblock}{O que Isso Significa}
+\small{CV baixo = Tempos mais previsiveis = Menor risco de atrasos\\
+CV alto = Maior incerteza = Maior necessidade de confiabilidade do helicoptero}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Analise de Distribuicao (Boxplots)}
+\begin{center}
+\includegraphics[width=0.85\textwidth,height=0.78\textheight,keepaspectratio]{../variance_charts_pt/fig3_boxplots_variance.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Correlacao: Tempo de Viagem vs Economia}
+\begin{center}
+\includegraphics[width=0.88\textwidth,height=0.78\textheight,keepaspectratio]{../variance_charts_pt/fig5_scatter_mean_vs_savings.png}
+\end{center}
+\end{frame}
+
+% ============================================================================
 \section{Insights Principais}
 % ============================================================================
 
